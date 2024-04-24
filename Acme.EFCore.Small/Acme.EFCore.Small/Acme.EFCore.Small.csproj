@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net6;net7;net8</TargetFrameworks>
+		<Nullable>enable</Nullable>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<PackageId>Acme.EFCore.Small</PackageId>
+		<Version>1.2.5.1</Version>
+		<Authors>yzxs</Authors>
+		<Company>yzxs</Company>
+		<Product>Acme.EFCore.Small</Product>
+		<Copyright>yzxs</Copyright>
+		<PackageIcon>acme.jpg</PackageIcon>
+		<AssemblyName>Acme.EFCore.Small</AssemblyName>
+		<RootNamespace>Acme.EFCore.Small</RootNamespace>
+		<Description>轻量级EFCore通用类库</Description>
+		<Title>Acme.EFCore.Small</Title>
+		<PackageTags>Acme;EntityFrameworkCore;EF;EFCore;EFCore.Small;yzxs;云中小生;net6;net7;net8</PackageTags>
+		<PackageProjectUrl>https://www.nuget.org/packages/Acme.EFCore.Small/1.2.5.1#readme-body-tab</PackageProjectUrl>
+		<PackageReleaseNotes>
+			更新readme.md，请期待完成版（技术支持联系邮箱：yzxs949@163.com）
+		</PackageReleaseNotes>
+		<PackageReadmeFile>readme.md</PackageReadmeFile>
+	</PropertyGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6'">
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.18" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net7' ">
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.18" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8' ">
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="NuGet.Build.Tasks.Pack" Version="6.9.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="readme.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
+</Project>
