@@ -11,7 +11,6 @@
 		<Company>yzxs</Company>
 		<Product>Acme.EFCore.Small</Product>
 		<Copyright>yzxs</Copyright>
-		<PackageIcon>acme.jpg</PackageIcon>
 		<AssemblyName>Acme.EFCore.Small</AssemblyName>
 		<RootNamespace>Acme.EFCore.Small</RootNamespace>
 		<Description>轻量级EFCore通用类库</Description>
