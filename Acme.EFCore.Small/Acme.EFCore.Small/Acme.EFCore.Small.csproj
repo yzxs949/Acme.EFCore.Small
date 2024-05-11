@@ -6,7 +6,7 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageId>Acme.EFCore.Small</PackageId>
-		<Version>1.2.5.1</Version>
+		<Version>1.2.5.2</Version>
 		<Authors>yzxs</Authors>
 		<Company>yzxs</Company>
 		<Product>Acme.EFCore.Small</Product>
@@ -19,7 +19,7 @@
 		<PackageTags>Acme;EntityFrameworkCore;EF;EFCore;EFCore.Small;yzxs;云中小生;net6;net7;net8</PackageTags>
 		<PackageProjectUrl>https://www.nuget.org/packages/Acme.EFCore.Small/1.2.5.1#readme-body-tab</PackageProjectUrl>
 		<PackageReleaseNotes>
-			更新readme.md，请期待完成版（技术支持联系邮箱：yzxs949@163.com）
+			添加GetInfoNoTracking方法（技术支持联系邮箱：yzxs949@163.com）
 		</PackageReleaseNotes>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 	</PropertyGroup>
