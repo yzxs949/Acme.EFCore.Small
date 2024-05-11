@@ -167,6 +167,26 @@ public class Repository<T> : IRepository<T> where T : class, new()
     }
 
     /// <summary>
+    /// 获取单条数据不追踪
+    /// </summary>
+    /// <param name="whereLamdba"></param>
+    /// <returns></returns>
+    public T? GetInfoNoTracking(Expression<Func<T, bool>> whereLamdba)
+    {
+        return _baseService.GetInfoNoTracking<T>(whereLamdba);
+    }
+
+    /// <summary>
+    /// 获取单条数据不追踪
+    /// </summary>
+    /// <param name="whereLamdba"></param>
+    /// <returns></returns>
+    public async Task<T?> GetInfoNoTrackingAsync(Expression<Func<T, bool>> whereLamdba)
+    {
+        return await _baseService.GetInfoNoTrackingAsync<T>(whereLamdba);
+    }
+
+    /// <summary>
     /// 获取单条数据
     /// </summary>
     /// <param name="whereLamdba"></param>

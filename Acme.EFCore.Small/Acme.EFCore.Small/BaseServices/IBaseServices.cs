@@ -360,6 +360,22 @@ public interface IBaseService<TDbContext> where TDbContext : DbContext
     Task<bool> DeleteAsync<T, TKey>(TKey id)
         where T : BaseEntityWithId<TKey>
         where TKey : struct;
+
+    /// <summary>
+    /// 获取单条数据不追踪
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="whereLamdba"></param>
+    /// <returns></returns>
+    T? GetInfoNoTracking<T>(Expression<Func<T, bool>> whereLamdba) where T : class;
+
+    /// <summary>
+    /// 获取单条数据不追踪
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="whereLamdba"></param>
+    /// <returns></returns>
+    Task<T?> GetInfoNoTrackingAsync<T>(Expression<Func<T, bool>> whereLamdba) where T : class;
 }
 
 /// <summary>
@@ -716,4 +732,20 @@ public interface IBaseService
     Task<bool> DeleteAsync<T, TKey>(TKey id)
         where T : BaseEntityWithId<TKey>
         where TKey : struct;
+
+    /// <summary>
+    /// 获取单条数据不追踪
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="whereLamdba"></param>
+    /// <returns></returns>
+    T? GetInfoNoTracking<T>(Expression<Func<T, bool>> whereLamdba) where T : class;
+
+    /// <summary>
+    /// 获取单条数据不追踪
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="whereLamdba"></param>
+    /// <returns></returns>
+    Task<T?> GetInfoNoTrackingAsync<T>(Expression<Func<T, bool>> whereLamdba) where T : class;
 }

@@ -286,11 +286,25 @@ public interface IRepository<T> where T : class, new()
     /// <param name="strip">条数</param>
     /// <returns></returns>
     List<T> GetListTake(int strip);
-    
+
     /// <summary>
     /// 获取集合数据
     /// </summary>
     /// <param name="strip">条数</param>
     /// <returns></returns>
     Task<List<T>> GetListTakeAsync(int strip);
+
+    /// <summary>
+    /// 获取单条数据不追踪
+    /// </summary>
+    /// <param name="whereLamdba"></param>
+    /// <returns></returns>
+    T? GetInfoNoTracking(Expression<Func<T, bool>> whereLamdba);
+
+    /// <summary>
+    /// 获取单条数据不追踪
+    /// </summary>
+    /// <param name="whereLamdba"></param>
+    /// <returns></returns>
+    Task<T?> GetInfoNoTrackingAsync(Expression<Func<T, bool>> whereLamdba);
 }

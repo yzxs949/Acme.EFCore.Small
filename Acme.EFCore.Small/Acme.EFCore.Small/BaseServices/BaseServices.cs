@@ -249,6 +249,28 @@ public class BaseService<TDbContext>
     }
 
     /// <summary>
+    /// 获取单条数据不追踪
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="whereLamdba"></param>
+    /// <returns></returns>
+    public T? GetInfoNoTracking<T>(Expression<Func<T, bool>> whereLamdba) where T : class
+    {
+        return GetQueryable<T>(whereLamdba).AsNoTracking().FirstOrDefault(whereLamdba);
+    }
+
+    /// <summary>
+    /// 获取单条数据不追踪
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="whereLamdba"></param>
+    /// <returns></returns>
+    public async Task<T?>  GetInfoNoTrackingAsync<T>(Expression<Func<T, bool>> whereLamdba) where T : class
+    {
+        return await GetQueryable<T>(whereLamdba).AsNoTracking().FirstOrDefaultAsync(whereLamdba);
+    }
+
+    /// <summary>
     /// 获取单条数据
     /// </summary>
     /// <typeparam name="T"></typeparam>
