@@ -376,6 +376,65 @@ public interface IBaseService<TDbContext> where TDbContext : DbContext
     /// <param name="whereLamdba"></param>
     /// <returns></returns>
     Task<T?> GetInfoNoTrackingAsync<T>(Expression<Func<T, bool>> whereLamdba) where T : class;
+
+    /// <summary>
+    /// 获取分页列表。
+    /// </summary>
+    /// <typeparam name="T">实体类型</typeparam>
+    /// <typeparam name="TKey">排序键类型</typeparam>
+    /// <param name="pageIndex">页索引</param>
+    /// <param name="pageSize">每页大小</param>
+    /// <param name="keySelector">排序键选择器</param>
+    PageList<T> GetPageList<T, TKey>(int pageIndex, int pageSize, Expression<Func<T, TKey>> keySelector) where T : class;
+
+    /// <summary>
+    /// 获取分页列表。
+    /// </summary>
+    /// <typeparam name="T">实体类型</typeparam>
+    /// <typeparam name="TKey">排序键类型</typeparam>
+    /// <param name="pageIndex">页索引</param>
+    /// <param name="pageSize">每页大小</param>
+    /// <param name="keySelector">排序键选择器</param>
+    /// <param name="whereLamdba">查询条件</param>
+    /// <returns>分页列表</returns>
+    PageList<T> GetPageList<T, TKey>(
+        int pageIndex,
+        int pageSize, 
+        Expression<Func<T, TKey>> keySelector, 
+        Expression<Func<T, bool>> whereLamdba) 
+    where T : class;
+
+    /// <summary>
+    /// 获取分页列表。
+    /// </summary>
+    /// <typeparam name="T">实体类型</typeparam>
+    /// <typeparam name="TKey">排序键类型</typeparam>
+    /// <param name="pageIndex">页索引</param>
+    /// <param name="pageSize">每页大小</param>
+    /// <param name="keySelector">排序键选择器</param>
+    /// <returns>分页列表</returns>
+    Task<PageList<T>> GetPageListAsync<T, TKey>(
+        int pageIndex,
+        int pageSize,
+        Expression<Func<T, TKey>> keySelector) 
+    where T : class;
+
+    /// <summary>
+    /// 获取分页列表。
+    /// </summary>
+    /// <typeparam name="T">实体类型</typeparam>
+    /// <typeparam name="TKey">排序键类型</typeparam>
+    /// <param name="pageIndex">页索引</param>
+    /// <param name="pageSize">每页大小</param>
+    /// <param name="keySelector">排序键选择器</param>
+    /// <param name="whereLamdba">查询条件</param>
+    /// <returns>分页列表</returns>
+    Task<PageList<T>> GetPageListAsync<T, TKey>(
+        int pageIndex, 
+        int pageSize, 
+        Expression<Func<T, TKey>> keySelector, 
+        Expression<Func<T, bool>> whereLamdba) 
+    where T : class;
 }
 
 /// <summary>
@@ -748,4 +807,58 @@ public interface IBaseService
     /// <param name="whereLamdba"></param>
     /// <returns></returns>
     Task<T?> GetInfoNoTrackingAsync<T>(Expression<Func<T, bool>> whereLamdba) where T : class;
+
+    /// <summary>
+    /// 获取分页列表。
+    /// </summary>
+    /// <typeparam name="T">实体类型</typeparam>
+    /// <typeparam name="TKey">排序键类型</typeparam>
+    /// <param name="pageIndex">页索引</param>
+    /// <param name="pageSize">每页大小</param>
+    /// <param name="keySelector">排序键选择器</param>
+    PageList<T> GetPageList<T, TKey>(int pageIndex, int pageSize, Expression<Func<T, TKey>> keySelector) where T : class;
+
+    /// <summary>
+    /// 获取分页列表。
+    /// </summary>
+    /// <typeparam name="T">实体类型</typeparam>
+    /// <typeparam name="TKey">排序键类型</typeparam>
+    /// <param name="pageIndex">页索引</param>
+    /// <param name="pageSize">每页大小</param>
+    /// <param name="keySelector">排序键选择器</param>
+    /// <param name="whereLamdba">查询条件</param>
+    /// <returns>分页列表</returns>
+    PageList<T> GetPageList<T, TKey>(int pageIndex, int pageSize, Expression<Func<T, TKey>> keySelector, Expression<Func<T, bool>> whereLamdba) where T : class;
+
+    /// <summary>
+    /// 获取分页列表。
+    /// </summary>
+    /// <typeparam name="T">实体类型</typeparam>
+    /// <typeparam name="TKey">排序键类型</typeparam>
+    /// <param name="pageIndex">页索引</param>
+    /// <param name="pageSize">每页大小</param>
+    /// <param name="keySelector">排序键选择器</param>
+    /// <returns>分页列表</returns>
+    Task<PageList<T>> GetPageListAsync<T, TKey>(
+        int pageIndex, 
+        int pageSize, 
+        Expression<Func<T, TKey>> keySelector) 
+    where T : class;
+
+    /// <summary>
+    /// 获取分页列表。
+    /// </summary>
+    /// <typeparam name="T">实体类型</typeparam>
+    /// <typeparam name="TKey">排序键类型</typeparam>
+    /// <param name="pageIndex">页索引</param>
+    /// <param name="pageSize">每页大小</param>
+    /// <param name="keySelector">排序键选择器</param>
+    /// <param name="whereLamdba">查询条件</param>
+    /// <returns>分页列表</returns>
+    Task<PageList<T>> GetPageListAsync<T, TKey>(
+        int pageIndex, 
+        int pageSize,
+        Expression<Func<T, TKey>> keySelector, 
+        Expression<Func<T, bool>> whereLamdba) 
+    where T : class;
 }

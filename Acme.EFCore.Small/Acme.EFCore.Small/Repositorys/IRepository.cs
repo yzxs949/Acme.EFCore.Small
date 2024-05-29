@@ -1,4 +1,5 @@
-﻿namespace Acme.EFCore.Small.Repositorys;
+﻿
+namespace Acme.EFCore.Small.Repositorys;
 
 /// <summary>
 /// 仓储接口
@@ -307,4 +308,46 @@ public interface IRepository<T> where T : class, new()
     /// <param name="whereLamdba"></param>
     /// <returns></returns>
     Task<T?> GetInfoNoTrackingAsync(Expression<Func<T, bool>> whereLamdba);
+
+    /// <summary>
+    /// 获取分页列表。
+    /// </summary>
+    /// <typeparam name="TKey">排序键类型</typeparam>
+    /// <param name="pageIndex">页索引</param>
+    /// <param name="pageSize">每页大小</param>
+    /// <param name="keySelector">排序键选择器</param>
+    /// <param name="whereLamdba">查询条件</param>
+    /// <returns>分页列表</returns>
+    Task<PageList<T>> GetPageListAsync<TKey>(int pageIndex, int pageSize, Expression<Func<T, TKey>> keySelector, Expression<Func<T, bool>> whereLamdba);
+
+    /// <summary>
+    /// 获取分页列表。
+    /// </summary>
+    /// <typeparam name="TKey">排序键类型</typeparam>
+    /// <param name="pageIndex">页索引</param>
+    /// <param name="pageSize">每页大小</param>
+    /// <param name="keySelector">排序键选择器</param>
+    /// <returns>分页列表</returns>
+    Task<PageList<T>> GetPageListAsync<TKey>(int pageIndex, int pageSize, Expression<Func<T, TKey>> keySelector);
+
+    /// <summary>
+    /// 获取分页列表。
+    /// </summary>
+    /// <typeparam name="TKey">排序键类型</typeparam>
+    /// <param name="pageIndex">页索引</param>
+    /// <param name="pageSize">每页大小</param>
+    /// <param name="keySelector">排序键选择器</param>
+    /// <param name="whereLamdba">查询条件</param>
+    /// <returns>分页列表</returns>
+    PageList<T> GetPageList<TKey>(int pageIndex, int pageSize, Expression<Func<T, TKey>> keySelector, Expression<Func<T, bool>> whereLamdba);
+
+    /// <summary>
+    /// 获取分页列表。
+    /// </summary>
+    /// <typeparam name="TKey">排序键类型</typeparam>
+    /// <param name="pageIndex">页索引</param>
+    /// <param name="pageSize">每页大小</param>
+    /// <param name="keySelector">排序键选择器</param>
+    /// <returns>分页列表</returns>
+    PageList<T> GetPageList<TKey>(int pageIndex, int pageSize, Expression<Func<T, TKey>> keySelector);
 }

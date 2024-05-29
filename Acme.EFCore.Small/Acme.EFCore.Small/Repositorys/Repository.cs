@@ -449,4 +449,69 @@ public class Repository<T> : IRepository<T> where T : class, new()
     {
         return await _baseService.GetListTakeAsync<T>(strip);
     }
+
+    /// <summary>
+    /// 获取分页列表。
+    /// </summary>
+    /// <typeparam name="TKey">排序键类型</typeparam>
+    /// <param name="pageIndex">页索引</param>
+    /// <param name="pageSize">每页大小</param>
+    /// <param name="keySelector">排序键选择器</param>
+    /// <returns>分页列表</returns>
+    public PageList<T> GetPageList<TKey>(
+        int pageIndex,
+        int pageSize,
+        Expression<Func<T, TKey>> keySelector)
+    {
+        return _baseService.GetPageList(pageIndex, pageSize, keySelector);
+    }
+
+    /// <summary>
+    /// 获取分页列表。
+    /// </summary>
+    /// <typeparam name="TKey">排序键类型</typeparam>
+    /// <param name="pageIndex">页索引</param>
+    /// <param name="pageSize">每页大小</param>
+    /// <param name="keySelector">排序键选择器</param>
+    /// <param name="whereLamdba">查询条件</param>
+    /// <returns>分页列表</returns>
+    public PageList<T> GetPageList<TKey>(
+        int pageIndex,
+        int pageSize,
+        Expression<Func<T, TKey>> keySelector,
+        Expression<Func<T, bool>> whereLamdba)
+    {
+        return _baseService.GetPageList(pageIndex, pageSize, keySelector, whereLamdba);
+    }
+
+    /// <summary>
+    /// 获取分页列表。
+    /// </summary>
+    /// <typeparam name="TKey">排序键类型</typeparam>
+    /// <param name="pageIndex">页索引</param>
+    /// <param name="pageSize">每页大小</param>
+    /// <param name="keySelector">排序键选择器</param>
+    /// <returns>分页列表</returns>
+    public async Task<PageList<T>> GetPageListAsync<TKey>(
+        int pageIndex,
+        int pageSize,
+        Expression<Func<T, TKey>> keySelector)
+    {
+        return await _baseService.GetPageListAsync(pageIndex, pageSize, keySelector);
+    }
+
+    /// <summary>
+    /// 获取分页列表。
+    /// </summary>
+    /// <typeparam name="TKey">排序键类型</typeparam>
+    /// <param name="pageIndex">页索引</param>
+    /// <param name="pageSize">每页大小</param>
+    /// <param name="keySelector">排序键选择器</param>
+    /// <param name="whereLamdba">查询条件</param>
+    /// <returns>分页列表</returns>
+    public async Task<PageList<T>> GetPageListAsync<TKey>(
+        int pageIndex,
+        int pageSize,
+        Expression<Func<T, TKey>> keySelector,
+        Expression<Func<T, bool>> whereLamdba) => await _baseService.GetPageListAsync(pageIndex, pageSize, keySelector, whereLamdba);
 }

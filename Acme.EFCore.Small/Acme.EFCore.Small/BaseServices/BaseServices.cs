@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using Acme.EFCore.Small.Extensions;
+using System.Diagnostics;
 
 namespace Acme.EFCore.Small.BaseServices;
 
@@ -265,7 +266,7 @@ public class BaseService<TDbContext>
     /// <typeparam name="T"></typeparam>
     /// <param name="whereLamdba"></param>
     /// <returns></returns>
-    public async Task<T?>  GetInfoNoTrackingAsync<T>(Expression<Func<T, bool>> whereLamdba) where T : class
+    public async Task<T?> GetInfoNoTrackingAsync<T>(Expression<Func<T, bool>> whereLamdba) where T : class
     {
         return await GetQueryable<T>(whereLamdba).AsNoTracking().FirstOrDefaultAsync(whereLamdba);
     }
@@ -371,6 +372,87 @@ public class BaseService<TDbContext>
     public List<T> GetList<T>() where T : class
     {
         return GetQueryable<T>().ToList();
+    }
+
+    /// <summary>
+    /// 获取分页列表。
+    /// </summary>
+    /// <typeparam name="T">实体类型</typeparam>
+    /// <typeparam name="TKey">排序键类型</typeparam>
+    /// <param name="pageIndex">页索引</param>
+    /// <param name="pageSize">每页大小</param>
+    /// <param name="keySelector">排序键选择器</param>
+    /// <returns>分页列表</returns>
+    public PageList<T> GetPageList<T, TKey>(
+        int pageIndex,
+        int pageSize,
+        Expression<Func<T, TKey>> keySelector) where T : class
+    {
+        return GetQueryable<T>()
+            .OrderBy(keySelector)
+            .ToPageList(pageIndex, pageSize);
+    }
+
+    /// <summary>
+    /// 获取分页列表。
+    /// </summary>
+    /// <typeparam name="T">实体类型</typeparam>
+    /// <typeparam name="TKey">排序键类型</typeparam>
+    /// <param name="pageIndex">页索引</param>
+    /// <param name="pageSize">每页大小</param>
+    /// <param name="keySelector">排序键选择器</param>
+    /// <param name="whereLamdba">查询条件</param>
+    /// <returns>分页列表</returns>
+    public PageList<T> GetPageList<T, TKey>(
+        int pageIndex,
+        int pageSize,
+        Expression<Func<T, TKey>> keySelector,
+        Expression<Func<T, bool>> whereLamdba) where T : class
+    {
+        return GetQueryable<T>(whereLamdba)
+            .OrderBy(keySelector)
+            .ToPageList(pageIndex, pageSize);
+    }
+
+    /// <summary>
+    /// 获取分页列表。
+    /// </summary>
+    /// <typeparam name="T">实体类型</typeparam>
+    /// <typeparam name="TKey">排序键类型</typeparam>
+    /// <param name="pageIndex">页索引</param>
+    /// <param name="pageSize">每页大小</param>
+    /// <param name="keySelector">排序键选择器</param>
+    /// <returns>分页列表</returns>
+    public async Task<PageList<T>>  GetPageListAsync<T, TKey>(
+        int pageIndex,
+        int pageSize,
+        Expression<Func<T, TKey>> keySelector) where T : class
+    {
+        return await GetQueryable<T>()
+            .OrderBy(keySelector)
+            .ToPageListAsync(pageIndex, pageSize);
+    }
+
+    /// <summary>
+    /// 获取分页列表。
+    /// </summary>
+    /// <typeparam name="T">实体类型</typeparam>
+    /// <typeparam name="TKey">排序键类型</typeparam>
+    /// <param name="pageIndex">页索引</param>
+    /// <param name="pageSize">每页大小</param>
+    /// <param name="keySelector">排序键选择器</param>
+    /// <param name="whereLamdba">查询条件</param>
+    /// <returns>分页列表</returns>
+    public async Task<PageList<T>>  GetPageListAsync<T, TKey>(
+        int pageIndex,
+        int pageSize,
+        Expression<Func<T, TKey>> keySelector,
+        Expression<Func<T, bool>> whereLamdba) 
+    where T : class
+    {
+        return await GetQueryable<T>(whereLamdba)
+            .OrderBy(keySelector)
+            .ToPageListAsync(pageIndex, pageSize);
     }
 
     /// <summary>
