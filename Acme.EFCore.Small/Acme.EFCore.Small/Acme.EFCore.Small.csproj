@@ -24,7 +24,8 @@
 		<PackageTags>Acme;EntityFrameworkCore;EF;EFCore;EFCore.Small;yzxs;云中小生;net6;net7;net8</PackageTags>
 		<PackageProjectUrl>https://www.nuget.org/packages/Acme.EFCore.Small/1.2.5.4#readme-body-tab</PackageProjectUrl>
 		<PackageReleaseNotes>
-			.NET6、.NET7的EFCore版本升级到7.0.20，.NET8的EFCore版本升级到8.0.6
+			<!--.NET6、.NET7的EFCore版本升级到7.0.20，.NET8的EFCore版本升级到8.0.6-->
+			在父类服务和仓储添加分页查询方法
 		</PackageReleaseNotes>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 	</PropertyGroup>
