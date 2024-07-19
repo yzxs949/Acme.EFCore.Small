@@ -25,7 +25,7 @@
 		<PackageProjectUrl>https://www.nuget.org/packages/Acme.EFCore.Small/1.2.5.5#readme-body-tab</PackageProjectUrl>
 		<PackageReleaseNotes>
 			<!--.NET6、.NET7的EFCore版本升级到7.0.20，.NET8的EFCore版本升级到8.0.6-->
-			添加仓储多库模式
+			.NET8的EFCore版本升级到8.0.7
 		</PackageReleaseNotes>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 	</PropertyGroup>
