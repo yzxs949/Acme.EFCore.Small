@@ -312,7 +312,8 @@ public class BaseService<TDbContext>
     /// <param name="whereLamdba"></param>
     /// <param name="strip">条数</param>
     /// <returns></returns>
-    public async Task<List<T>> GetListTakeAsync<T>(Expression<Func<T, bool>> whereLamdba, int strip) where T : class
+    public async Task<List<T>> GetListTakeAsync<T>(Expression<Func<T, bool>> whereLamdba, int strip)
+        where T : class
     {
         return await GetQueryable<T>(whereLamdba).Take(strip).ToListAsync();
     }
@@ -423,7 +424,7 @@ public class BaseService<TDbContext>
     /// <param name="pageSize">每页大小</param>
     /// <param name="keySelector">排序键选择器</param>
     /// <returns>分页列表</returns>
-    public async Task<PageList<T>>  GetPageListAsync<T, TKey>(
+    public async Task<PageList<T>> GetPageListAsync<T, TKey>(
         int pageIndex,
         int pageSize,
         Expression<Func<T, TKey>> keySelector) where T : class
@@ -443,11 +444,11 @@ public class BaseService<TDbContext>
     /// <param name="keySelector">排序键选择器</param>
     /// <param name="whereLamdba">查询条件</param>
     /// <returns>分页列表</returns>
-    public async Task<PageList<T>>  GetPageListAsync<T, TKey>(
+    public async Task<PageList<T>> GetPageListAsync<T, TKey>(
         int pageIndex,
         int pageSize,
         Expression<Func<T, TKey>> keySelector,
-        Expression<Func<T, bool>> whereLamdba) 
+        Expression<Func<T, bool>> whereLamdba)
     where T : class
     {
         return await GetQueryable<T>(whereLamdba)
@@ -498,7 +499,8 @@ public class BaseService<TDbContext>
     /// <remarks>
     /// 此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景。
     /// </remarks>
-    public async Task<List<T>> GetListNoTrackingAsync<T>() where T : class => await GetQueryable<T>().AsNoTracking().ToListAsync();
+    public async Task<List<T>> GetListNoTrackingAsync<T>() where T : class
+        => await GetQueryable<T>().AsNoTracking().ToListAsync();
 
     /// <summary>
     /// 获取单条数据返回默认值
@@ -592,7 +594,7 @@ public class BaseService<TDbContext>
     /// </summary>
     public void CommitTransaction()
     {
-        if (contextTransaction != null)
+        if (contextTransaction is not null)
             contextTransaction.Commit();
         else
             throw new Exception("您未开启事务！");
@@ -603,7 +605,7 @@ public class BaseService<TDbContext>
     /// </summary>
     public async Task CommitTransactionAsync()
     {
-        if (contextTransaction != null)
+        if (contextTransaction is not null)
             await contextTransaction.CommitAsync();
         else
             throw new Exception("您未开启事务！");
@@ -614,7 +616,7 @@ public class BaseService<TDbContext>
     /// </summary>
     public void RollbackTransaction()
     {
-        if (contextTransaction != null)
+        if (contextTransaction is not null)
             contextTransaction.Rollback();
         else
             throw new Exception("您未开启事务！");
@@ -625,7 +627,7 @@ public class BaseService<TDbContext>
     /// </summary>
     public async Task RollbackTransactionAsync()
     {
-        if (contextTransaction != null)
+        if (contextTransaction is not null)
             await contextTransaction.RollbackAsync();
         else
             throw new Exception("您未开启事务！");
@@ -636,7 +638,7 @@ public class BaseService<TDbContext>
     /// </summary>
     public void DisposeTransaction()
     {
-        if (contextTransaction != null)
+        if (contextTransaction is not null)
         {
             contextTransaction.Dispose();
             dbContext.Dispose();
@@ -650,7 +652,7 @@ public class BaseService<TDbContext>
     /// </summary>
     public async Task DisposeTransactionAsync()
     {
-        if (contextTransaction != null)
+        if (contextTransaction is not null)
         {
             await contextTransaction.DisposeAsync();
             await dbContext.DisposeAsync();

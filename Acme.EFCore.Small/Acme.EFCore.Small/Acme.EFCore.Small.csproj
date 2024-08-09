@@ -12,7 +12,7 @@
 				-beta：Beta 版本，通常指可用于下一计划版本的功能完整的版本，但可能包含已知 bug。
 				-rc：候选发布，通常可能为最终（稳定）版本，除非出现重大 bug。
 		-->
-		<Version>1.2.5.7</Version>
+		<Version>1.2.5.8</Version>
 		<Authors>yzxs</Authors>
 		<Company>yzxs</Company>
 		<Product>Acme.EFCore.Small</Product>
@@ -25,7 +25,7 @@
 		<PackageProjectUrl>https://www.nuget.org/packages/Acme.EFCore.Small/1.2.5.5#readme-body-tab</PackageProjectUrl>
 		<PackageReleaseNotes>
 			<!--.NET6、.NET7的EFCore版本升级到7.0.20，.NET8的EFCore版本升级到8.0.6-->
-			.NET8的EFCore版本升级到8.0.7
+			增加拓展Where方法
 		</PackageReleaseNotes>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 	</PropertyGroup>

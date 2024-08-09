@@ -26,6 +26,19 @@ public static class LinqExtension
     /// Linq验证查询方法拓展
     /// </summary>
     /// <typeparam name="T">泛型</typeparam>
+    /// <param name="dbContext">数据库上下文</param>
+    /// <param name="anyLambda">Linq语句</param>
+    /// <returns></returns>
+    public static IQueryable<T> Where<T>(this DbContext dbContext, Expression<Func<T, bool>> anyLambda)
+        where T : class
+    {
+        return dbContext.Set<T>().Where(anyLambda);
+    }
+
+    /// <summary>
+    /// Linq验证查询方法拓展
+    /// </summary>
+    /// <typeparam name="T">泛型</typeparam>
     /// <param name="source">IEnumerable</param>
     /// <param name="verification">验证语句</param>
     /// <param name="anyLambda">Linq语句</param>

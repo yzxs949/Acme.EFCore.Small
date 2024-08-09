@@ -23,10 +23,8 @@ public static class Db
     /// <exception cref="Exception">当未获取到依赖注入项时抛出。</exception>
     public static IBaseService? GetBaseService()
     {
-        if (_serviceProvider != null)
-        {
+        if (_serviceProvider is not null)
             return _serviceProvider.GetService<IBaseService>();
-        }
         throw new Exception("未获取到依赖注入项");
     }
 
@@ -38,10 +36,8 @@ public static class Db
     /// <exception cref="Exception">当未获取到依赖注入项时抛出。</exception>
     public static IBaseService? GetBaseService<TDbContext>() where TDbContext : DbContext
     {
-        if (_serviceProvider != null)
-        {
+        if (_serviceProvider is not null)
             return _serviceProvider.GetService<IBaseService<TDbContext>>() as IBaseService;
-        }
         throw new Exception("未获取到依赖注入项");
     }
 
@@ -53,18 +49,18 @@ public static class Db
     /// <exception cref="InvalidOperationException">当无法从服务提供者获取仓储对象时抛出。</exception>
     public static IRepository<T> GetRepository<T>() where T : class, new()
     {
-        if (_serviceProvider == null)
+        if (_serviceProvider is null)
             throw new InvalidOperationException("服务提供者未初始化。");
 
         var repository = _serviceProvider.GetService<IRepository<T>>();
 
-        if (repository != null)
+        if (repository is not null)
             return repository;
 
         var baseService = GetBaseService();
-
-        if (baseService != null)
+        if (baseService is not null)
             return new Repository<T>(baseService);
+
         throw new InvalidOperationException($"无法获取类型为 {typeof(T)} 的仓储对象。");
     }
 
@@ -84,12 +80,12 @@ public static class Db
 
         var repository = _serviceProvider.GetService<IRepository<T>>();
 
-        if (repository != null)
+        if (repository is not null)
             return repository;
 
         var baseService = GetBaseService<TDbContext>() ?? GetBaseService();
 
-        if (baseService != null)
+        if (baseService is not null)
             return new Repository<T>(baseService);
         throw new InvalidOperationException($"无法获取类型为 {typeof(T)} 的仓储对象。");
     }
