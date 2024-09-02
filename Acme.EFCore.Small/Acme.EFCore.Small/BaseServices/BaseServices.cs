@@ -26,12 +26,24 @@ public class BaseService<TDbContext>
     }
 
     /// <summary>
-    /// 向数据库中添加实体，并保存更改
+    /// 向数据库中添加实体，稍后提交
     /// </summary>
     /// <typeparam name="T">要添加的实体类型</typeparam>
     /// <param name="entity">要添加的实体对象</param>
     /// <returns>已添加的实体对象</returns>
     public T Add<T>(T entity) where T : class
+    {
+        dbContext.Set<T>().Add(entity);
+        return entity;
+    }
+
+    /// <summary>
+    /// 向数据库中添加实体，并保存更改
+    /// </summary>
+    /// <typeparam name="T">要添加的实体类型</typeparam>
+    /// <param name="entity">要添加的实体对象</param>
+    /// <returns>已添加的实体对象</returns>
+    public T AddSave<T>(T entity) where T : class
     {
         dbContext.Set<T>().Add(entity);
         dbContext.SaveChanges();
@@ -45,6 +57,18 @@ public class BaseService<TDbContext>
     /// <param name="entity"></param>
     /// <returns></returns>
     public async Task<T> AddAsync<T>(T entity) where T : class
+    {
+        await dbContext.Set<T>().AddAsync(entity);
+        return entity;
+    }
+
+    /// <summary>
+    /// 新增
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    public async Task<T> AddSaveAsync<T>(T entity) where T : class
     {
         await dbContext.Set<T>().AddAsync(entity);
         await dbContext.SaveChangesAsync();

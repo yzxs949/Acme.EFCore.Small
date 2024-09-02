@@ -399,9 +399,9 @@ public interface IBaseService<TDbContext> where TDbContext : DbContext
     /// <returns>分页列表</returns>
     PageList<T> GetPageList<T, TKey>(
         int pageIndex,
-        int pageSize, 
-        Expression<Func<T, TKey>> keySelector, 
-        Expression<Func<T, bool>> whereLamdba) 
+        int pageSize,
+        Expression<Func<T, TKey>> keySelector,
+        Expression<Func<T, bool>> whereLamdba)
     where T : class;
 
     /// <summary>
@@ -416,7 +416,7 @@ public interface IBaseService<TDbContext> where TDbContext : DbContext
     Task<PageList<T>> GetPageListAsync<T, TKey>(
         int pageIndex,
         int pageSize,
-        Expression<Func<T, TKey>> keySelector) 
+        Expression<Func<T, TKey>> keySelector)
     where T : class;
 
     /// <summary>
@@ -430,11 +430,27 @@ public interface IBaseService<TDbContext> where TDbContext : DbContext
     /// <param name="whereLamdba">查询条件</param>
     /// <returns>分页列表</returns>
     Task<PageList<T>> GetPageListAsync<T, TKey>(
-        int pageIndex, 
-        int pageSize, 
-        Expression<Func<T, TKey>> keySelector, 
-        Expression<Func<T, bool>> whereLamdba) 
+        int pageIndex,
+        int pageSize,
+        Expression<Func<T, TKey>> keySelector,
+        Expression<Func<T, bool>> whereLamdba)
     where T : class;
+
+    /// <summary>
+    /// 向数据库中添加实体，并保存更改
+    /// </summary>
+    /// <typeparam name="T">要添加的实体类型</typeparam>
+    /// <param name="entity">要添加的实体对象</param>
+    /// <returns>已添加的实体对象</returns>
+    T AddSave<T>(T entity) where T : class;
+
+    /// <summary>
+    /// 新增
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    Task<T> AddSaveAsync<T>(T entity) where T : class;
 }
 
 /// <summary>
@@ -840,9 +856,9 @@ public interface IBaseService
     /// <param name="keySelector">排序键选择器</param>
     /// <returns>分页列表</returns>
     Task<PageList<T>> GetPageListAsync<T, TKey>(
-        int pageIndex, 
-        int pageSize, 
-        Expression<Func<T, TKey>> keySelector) 
+        int pageIndex,
+        int pageSize,
+        Expression<Func<T, TKey>> keySelector)
     where T : class;
 
     /// <summary>
@@ -856,9 +872,25 @@ public interface IBaseService
     /// <param name="whereLamdba">查询条件</param>
     /// <returns>分页列表</returns>
     Task<PageList<T>> GetPageListAsync<T, TKey>(
-        int pageIndex, 
+        int pageIndex,
         int pageSize,
-        Expression<Func<T, TKey>> keySelector, 
-        Expression<Func<T, bool>> whereLamdba) 
+        Expression<Func<T, TKey>> keySelector,
+        Expression<Func<T, bool>> whereLamdba)
     where T : class;
+
+    /// <summary>
+    /// 向数据库中添加实体，并保存更改
+    /// </summary>
+    /// <typeparam name="T">要添加的实体类型</typeparam>
+    /// <param name="entity">要添加的实体对象</param>
+    /// <returns>已添加的实体对象</returns>
+    T AddSave<T>(T entity) where T : class;
+
+    /// <summary>
+    /// 新增
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    Task<T> AddSaveAsync<T>(T entity) where T : class;
 }
