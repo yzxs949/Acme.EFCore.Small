@@ -9,7 +9,7 @@
 		<Company>yzxs</Company>
 		<Product>Acme.EFCore.Small</Product>
 		<Copyright>yzxs</Copyright>
-		<PackageIcon>acme.jpg</PackageIcon>
+		<PackageIcon></PackageIcon>
 		<AssemblyName>Acme.EFCore.Small</AssemblyName>
 		<RootNamespace>Acme.EFCore.Small</RootNamespace>
 		<Description>轻量级EFCore通用类库</Description>
@@ -20,12 +20,6 @@
 			修复已知bug（技术支持联系邮箱：yzxs949@163.com）
 		</PackageReleaseNotes>
 	</PropertyGroup>
-	<ItemGroup>
-		<None Include="C:\Users\Administrator\Desktop\acme.jpg">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.32" />
 	</ItemGroup>
