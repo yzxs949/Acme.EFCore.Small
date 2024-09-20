@@ -12,7 +12,7 @@
 				-beta：Beta 版本，通常指可用于下一计划版本的功能完整的版本，但可能包含已知 bug。
 				-rc：候选发布，通常可能为最终（稳定）版本，除非出现重大 bug。
 		-->
-		<Version>1.2.6</Version>
+		<Version>1.2.7.00001-alpha</Version>
 		<Authors>yzxs</Authors>
 		<Company>yzxs</Company>
 		<Product>Acme.EFCore.Small</Product>
@@ -24,8 +24,7 @@
 		<PackageTags>Acme;EntityFrameworkCore;EF;EFCore;EFCore.Small;yzxs;云中小生;net6;net7;net8</PackageTags>
 		<PackageProjectUrl>https://www.nuget.org/packages/Acme.EFCore.Small/1.2.5.5#readme-body-tab</PackageProjectUrl>
 		<PackageReleaseNotes>
-			<!--.NET6、.NET7的EFCore版本升级到7.0.20，.NET8的EFCore版本升级到8.0.6-->
-			.NET8的EFCore版本升级到8.0.8
+			去掉多余的仓储方法，使用继承式编程，增删改分为立即提交和延后提交两个类型函数，父类服务中添加提交和异步提交两个函数，删除DB数据库拓展类
 		</PackageReleaseNotes>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 	</PropertyGroup>

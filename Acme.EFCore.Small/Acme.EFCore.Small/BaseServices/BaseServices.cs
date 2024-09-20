@@ -1,4 +1,6 @@
 ﻿using Acme.EFCore.Small.Extensions;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Acme.EFCore.Small.BaseServices;
@@ -7,14 +9,13 @@ namespace Acme.EFCore.Small.BaseServices;
 /// 实现基于 Entity Framework Core 的服务类，用于处理与数据库的交互操作。
 /// </summary>
 /// <typeparam name="TDbContext">DbContext 的类型参数，用于指定要使用的数据库上下文。</typeparam>
-public class BaseService<TDbContext>
-    : IBaseService<TDbContext>, IBaseService
-    where TDbContext : DbContext
+public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext : DbContext
 {
     /// <summary>
     /// 数据库上下文
     /// </summary>
     public TDbContext dbContext { get; set; }
+
 
     /// <summary>
     /// 依赖注入数据库上下文
@@ -26,7 +27,23 @@ public class BaseService<TDbContext>
     }
 
     /// <summary>
-    /// 向数据库中添加实体，稍后提交
+    /// 提交
+    /// </summary>
+    public int Submit()
+    {
+        return dbContext.SaveChanges();
+    }
+
+    /// <summary>
+    /// 异步提交
+    /// </summary>
+    public async Task<int> SubmitAsync()
+    {
+        return await dbContext.SaveChangesAsync();
+    }
+
+    /// <summary>
+    /// 新增
     /// </summary>
     /// <typeparam name="T">要添加的实体类型</typeparam>
     /// <param name="entity">要添加的实体对象</param>
@@ -38,7 +55,7 @@ public class BaseService<TDbContext>
     }
 
     /// <summary>
-    /// 向数据库中添加实体，并保存更改
+    /// 新增立即提交
     /// </summary>
     /// <typeparam name="T">要添加的实体类型</typeparam>
     /// <param name="entity">要添加的实体对象</param>
@@ -46,12 +63,12 @@ public class BaseService<TDbContext>
     public T AddSave<T>(T entity) where T : class
     {
         dbContext.Set<T>().Add(entity);
-        dbContext.SaveChanges();
+        Submit();
         return entity;
     }
 
     /// <summary>
-    /// 新增
+    /// 异步新增
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="entity"></param>
@@ -63,15 +80,15 @@ public class BaseService<TDbContext>
     }
 
     /// <summary>
-    /// 新增
+    /// 异步新增立即提交
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="entity"></param>
     /// <returns></returns>
     public async Task<T> AddSaveAsync<T>(T entity) where T : class
     {
-        await dbContext.Set<T>().AddAsync(entity);
-        await dbContext.SaveChangesAsync();
+        await AddAsync(entity);
+        await SubmitAsync();
         return entity;
     }
 
@@ -80,21 +97,43 @@ public class BaseService<TDbContext>
     /// </summary>
     /// <param name="list"></param>
     /// <returns></returns>
-    public bool AddMany<T>(List<T> list) where T : class
+    public List<T> AddMany<T>(List<T> list) where T : class
     {
         dbContext.Set<T>().AddRange(list);
-        return dbContext.SaveChanges() > 0;
+        return list;
     }
 
     /// <summary>
-    /// 批量新增
+    /// 批量新增立即提交
     /// </summary>
     /// <param name="list"></param>
     /// <returns></returns>
-    public async Task<bool> AddManyAsync<T>(List<T> list) where T : class
+    public bool AddSaveMany<T>(List<T> list) where T : class
+    {
+        AddMany(list);
+        return Submit() > 0;
+    }
+
+    /// <summary>
+    /// 异步批量新增
+    /// </summary>
+    /// <param name="list"></param>
+    /// <returns></returns>
+    public async Task<List<T>> AddManyAsync<T>(List<T> list) where T : class
     {
         await dbContext.Set<T>().AddRangeAsync(list);
-        return await dbContext.SaveChangesAsync() > 0;
+        return list;
+    }
+
+    /// <summary>
+    /// 异步批量新增立即提交
+    /// </summary>
+    /// <param name="list"></param>
+    /// <returns></returns>
+    public async Task<bool> AddManySaveAsync<T>(List<T> list) where T : class
+    {
+        await AddManyAsync(list);
+        return await SubmitAsync() > 0;
     }
 
     /// <summary>
@@ -103,10 +142,21 @@ public class BaseService<TDbContext>
     /// <typeparam name="T"></typeparam>
     /// <param name="entity"></param>
     /// <returns></returns>
-    public bool Delete<T>(T entity) where T : class
+    public void Delete<T>(T entity) where T : class
     {
         dbContext.Set<T>().Remove(entity);
-        return dbContext.SaveChanges() > 0;
+    }
+
+    /// <summary>
+    /// 删除立即保存
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    public bool DeleteSave<T>(T entity) where T : class
+    {
+        Delete<T>(entity);
+        return Submit() > 0;
     }
 
     /// <summary>
@@ -115,14 +165,30 @@ public class BaseService<TDbContext>
     /// <typeparam name="T">实体类型。</typeparam>
     /// <typeparam name="TKey">实体的键类型。</typeparam>
     /// <returns>删除操作的结果。</returns>
-    public bool Delete<T, TKey>(TKey id)
+    public void Delete<T, TKey>(TKey id)
         where TKey : struct
         where T : BaseEntityWithId<TKey>
     {
         T? t = GetInfoDefault<T>(s => s.Id.Equals(id));
         if (t is null)
             throw new ArgumentException("未获取到实体信息！");
-        return Delete(t);
+        Delete(t);
+    }
+
+    /// <summary>
+    /// 从数据库中删除具有指定键类型的实体,立即提交
+    /// </summary>
+    /// <typeparam name="T">实体类型。</typeparam>
+    /// <typeparam name="TKey">实体的键类型。</typeparam>
+    /// <returns>删除操作的结果。</returns>
+    public void DeleteSave<T, TKey>(TKey id)
+        where TKey : struct
+        where T : BaseEntityWithId<TKey>
+    {
+        T? t = GetInfoDefault<T>(s => s.Id.Equals(id));
+        if (t is null)
+            throw new ArgumentException("未获取到实体信息！");
+        DeleteSave(t);
     }
 
     /// <summary>
@@ -131,14 +197,14 @@ public class BaseService<TDbContext>
     /// <typeparam name="T">实体类型。</typeparam>
     /// <typeparam name="TKey">实体的键类型。</typeparam>
     /// <returns>删除操作的结果。</returns>
-    public async Task<bool> DeleteAsync<T, TKey>(TKey id)
+    public async Task<bool> DeleteSaveAsync<T, TKey>(TKey id)
         where TKey : struct
         where T : BaseEntityWithId<TKey>
     {
         T? t = await GetInfoDefaultAsync<T>(s => s.Id.Equals(id));
         if (t is null)
             throw new ArgumentException("未获取到实体信息！");
-        return await DeleteAsync(t);
+        return await DeleteSaveAsync(t);
     }
 
     /// <summary>
@@ -147,10 +213,10 @@ public class BaseService<TDbContext>
     /// <typeparam name="T"></typeparam>
     /// <param name="entity"></param>
     /// <returns></returns>
-    public async Task<bool> DeleteAsync<T>(T entity) where T : class
+    public async Task<bool> DeleteSaveAsync<T>(T entity) where T : class
     {
-        dbContext.Set<T>().Remove(entity);
-        return await dbContext.SaveChangesAsync() > 0;
+        Delete(entity);
+        return await SubmitAsync() > 0;
     }
 
     /// <summary>
@@ -159,10 +225,9 @@ public class BaseService<TDbContext>
     /// <typeparam name="T"></typeparam>
     /// <param name="list"></param>
     /// <returns></returns>
-    public bool DelMany<T>(List<T> list) where T : class
+    public void DelMany<T>(List<T> list) where T : class
     {
         dbContext.Set<T>().RemoveRange(list);
-        return dbContext.SaveChanges() > 0;
     }
 
     /// <summary>
@@ -171,10 +236,10 @@ public class BaseService<TDbContext>
     /// <typeparam name="T"></typeparam>
     /// <param name="list"></param>
     /// <returns></returns>
-    public async Task<bool> DelManyAsync<T>(List<T> list) where T : class
+    public async Task<bool> DelManySaveAsync<T>(List<T> list) where T : class
     {
-        dbContext.Set<T>().RemoveRange(list);
-        return await dbContext.SaveChangesAsync() > 0;
+        DelMany(list);
+        return await SubmitAsync() > 0;
     }
 
     /// <summary>
@@ -182,21 +247,31 @@ public class BaseService<TDbContext>
     /// </summary>
     /// <param name="entity"></param>
     /// <returns></returns>
-    public bool Update<T>(T entity) where T : class
+    public void Update<T>(T entity) where T : class
     {
         dbContext.Update(entity);
-        return dbContext.SaveChanges() > 0;
     }
 
     /// <summary>
-    /// 修改
+    /// 修改立即提交
     /// </summary>
     /// <param name="entity"></param>
     /// <returns></returns>
-    public async Task<bool> UpdateAsync<T>(T entity) where T : class
+    public bool UpdateSave<T>(T entity) where T : class
     {
-        dbContext.Update(entity);
-        return await dbContext.SaveChangesAsync() > 0;
+        Update(entity);
+        return Submit() > 0;
+    }
+
+    /// <summary>
+    /// 异步修改立即提交
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    public async Task<bool> UpdateSaveAsync<T>(T entity) where T : class
+    {
+        Update(entity);
+        return await SubmitAsync() > 0;
     }
 
     /// <summary>
@@ -204,21 +279,31 @@ public class BaseService<TDbContext>
     /// </summary>
     /// <param name="list"></param>
     /// <returns></returns>
-    public bool UpdateMany<T>(List<T> list) where T : class
+    public void UpdateMany<T>(List<T> list) where T : class
     {
         dbContext.UpdateRange(list);
-        return dbContext.SaveChanges() > 0;
     }
 
     /// <summary>
-    /// 批量修改
+    /// 批量修改立即提交
+    /// </summary>
+    /// <param name="list"></param>
+    /// <returns></returns>
+    public bool UpdateSaveMany<T>(List<T> list) where T : class
+    {
+        UpdateMany(list);
+        return Submit() > 0;
+    }
+
+    /// <summary>
+    /// 异步批量修改立即提交
     /// </summary>
     /// <param name="list"></param>
     /// <returns></returns>
     public async Task<bool> UpdateManyAsync<T>(List<T> list) where T : class
     {
-        dbContext.UpdateRange(list);
-        return await dbContext.SaveChangesAsync() > 0;
+        UpdateMany(list);
+        return await SubmitAsync() > 0;
     }
 
     /// <summary>
