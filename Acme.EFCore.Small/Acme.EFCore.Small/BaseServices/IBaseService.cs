@@ -1,5 +1,4 @@
-﻿
-namespace Acme.EFCore.Small.BaseServices;
+﻿namespace Acme.EFCore.Small.BaseServices;
 
 /// <summary>
 /// 实现基于 Entity Framework Core 的服务类，用于处理与数据库的交互操作接口。
@@ -175,10 +174,11 @@ public interface IBaseService<TDbContext> where TDbContext : DbContext
     bool DeleteSave<T>(T entity) where T : class;
 
     /// <summary>
-    /// 删除立即保存
+    /// 异步删除立即保存
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <param name="entity"></param>
+    /// <typeparam name="TKey"></typeparam>
+    /// <param name="id"></param>
     /// <returns></returns>
     Task<bool> DeleteSaveAsync<T, TKey>(TKey id)
         where T : BaseEntityWithId<TKey>
@@ -224,7 +224,7 @@ public interface IBaseService<TDbContext> where TDbContext : DbContext
     /// <typeparam name="T"></typeparam>
     /// <param name="whereLamdba"></param>
     /// <returns></returns>
-    T? GetInfo<T>(Expression<Func<T, bool>> whereLamdba) where T : class;
+    T GetInfo<T>(Expression<Func<T, bool>> whereLamdba) where T : class;
 
     /// <summary>
     /// 获取单条数据
@@ -232,7 +232,7 @@ public interface IBaseService<TDbContext> where TDbContext : DbContext
     /// <typeparam name="T"></typeparam>
     /// <param name="whereLamdba"></param>
     /// <returns></returns>
-    Task<T?> GetInfoAsync<T>(Expression<Func<T, bool>> whereLamdba) where T : class;
+    Task<T> GetInfoAsync<T>(Expression<Func<T, bool>> whereLamdba) where T : class;
 
     /// <summary>
     /// 获取单条数据返回默认值
@@ -240,7 +240,7 @@ public interface IBaseService<TDbContext> where TDbContext : DbContext
     /// <typeparam name="T"></typeparam>
     /// <param name="whereLamdba"></param>
     /// <returns></returns>
-    T? GetInfoDefault<T>(Expression<Func<T, bool>> whereLamdba) where T : class;
+    T GetInfoDefault<T>(Expression<Func<T, bool>> whereLamdba) where T : class;
 
     /// <summary>
     /// 获取单条数据返回默认值
@@ -248,7 +248,7 @@ public interface IBaseService<TDbContext> where TDbContext : DbContext
     /// <typeparam name="T"></typeparam>
     /// <param name="whereLamdba"></param>
     /// <returns></returns>
-    Task<T?> GetInfoDefaultAsync<T>(Expression<Func<T, bool>> whereLamdba) where T : class;
+    Task<T> GetInfoDefaultAsync<T>(Expression<Func<T, bool>> whereLamdba) where T : class;
 
     /// <summary>
     /// 获取单条数据不追踪
@@ -256,7 +256,7 @@ public interface IBaseService<TDbContext> where TDbContext : DbContext
     /// <typeparam name="T"></typeparam>
     /// <param name="whereLamdba"></param>
     /// <returns></returns>
-    T? GetInfoNoTracking<T>(Expression<Func<T, bool>> whereLamdba) where T : class;
+    T GetInfoNoTracking<T>(Expression<Func<T, bool>> whereLamdba) where T : class;
 
     /// <summary>
     /// 获取单条数据不追踪
@@ -264,7 +264,7 @@ public interface IBaseService<TDbContext> where TDbContext : DbContext
     /// <typeparam name="T"></typeparam>
     /// <param name="whereLamdba"></param>
     /// <returns></returns>
-    Task<T?> GetInfoNoTrackingAsync<T>(Expression<Func<T, bool>> whereLamdba) where T : class;
+    Task<T> GetInfoNoTrackingAsync<T>(Expression<Func<T, bool>> whereLamdba) where T : class;
 
     /// <summary>
     /// 获取集合数据

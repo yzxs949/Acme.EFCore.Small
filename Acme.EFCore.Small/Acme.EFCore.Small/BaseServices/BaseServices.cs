@@ -1,9 +1,4 @@
-﻿using Acme.EFCore.Small.Extensions;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-namespace Acme.EFCore.Small.BaseServices;
+﻿namespace Acme.EFCore.Small.BaseServices;
 
 /// <summary>
 /// 实现基于 Entity Framework Core 的服务类，用于处理与数据库的交互操作。
@@ -21,26 +16,18 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// 依赖注入数据库上下文
     /// </summary>
     /// <param name="_dbContext"></param>
-    public BaseService(TDbContext _dbContext)
-    {
-        dbContext = _dbContext;
-    }
+    public BaseService(TDbContext _dbContext) => dbContext = _dbContext;
 
     /// <summary>
     /// 提交
     /// </summary>
-    public int Submit()
-    {
-        return dbContext.SaveChanges();
-    }
+    public int Submit() => dbContext.SaveChanges();
 
     /// <summary>
     /// 异步提交
     /// </summary>
-    public async Task<int> SubmitAsync()
-    {
-        return await dbContext.SaveChangesAsync();
-    }
+    public async Task<int> SubmitAsync() 
+        => await dbContext.SaveChangesAsync();
 
     /// <summary>
     /// 新增
@@ -143,9 +130,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// <param name="entity"></param>
     /// <returns></returns>
     public void Delete<T>(T entity) where T : class
-    {
-        dbContext.Set<T>().Remove(entity);
-    }
+        => dbContext.Set<T>().Remove(entity);
 
     /// <summary>
     /// 删除立即保存
@@ -169,7 +154,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
         where TKey : struct
         where T : BaseEntityWithId<TKey>
     {
-        T? t = GetInfoDefault<T>(s => s.Id.Equals(id));
+        T t = GetInfoDefault<T>(s => s.Id.Equals(id));
         if (t is null)
             throw new ArgumentException("未获取到实体信息！");
         Delete(t);
@@ -185,7 +170,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
         where TKey : struct
         where T : BaseEntityWithId<TKey>
     {
-        T? t = GetInfoDefault<T>(s => s.Id.Equals(id));
+        T t = GetInfoDefault<T>(s => s.Id.Equals(id));
         if (t is null)
             throw new ArgumentException("未获取到实体信息！");
         DeleteSave(t);
@@ -201,7 +186,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
         where TKey : struct
         where T : BaseEntityWithId<TKey>
     {
-        T? t = await GetInfoDefaultAsync<T>(s => s.Id.Equals(id));
+        T t = await GetInfoDefaultAsync<T>(s => s.Id.Equals(id));
         if (t is null)
             throw new ArgumentException("未获取到实体信息！");
         return await DeleteSaveAsync(t);
@@ -226,9 +211,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// <param name="list"></param>
     /// <returns></returns>
     public void DelMany<T>(List<T> list) where T : class
-    {
-        dbContext.Set<T>().RemoveRange(list);
-    }
+        => dbContext.Set<T>().RemoveRange(list);
 
     /// <summary>
     /// 批量删除
@@ -248,9 +231,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// <param name="entity"></param>
     /// <returns></returns>
     public void Update<T>(T entity) where T : class
-    {
-        dbContext.Update(entity);
-    }
+        => dbContext.Update(entity);
 
     /// <summary>
     /// 修改立即提交
@@ -279,10 +260,8 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// </summary>
     /// <param name="list"></param>
     /// <returns></returns>
-    public void UpdateMany<T>(List<T> list) where T : class
-    {
-        dbContext.UpdateRange(list);
-    }
+    public void UpdateMany<T>(List<T> list) where T : class 
+        => dbContext.UpdateRange(list);
 
     /// <summary>
     /// 批量修改立即提交
@@ -312,19 +291,15 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// <param name="anyLambda"></param>
     /// <returns></returns>
     public bool Any<T>(Expression<Func<T, bool>> anyLambda) where T : class
-    {
-        return dbContext.Set<T>().Any(anyLambda);
-    }
+        => dbContext.Set<T>().Any(anyLambda);
 
     /// <summary>
     /// 是否存在
     /// </summary>
     /// <param name="anyLambda"></param>
     /// <returns></returns>
-    public async Task<bool> AnyAsync<T>(Expression<Func<T, bool>> anyLambda) where T : class
-    {
-        return await dbContext.Set<T>().AnyAsync(anyLambda);
-    }
+    public async Task<bool> AnyAsync<T>(Expression<Func<T, bool>> anyLambda) where T : class 
+        => await dbContext.Set<T>().AnyAsync(anyLambda);
 
     /// <summary>
     /// 获取Queryable
@@ -332,9 +307,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
     public IQueryable<T> GetQueryable<T>() where T : class
-    {
-        return dbContext.Set<T>();
-    }
+        => dbContext.Set<T>();
 
     /// <summary>
     /// 按条件获取Queryable
@@ -343,9 +316,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// <param name="whereLamdba"></param>
     /// <returns></returns>
     public IQueryable<T> GetQueryable<T>(Expression<Func<T, bool>> whereLamdba) where T : class
-    {
-        return dbContext.Set<T>().Where(whereLamdba);
-    }
+        => dbContext.Set<T>().Where(whereLamdba);
 
     /// <summary>
     /// 获取单条数据
@@ -353,10 +324,8 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// <typeparam name="T"></typeparam>
     /// <param name="whereLamdba"></param>
     /// <returns></returns>
-    public T? GetInfo<T>(Expression<Func<T, bool>> whereLamdba) where T : class
-    {
-        return dbContext.Find<T>(whereLamdba);
-    }
+    public T GetInfo<T>(Expression<Func<T, bool>> whereLamdba) where T : class 
+        => dbContext.Find<T>(whereLamdba);
 
     /// <summary>
     /// 获取单条数据不追踪
@@ -364,10 +333,8 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// <typeparam name="T"></typeparam>
     /// <param name="whereLamdba"></param>
     /// <returns></returns>
-    public T? GetInfoNoTracking<T>(Expression<Func<T, bool>> whereLamdba) where T : class
-    {
-        return GetQueryable<T>(whereLamdba).AsNoTracking().FirstOrDefault(whereLamdba);
-    }
+    public T GetInfoNoTracking<T>(Expression<Func<T, bool>> whereLamdba) where T : class 
+        => GetQueryable<T>(whereLamdba).AsNoTracking().FirstOrDefault(whereLamdba);
 
     /// <summary>
     /// 获取单条数据不追踪
@@ -375,10 +342,8 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// <typeparam name="T"></typeparam>
     /// <param name="whereLamdba"></param>
     /// <returns></returns>
-    public async Task<T?> GetInfoNoTrackingAsync<T>(Expression<Func<T, bool>> whereLamdba) where T : class
-    {
-        return await GetQueryable<T>(whereLamdba).AsNoTracking().FirstOrDefaultAsync(whereLamdba);
-    }
+    public async Task<T> GetInfoNoTrackingAsync<T>(Expression<Func<T, bool>> whereLamdba) where T : class 
+        => await GetQueryable<T>(whereLamdba).AsNoTracking().FirstOrDefaultAsync(whereLamdba);
 
     /// <summary>
     /// 获取单条数据
@@ -386,10 +351,8 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// <typeparam name="T"></typeparam>
     /// <param name="whereLamdba"></param>
     /// <returns></returns>
-    public async Task<T?> GetInfoAsync<T>(Expression<Func<T, bool>> whereLamdba) where T : class
-    {
-        return await dbContext.FindAsync<T>(whereLamdba);
-    }
+    public async Task<T> GetInfoAsync<T>(Expression<Func<T, bool>> whereLamdba) where T : class 
+        => await dbContext.FindAsync<T>(whereLamdba);
 
     /// <summary>
     /// 获取集合数据
@@ -397,10 +360,8 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// <typeparam name="T"></typeparam>
     /// <param name="whereLamdba"></param>
     /// <returns></returns>
-    public List<T> GetList<T>(Expression<Func<T, bool>> whereLamdba) where T : class
-    {
-        return GetQueryable<T>(whereLamdba).ToList();
-    }
+    public List<T> GetList<T>(Expression<Func<T, bool>> whereLamdba) where T : class 
+        => GetQueryable<T>(whereLamdba).ToList();
 
     /// <summary>
     /// 获取集合数据
@@ -410,9 +371,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// <param name="strip">条数</param>
     /// <returns></returns>
     public List<T> GetListTake<T>(Expression<Func<T, bool>> whereLamdba, int strip) where T : class
-    {
-        return GetQueryable<T>(whereLamdba).Take(strip).ToList();
-    }
+        => GetQueryable<T>(whereLamdba).Take(strip).ToList();
 
     /// <summary>
     /// 获取集合数据
@@ -422,10 +381,8 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// <param name="strip">条数</param>
     /// <returns></returns>
     public async Task<List<T>> GetListTakeAsync<T>(Expression<Func<T, bool>> whereLamdba, int strip)
-        where T : class
-    {
-        return await GetQueryable<T>(whereLamdba).Take(strip).ToListAsync();
-    }
+        where T : class 
+    => await GetQueryable<T>(whereLamdba).Take(strip).ToListAsync();
 
     /// <summary>
     /// 获取集合数据
@@ -433,10 +390,8 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// <typeparam name="T"></typeparam>
     /// <param name="strip">条数</param>
     /// <returns></returns>
-    public List<T> GetListTake<T>(int strip) where T : class
-    {
-        return GetQueryable<T>().Take(strip).ToList();
-    }
+    public List<T> GetListTake<T>(int strip) where T : class 
+        => GetQueryable<T>().Take(strip).ToList();
 
     /// <summary>
     /// 获取集合数据
@@ -444,7 +399,8 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// <typeparam name="T"></typeparam>
     /// <param name="strip">条数</param>
     /// <returns></returns>
-    public async Task<List<T>> GetListTakeAsync<T>(int strip) where T : class => await GetQueryable<T>().Take(strip).ToListAsync();
+    public async Task<List<T>> GetListTakeAsync<T>(int strip) where T : class
+        => await GetQueryable<T>().Take(strip).ToListAsync();
 
     /// <summary>
     /// 根据指定条件获取不跟踪的实体列表。
@@ -456,9 +412,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// 此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景。
     /// </remarks>
     public List<T> GetListNoTracking<T>(Expression<Func<T, bool>> whereLamdba) where T : class
-    {
-        return GetQueryable<T>(whereLamdba).AsNoTracking().ToList();
-    }
+        => GetQueryable<T>(whereLamdba).AsNoTracking().ToList();
 
     /// <summary>
     /// 根据指定条件获取不跟踪的实体列表。
@@ -469,9 +423,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// 此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景。
     /// </remarks>
     public List<T> GetListNoTracking<T>() where T : class
-    {
-        return GetQueryable<T>().AsNoTracking().ToList();
-    }
+        => GetQueryable<T>().AsNoTracking().ToList();
 
     /// <summary>
     /// 获取集合数据
@@ -480,9 +432,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// <returns></returns>
 
     public List<T> GetList<T>() where T : class
-    {
-        return GetQueryable<T>().ToList();
-    }
+        => GetQueryable<T>().ToList();
 
     /// <summary>
     /// 获取分页列表。
@@ -497,11 +447,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
         int pageIndex,
         int pageSize,
         Expression<Func<T, TKey>> keySelector) where T : class
-    {
-        return GetQueryable<T>()
-            .OrderBy(keySelector)
-            .ToPageList(pageIndex, pageSize);
-    }
+    => GetQueryable<T>().OrderBy(keySelector).ToPageList(pageIndex, pageSize);
 
     /// <summary>
     /// 获取分页列表。
@@ -518,11 +464,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
         int pageSize,
         Expression<Func<T, TKey>> keySelector,
         Expression<Func<T, bool>> whereLamdba) where T : class
-    {
-        return GetQueryable<T>(whereLamdba)
-            .OrderBy(keySelector)
-            .ToPageList(pageIndex, pageSize);
-    }
+    => GetQueryable<T>(whereLamdba).OrderBy(keySelector).ToPageList(pageIndex, pageSize);
 
     /// <summary>
     /// 获取分页列表。
@@ -537,11 +479,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
         int pageIndex,
         int pageSize,
         Expression<Func<T, TKey>> keySelector) where T : class
-    {
-        return await GetQueryable<T>()
-            .OrderBy(keySelector)
-            .ToPageListAsync(pageIndex, pageSize);
-    }
+    => await GetQueryable<T>().OrderBy(keySelector).ToPageListAsync(pageIndex, pageSize);
 
     /// <summary>
     /// 获取分页列表。
@@ -557,13 +495,8 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
         int pageIndex,
         int pageSize,
         Expression<Func<T, TKey>> keySelector,
-        Expression<Func<T, bool>> whereLamdba)
-    where T : class
-    {
-        return await GetQueryable<T>(whereLamdba)
-            .OrderBy(keySelector)
-            .ToPageListAsync(pageIndex, pageSize);
-    }
+        Expression<Func<T, bool>> whereLamdba) where T : class
+    => await GetQueryable<T>(whereLamdba).OrderBy(keySelector).ToPageListAsync(pageIndex, pageSize);
 
     /// <summary>
     /// 获取集合数据
@@ -572,9 +505,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// <param name="whereLamdba"></param>
     /// <returns></returns>
     public async Task<List<T>> GetListAsync<T>(Expression<Func<T, bool>> whereLamdba) where T : class
-    {
-        return await GetQueryable<T>(whereLamdba).ToListAsync();
-    }
+        => await GetQueryable<T>(whereLamdba).ToListAsync();
 
     /// <summary>
     /// 获取集合数据
@@ -582,9 +513,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
     public async Task<List<T>> GetListAsync<T>() where T : class
-    {
-        return await GetQueryable<T>().ToListAsync();
-    }
+        => await GetQueryable<T>().ToListAsync();
 
     /// <summary>
     /// 根据指定条件获取不跟踪的实体列表。
@@ -596,9 +525,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// 此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景。
     /// </remarks>
     public async Task<List<T>> GetListNoTrackingAsync<T>(Expression<Func<T, bool>> whereLamdba) where T : class
-    {
-        return await GetQueryable<T>(whereLamdba).AsNoTracking().ToListAsync();
-    }
+        => await GetQueryable<T>(whereLamdba).AsNoTracking().ToListAsync();
 
     /// <summary>
     /// 根据指定条件获取不跟踪的实体列表。
@@ -617,10 +544,8 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// <typeparam name="T"></typeparam>
     /// <param name="whereLamdba"></param>
     /// <returns></returns>
-    public T? GetInfoDefault<T>(Expression<Func<T, bool>> whereLamdba) where T : class
-    {
-        return dbContext.Set<T>().FirstOrDefault(whereLamdba);
-    }
+    public T GetInfoDefault<T>(Expression<Func<T, bool>> whereLamdba) where T : class
+        => dbContext.Set<T>().FirstOrDefault(whereLamdba);
 
     /// <summary>
     /// 获取单条数据返回默认值
@@ -628,10 +553,8 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// <typeparam name="T"></typeparam>
     /// <param name="whereLamdba"></param>
     /// <returns></returns>
-    public async Task<T?> GetInfoDefaultAsync<T>(Expression<Func<T, bool>> whereLamdba) where T : class
-    {
-        return await dbContext.Set<T>().FirstOrDefaultAsync(whereLamdba);
-    }
+    public async Task<T> GetInfoDefaultAsync<T>(Expression<Func<T, bool>> whereLamdba) where T : class
+        => await dbContext.Set<T>().FirstOrDefaultAsync(whereLamdba);
 
     /// <summary>
     /// 获取条数
@@ -640,9 +563,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// <param name="whereLamdba"></param>
     /// <returns></returns>
     public int Count<T>(Expression<Func<T, bool>> whereLamdba) where T : class
-    {
-        return dbContext.Set<T>().Count(whereLamdba);
-    }
+        => dbContext.Set<T>().Count(whereLamdba);
 
     /// <summary>
     /// 获取条数
@@ -651,9 +572,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// <param name="whereLamdba"></param>
     /// <returns></returns>
     public async Task<int> CountAsync<T>(Expression<Func<T, bool>> whereLamdba) where T : class
-    {
-        return await dbContext.Set<T>().CountAsync(whereLamdba);
-    }
+        => await dbContext.Set<T>().CountAsync(whereLamdba);
 
     /// <summary>
     /// 获取条数
@@ -661,9 +580,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
     public int Count<T>() where T : class
-    {
-        return dbContext.Set<T>().Count();
-    }
+        => dbContext.Set<T>().Count();
 
     /// <summary>
     /// 获取条数
@@ -671,32 +588,24 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
     public async Task<int> CountAsync<T>() where T : class
-    {
-        return await dbContext.Set<T>().CountAsync();
-    }
+        => await dbContext.Set<T>().CountAsync();
 
     /// <summary>
     /// 事务
     /// </summary>
-    private IDbContextTransaction contextTransaction { get; set; } = default!;
+    private IDbContextTransaction contextTransaction { get; set; }
 
     /// <summary>
     /// 开启事务
     /// </summary>
     /// <returns></returns>
-    public void BeginTransaction()
-    {
-        contextTransaction = dbContext.Database.BeginTransaction();
-    }
+    public void BeginTransaction() => contextTransaction = dbContext.Database.BeginTransaction();
 
     /// <summary>
     /// 开启事务
     /// </summary>
     /// <returns></returns>
-    public async Task BeginTransactionAsync()
-    {
-        contextTransaction = await dbContext.Database.BeginTransactionAsync();
-    }
+    public async Task BeginTransactionAsync() => contextTransaction = await dbContext.Database.BeginTransactionAsync();
 
     /// <summary>
     /// 提交事务

@@ -9,8 +9,6 @@ public static class CollectionExtension
     /// 添加基础服务。
     /// </summary>
     /// <param name="serviceCollection">IServiceCollection 实例。</param>
-    public static void AddBaseService(this IServiceCollection serviceCollection)
-    {
-        serviceCollection.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
-    }
+    public static void AddBaseService(this IServiceCollection serviceCollection) 
+        => serviceCollection.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
 }

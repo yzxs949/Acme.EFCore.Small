@@ -1,5 +1,6 @@
 ﻿global using Acme.EFCore.Small.BaseServices;
 global using Acme.EFCore.Small.Entitys;
+global using Acme.EFCore.Small.Extensions;
 global using Acme.EFCore.Small.Page;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Storage;
@@ -9,3 +10,4 @@ global using System.Collections.Generic;
 global using System.Linq;
 global using System.Linq.Expressions;
 global using System.Threading.Tasks;
+global using System.ComponentModel.DataAnnotations;

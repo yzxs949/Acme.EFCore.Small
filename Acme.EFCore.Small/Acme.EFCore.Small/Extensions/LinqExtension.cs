@@ -17,10 +17,8 @@ public static class LinqExtension
     public static IQueryable<T> WhereIf<T>(
         this IQueryable<T> source,
         bool verification,
-        Expression<Func<T, bool>> anyLambda)
-    {
-        return verification ? source.Where(anyLambda) : source;
-    }
+        Expression<Func<T, bool>> anyLambda) 
+        => verification ? source.Where(anyLambda) : source;
 
     /// <summary>
     /// Linq验证查询方法拓展
@@ -30,10 +28,8 @@ public static class LinqExtension
     /// <param name="anyLambda">Linq语句</param>
     /// <returns></returns>
     public static IQueryable<T> Where<T>(this DbContext dbContext, Expression<Func<T, bool>> anyLambda)
-        where T : class
-    {
-        return dbContext.Set<T>().Where(anyLambda);
-    }
+        where T : class 
+        => dbContext.Set<T>().Where(anyLambda);
 
     /// <summary>
     /// Linq验证查询方法拓展
@@ -46,10 +42,8 @@ public static class LinqExtension
     public static IEnumerable<T> WhereIf<T>(
         this IEnumerable<T> source,
         bool verification,
-        Func<T, int, bool> anyLambda)
-    {
-        return verification ? source.Where(anyLambda) : source;
-    }
+        Func<T, int, bool> anyLambda) 
+    => verification ? source.Where(anyLambda) : source;
 
     /// <summary>
     /// Linq验证查询方法拓展
@@ -63,9 +57,7 @@ public static class LinqExtension
         this IEnumerable<T> source,
         bool verification,
         Func<T, bool> anyLambda)
-    {
-        return verification ? source.Where(anyLambda) : source;
-    }
+    => verification ? source.Where(anyLambda) : source;
 
     /// <summary>
     /// 分页（排序后使用）
@@ -117,10 +109,8 @@ public static class LinqExtension
     /// <param name="items">要获取字段值的 IQueryable&lt;T&gt; 集合。</param>
     /// <param name="keySelector">用于从元素中提取字段值的函数。</param>
     /// <returns>字段值的列表。</returns>
-    public static IEnumerable<TKey> GetKey<T, TKey>(this IQueryable<T> items, Func<T, TKey> keySelector)
-    {
-        return items.GroupBy(keySelector).Select(g => g.Key);
-    }
+    public static IEnumerable<TKey> GetKey<T, TKey>(this IQueryable<T> items, Func<T, TKey> keySelector) 
+        => items.GroupBy(keySelector).Select(g => g.Key);
 
     /// <summary>
     /// 集合中获取指定字段的唯一值列表。
@@ -130,8 +120,6 @@ public static class LinqExtension
     /// <param name="items">要获取字段值的 IEnumerable&lt;T&gt; 集合。</param>
     /// <param name="keySelector">用于从元素中提取字段值的函数。</param>
     /// <returns>字段值的列表。</returns>
-    public static IEnumerable<TKey> GetKeyList<T, TKey>(this IEnumerable<T> items, Func<T, TKey> keySelector)
-    {
-        return items.GroupBy(keySelector).Select(g => g.Key);
-    }
+    public static IEnumerable<TKey> GetKeyList<T, TKey>(this IEnumerable<T> items, Func<T, TKey> keySelector) 
+        => items.GroupBy(keySelector).Select(g => g.Key);
 }
