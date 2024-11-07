@@ -11,19 +11,20 @@
 				-beta：Beta 版本，通常指可用于下一计划版本的功能完整的版本，但可能包含已知 bug。
 				-rc：候选发布，通常可能为最终（稳定）版本，除非出现重大 bug。
 		-->
-		<Version>1.2.7.1</Version>
+		<Version>1.2.7.2</Version>
 		<Authors>yzxs</Authors>
 		<Company>yzxs</Company>
 		<Product>Acme.EFCore.Small</Product>
 		<Copyright>yzxs</Copyright>
 		<AssemblyName>Acme.EFCore.Small</AssemblyName>
 		<RootNamespace>Acme.EFCore.Small</RootNamespace>
-		<Description>轻量级EFCore通用类库</Description>
+		<Description>Lightweight EFCore Universal Library</Description>
 		<Title>Acme.EFCore.Small</Title>
-		<PackageTags>Acme;EntityFrameworkCore;EF;EFCore;EFCore.Small;yzxs;云中小生;net6;net7;net8</PackageTags>
+		<PackageTags>Acme;EntityFrameworkCore;EF;EFCore;EFCore.Small;yzxs;net6;net7;net8</PackageTags>
 		<PackageProjectUrl>https://www.nuget.org/packages/Acme.EFCore.Small/1.2.5.5#readme-body-tab</PackageProjectUrl>
 		<PackageReleaseNotes>
-			更新.NET8 EntityFrameworkCore版本为8.0.10
+			Change English annotations
+			<!--更新.NET8 EntityFrameworkCore版本为8.0.10-->
 		</PackageReleaseNotes>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 	</PropertyGroup>

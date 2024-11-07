@@ -1,9 +1,9 @@
 ﻿namespace Acme.EFCore.Small.BaseServices;
 
 /// <summary>
-/// 实现基于 Entity Framework Core 的服务类，用于处理与数据库的交互操作。
+/// 实现基于 Entity Framework Core 的服务类，用于处理与数据库的交互操作
 /// </summary>
-/// <typeparam name="TDbContext">DbContext 的类型参数，用于指定要使用的数据库上下文。</typeparam>
+/// <typeparam name="TDbContext">DbContext 的类型参数，用于指定要使用的数据库上下文</typeparam>
 public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext : DbContext
 {
     /// <summary>
@@ -145,11 +145,11 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     }
 
     /// <summary>
-    /// 从数据库中删除具有指定键类型的实体。
+    /// 从数据库中删除具有指定键类型的实体
     /// </summary>
-    /// <typeparam name="T">实体类型。</typeparam>
-    /// <typeparam name="TKey">实体的键类型。</typeparam>
-    /// <returns>删除操作的结果。</returns>
+    /// <typeparam name="T">实体类型</typeparam>
+    /// <typeparam name="TKey">实体的键类型</typeparam>
+    /// <returns>删除操作的结果</returns>
     public void Delete<T, TKey>(TKey id)
         where TKey : struct
         where T : BaseEntityWithId<TKey>
@@ -163,9 +163,9 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// <summary>
     /// 从数据库中删除具有指定键类型的实体,立即提交
     /// </summary>
-    /// <typeparam name="T">实体类型。</typeparam>
-    /// <typeparam name="TKey">实体的键类型。</typeparam>
-    /// <returns>删除操作的结果。</returns>
+    /// <typeparam name="T">实体类型</typeparam>
+    /// <typeparam name="TKey">实体的键类型</typeparam>
+    /// <returns>删除操作的结果</returns>
     public void DeleteSave<T, TKey>(TKey id)
         where TKey : struct
         where T : BaseEntityWithId<TKey>
@@ -177,11 +177,11 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     }
 
     /// <summary>
-    /// 从数据库中删除具有指定键类型的实体。
+    /// 从数据库中删除具有指定键类型的实体
     /// </summary>
-    /// <typeparam name="T">实体类型。</typeparam>
-    /// <typeparam name="TKey">实体的键类型。</typeparam>
-    /// <returns>删除操作的结果。</returns>
+    /// <typeparam name="T">实体类型</typeparam>
+    /// <typeparam name="TKey">实体的键类型</typeparam>
+    /// <returns>删除操作的结果</returns>
     public async Task<bool> DeleteSaveAsync<T, TKey>(TKey id)
         where TKey : struct
         where T : BaseEntityWithId<TKey>
@@ -403,24 +403,24 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
         => await GetQueryable<T>().Take(strip).ToListAsync();
 
     /// <summary>
-    /// 根据指定条件获取不跟踪的实体列表。
+    /// 根据指定条件获取不跟踪的实体列表
     /// </summary>
-    /// <typeparam name="T">实体类型。</typeparam>
-    /// <param name="whereLamdba">筛选条件的 Lambda 表达式。</param>
-    /// <returns>符合条件的实体列表。</returns>
+    /// <typeparam name="T">实体类型</typeparam>
+    /// <param name="whereLamdba">筛选条件的 Lambda 表达式</param>
+    /// <returns>符合条件的实体列表</returns>
     /// <remarks>
-    /// 此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景。
+    /// 此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景
     /// </remarks>
     public List<T> GetListNoTracking<T>(Expression<Func<T, bool>> whereLamdba) where T : class
         => GetQueryable<T>(whereLamdba).AsNoTracking().ToList();
 
     /// <summary>
-    /// 根据指定条件获取不跟踪的实体列表。
+    /// 根据指定条件获取不跟踪的实体列表
     /// </summary>
-    /// <typeparam name="T">实体类型。</typeparam>
-    /// <returns>符合条件的实体列表。</returns>
+    /// <typeparam name="T">实体类型</typeparam>
+    /// <returns>符合条件的实体列表</returns>
     /// <remarks>
-    /// 此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景。
+    /// 此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景
     /// </remarks>
     public List<T> GetListNoTracking<T>() where T : class
         => GetQueryable<T>().AsNoTracking().ToList();
@@ -435,7 +435,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
         => GetQueryable<T>().ToList();
 
     /// <summary>
-    /// 获取分页列表。
+    /// 获取分页列表
     /// </summary>
     /// <typeparam name="T">实体类型</typeparam>
     /// <typeparam name="TKey">排序键类型</typeparam>
@@ -450,7 +450,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     => GetQueryable<T>().OrderBy(keySelector).ToPageList(pageIndex, pageSize);
 
     /// <summary>
-    /// 获取分页列表。
+    /// 获取分页列表
     /// </summary>
     /// <typeparam name="T">实体类型</typeparam>
     /// <typeparam name="TKey">排序键类型</typeparam>
@@ -467,7 +467,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     => GetQueryable<T>(whereLamdba).OrderBy(keySelector).ToPageList(pageIndex, pageSize);
 
     /// <summary>
-    /// 获取分页列表。
+    /// 获取分页列表
     /// </summary>
     /// <typeparam name="T">实体类型</typeparam>
     /// <typeparam name="TKey">排序键类型</typeparam>
@@ -482,7 +482,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     => await GetQueryable<T>().OrderBy(keySelector).ToPageListAsync(pageIndex, pageSize);
 
     /// <summary>
-    /// 获取分页列表。
+    /// 获取分页列表
     /// </summary>
     /// <typeparam name="T">实体类型</typeparam>
     /// <typeparam name="TKey">排序键类型</typeparam>
@@ -516,24 +516,24 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
         => await GetQueryable<T>().ToListAsync();
 
     /// <summary>
-    /// 根据指定条件获取不跟踪的实体列表。
+    /// 根据指定条件获取不跟踪的实体列表
     /// </summary>
-    /// <typeparam name="T">实体类型。</typeparam>
-    /// <param name="whereLamdba">筛选条件的 Lambda 表达式。</param>
-    /// <returns>符合条件的实体列表。</returns>
+    /// <typeparam name="T">实体类型</typeparam>
+    /// <param name="whereLamdba">筛选条件的 Lambda 表达式</param>
+    /// <returns>符合条件的实体列表</returns>
     /// <remarks>
-    /// 此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景。
+    /// 此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景
     /// </remarks>
     public async Task<List<T>> GetListNoTrackingAsync<T>(Expression<Func<T, bool>> whereLamdba) where T : class
         => await GetQueryable<T>(whereLamdba).AsNoTracking().ToListAsync();
 
     /// <summary>
-    /// 根据指定条件获取不跟踪的实体列表。
+    /// 根据指定条件获取不跟踪的实体列表
     /// </summary>
-    /// <typeparam name="T">实体类型。</typeparam>
-    /// <returns>符合条件的实体列表。</returns>
+    /// <typeparam name="T">实体类型</typeparam>
+    /// <returns>符合条件的实体列表</returns>
     /// <remarks>
-    /// 此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景。
+    /// 此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景
     /// </remarks>
     public async Task<List<T>> GetListNoTrackingAsync<T>() where T : class
         => await GetQueryable<T>().AsNoTracking().ToListAsync();
