@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;net7.0;net8.0;</TargetFrameworks>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<PackageId>Acme.EFCore</PackageId>
+		<Version>3.0.0.2-alpha</Version>
+		<Authors>yzxs</Authors>
+		<Company>yzxs</Company>
+		<Product>Acme.EFCore</Product>
+		<Copyright>yzxs</Copyright>
+		<AssemblyName>Acme.EFCore</AssemblyName>
+		<RootNamespace>Acme.EFCore</RootNamespace>
+		<Description>Lightweight EFCore Universal Library</Description>
+		<Title>Acme.EFCore</Title>
+		<PackageTags>Acme;EntityFrameworkCore;EF;EFCore;EFCore;yzxs;net6;net7;net8</PackageTags>
+		<PackageReleaseNotes>
+			A brand new version of Acme EFCore (document to be released)
+		</PackageReleaseNotes>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6'">
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.20" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net7' ">
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.20" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8' ">
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
+		<PackageReference Include="NuGet.Build.Tasks.Pack" Version="6.11.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	<ItemGroup>
+		<Reference Include="Microsoft.EntityFrameworkCore">
+			<HintPath>..\..\..\..\nuget\microsoft.entityframeworkcore\7.0.20\lib\net6.0\Microsoft.EntityFrameworkCore.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+</Project>

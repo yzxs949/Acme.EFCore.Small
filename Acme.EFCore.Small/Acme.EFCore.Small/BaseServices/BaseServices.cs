@@ -186,9 +186,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
         where TKey : struct
         where T : BaseEntityWithId<TKey>
     {
-        T t = await GetInfoDefaultAsync<T>(s => s.Id.Equals(id));
-        if (t is null)
-            throw new ArgumentException("未获取到实体信息！");
+        T t = await GetInfoDefaultAsync<T>(s => s.Id.Equals(id)) ?? throw new ArgumentException("未获取到实体信息！");
         return await DeleteSaveAsync(t);
     }
 
