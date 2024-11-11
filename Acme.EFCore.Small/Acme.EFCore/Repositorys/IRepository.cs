@@ -1,5 +1,6 @@
 ﻿using Acme.EFCore.AggregateRoots;
 using Acme.EFCore.Page;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,10 @@ public interface IRepository<TEntity, TKey>
     where TEntity : IdAggregateRoot<TKey>, new()
     where TKey : struct
 {
+    /// <summary>
+    /// 数据库上下文
+    /// </summary>
+    public DbContext DbContext { get; init; }
 
     #region 提交
     /// <summary>
@@ -104,6 +109,20 @@ public interface IRepository<TEntity, TKey>
     /// <param name="entity">要删除的实体</param>
     /// <returns>是否成功</returns>
     bool DeleteNowSave(TEntity entity);
+
+    /// <summary>
+    /// 删除立即保存
+    /// </summary>
+    /// <param name="id">主键Id</param>
+    /// <returns>是否成功</returns>
+    bool DeleteNowSave(TKey id);
+
+    /// <summary>
+    /// 异步删除立即提交
+    /// </summary>
+    /// <param name="id">主键Id</param>
+    /// <returns></returns>
+    Task<bool> DeleteNowSaveAsync(TKey id);
 
     /// <summary>
     /// 异步删除立即提交

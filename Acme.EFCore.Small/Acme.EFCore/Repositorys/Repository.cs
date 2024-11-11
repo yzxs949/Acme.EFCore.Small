@@ -22,7 +22,7 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
     /// <summary>
     /// 数据库上下文
     /// </summary>
-    protected DbContext DbContext { get; init; }
+    public DbContext DbContext { get; init; }
 
     /// <summary>
     /// 构造函数，初始化仓储实例
@@ -146,6 +146,17 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
         => DbContext.Set<TEntity>().Remove(entity);
 
     /// <summary>
+    /// 删除
+    /// </summary>
+    /// <param name="id">主键Id</param>
+    /// <returns></returns>
+    public void Delete(TKey id)
+    {
+        var info = GetInfo(id);
+        Delete(info);
+    }
+
+    /// <summary>
     /// 删除立即保存
     /// </summary>
     /// <param name="entity">要删除的实体</param>
@@ -157,6 +168,17 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
     }
 
     /// <summary>
+    /// 删除立即保存
+    /// </summary>
+    /// <param name="id">主键Id</param>
+    /// <returns>是否成功</returns>
+    public bool DeleteNowSave(TKey id)
+    {
+        var info = GetInfo(id);
+        return DeleteNowSave(info);
+    }
+
+    /// <summary>
     /// 异步删除立即提交
     /// </summary>
     /// <param name="entity">要删除的实体</param>
@@ -165,6 +187,17 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
     {
         Delete(entity);
         return await SubmitAsync() > 0;
+    }
+
+    /// <summary>
+    /// 异步删除立即提交
+    /// </summary>
+    /// <param name="id">主键Id</param>
+    /// <returns></returns>
+    public async Task<bool> DeleteNowSaveAsync(TKey id)
+    {
+        var info = GetInfo(id);
+        return await DeleteNowSaveAsync(info);
     }
 
     /// <summary>
