@@ -154,9 +154,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
         where TKey : struct
         where T : BaseEntityWithId<TKey>
     {
-        T t = GetInfoDefault<T>(s => s.Id.Equals(id));
-        if (t is null)
-            throw new ArgumentException("未获取到实体信息！");
+        T t = GetInfoDefault<T>(s => s.Id.Equals(id)) ?? throw new ArgumentException("未获取到实体信息！");
         Delete(t);
     }
 
@@ -170,9 +168,7 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
         where TKey : struct
         where T : BaseEntityWithId<TKey>
     {
-        T t = GetInfoDefault<T>(s => s.Id.Equals(id));
-        if (t is null)
-            throw new ArgumentException("未获取到实体信息！");
+        T t = GetInfoDefault<T>(s => s.Id.Equals(id)) ?? throw new ArgumentException("未获取到实体信息！");
         DeleteSave(t);
     }
 
@@ -591,27 +587,27 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// <summary>
     /// 事务
     /// </summary>
-    private IDbContextTransaction contextTransaction { get; set; }
+    private IDbContextTransaction ContextTransaction { get; set; }
 
     /// <summary>
     /// 开启事务
     /// </summary>
     /// <returns></returns>
-    public void BeginTransaction() => contextTransaction = dbContext.Database.BeginTransaction();
+    public void BeginTransaction() => ContextTransaction = dbContext.Database.BeginTransaction();
 
     /// <summary>
     /// 开启事务
     /// </summary>
     /// <returns></returns>
-    public async Task BeginTransactionAsync() => contextTransaction = await dbContext.Database.BeginTransactionAsync();
+    public async Task BeginTransactionAsync() => ContextTransaction = await dbContext.Database.BeginTransactionAsync();
 
     /// <summary>
     /// 提交事务
     /// </summary>
     public void CommitTransaction()
     {
-        if (contextTransaction is not null)
-            contextTransaction.Commit();
+        if (ContextTransaction is not null)
+            ContextTransaction.Commit();
         else
             throw new Exception("您未开启事务！");
     }
@@ -621,8 +617,8 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// </summary>
     public async Task CommitTransactionAsync()
     {
-        if (contextTransaction is not null)
-            await contextTransaction.CommitAsync();
+        if (ContextTransaction is not null)
+            await ContextTransaction.CommitAsync();
         else
             throw new Exception("您未开启事务！");
     }
@@ -632,8 +628,8 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// </summary>
     public void RollbackTransaction()
     {
-        if (contextTransaction is not null)
-            contextTransaction.Rollback();
+        if (ContextTransaction is not null)
+            ContextTransaction.Rollback();
         else
             throw new Exception("您未开启事务！");
     }
@@ -643,8 +639,8 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// </summary>
     public async Task RollbackTransactionAsync()
     {
-        if (contextTransaction is not null)
-            await contextTransaction.RollbackAsync();
+        if (ContextTransaction is not null)
+            await ContextTransaction.RollbackAsync();
         else
             throw new Exception("您未开启事务！");
     }
@@ -654,9 +650,9 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// </summary>
     public void DisposeTransaction()
     {
-        if (contextTransaction is not null)
+        if (ContextTransaction is not null)
         {
-            contextTransaction.Dispose();
+            ContextTransaction.Dispose();
             dbContext.Dispose();
         }
         else
@@ -668,9 +664,9 @@ public class BaseService<TDbContext> : IBaseService<TDbContext> where TDbContext
     /// </summary>
     public async Task DisposeTransactionAsync()
     {
-        if (contextTransaction is not null)
+        if (ContextTransaction is not null)
         {
-            await contextTransaction.DisposeAsync();
+            await ContextTransaction.DisposeAsync();
             await dbContext.DisposeAsync();
         }
         else

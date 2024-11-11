@@ -12,5 +12,14 @@ public abstract class IdAggregateRoot<TKey> where TKey : struct
     /// 主键Id
     /// </summary>
     [Key]
-    public TKey Id { get; set; }
+    public TKey Id { get; private set; }
+
+    /// <summary>
+    /// 给Id赋值
+    /// </summary>
+    /// <param name="id"></param>
+    public void SetId(TKey id)
+    {
+        Id = id;
+    }
 }
