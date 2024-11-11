@@ -326,7 +326,7 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
     /// <param name="whereLamdba">Linq语句</param>
     /// <returns>IQueryable</returns>
     public IQueryable<TEntity> Queryable(Expression<Func<TEntity, bool>> whereLamdba)
-        => DbContext.Set<TEntity>().Where(whereLamdba);
+        => DbContext.Where(whereLamdba);
     #endregion
 
     #region 获取单条数据
