@@ -46,7 +46,7 @@ public class AppDbContext : DbContext
 ### 6.Dependency injection
 #### 6.1.Basic configuration
 ```csharp
-//调用数据库配置信息
+//Call database configuration information
 services.AddDbContext<AppDbContext1>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 services.AddBaseService();
 ```
