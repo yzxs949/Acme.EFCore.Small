@@ -5,9 +5,9 @@ Acme.EFCore is a lightweight EFCore general-purpose library designed to interact
 Version: v3.0.0.3-alpha
 
 ## 2、 Beginner's Guide
-### 1. Install Acme EFCore.Small
-Create Project ->Click on References ->Right click ->Manage Nuget Packages ->Search Acme EFCore. Small selects version 1.2.7 and above Simply install the NET version.
-### 2. Install the corresponding database package
+### 2.1. Install Acme EFCore
+Create Project ->Click on References ->Right click ->Manage Nuget Packages ->Search Acme EFCore selects version 3.0.0.3-alpha and above Simply install the NET version.
+### 2.2 Install the corresponding database package
 - SqlServer: `Microsoft.EntityFrameworkCore.SqlServer`
 - Sqlite: `Microsoft.EntityFrameworkCore.Sqlite`
 - Cosmos: `Microsoft.EntityFrameworkCore.Cosmos`
@@ -20,7 +20,7 @@ Create Project ->Click on References ->Right click ->Manage Nuget Packages ->Sea
 - Firebird: `FirebirdSql.EntityFrameworkCore.Firebird`
 - Dm: `Microsoft.EntityFrameworkCore.Dm`
 
-### 4.Create VNet database context class
+### 2.3.Create VNet database context class
 ```csharp
 public class AppDbContext : DbContext
 {
@@ -34,7 +34,7 @@ public class AppDbContext : DbContext
     }
 }
 ```
-### 5.Configure connection string
+### 2.3.Configure connection string
 ```json
 {
     "ConnectionStrings":{
@@ -43,10 +43,9 @@ public class AppDbContext : DbContext
 }
 ```
 
-### 6.Dependency injection
-#### 6.1.Basic configuration
+### 2.5 Dependency injection
+#### 2.6.1.Basic configuration
 ```csharp
-//调用数据库配置信息
+//Call database configuration information
 services.AddDbContext<AppDbContext1>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-services.AddBaseService();
 ```

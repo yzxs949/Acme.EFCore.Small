@@ -5,7 +5,7 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageId>Acme.EFCore</PackageId>
-		<Version>3.0.0.2-alpha</Version>
+		<Version>3.0.0.3-alpha</Version>
 		<Authors>yzxs</Authors>
 		<Company>yzxs</Company>
 		<Product>Acme.EFCore</Product>
@@ -16,8 +16,9 @@
 		<Title>Acme.EFCore</Title>
 		<PackageTags>Acme;EntityFrameworkCore;EF;EFCore;EFCore;yzxs;net6;net7;net8</PackageTags>
 		<PackageReleaseNotes>
-			A brand new version of Acme EFCore (document to be released)
+			A brand new version of Acme EFCore
 		</PackageReleaseNotes>
+		<PackageProjectUrl>https://www.nuget.org/packages/Acme.EFCore/3.0.0.3-alpha#readme-body-tab</PackageProjectUrl>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6'">
