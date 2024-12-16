@@ -6,7 +6,7 @@ namespace Acme.EFCore.AggregateRoots;
 /// 聚合根
 /// </summary>
 /// <typeparam name="TKey"></typeparam>
-public abstract class IdAggregateRoot<TKey> where TKey : struct
+public abstract class IdAggregateRoot<TKey>: AggregateRoot where TKey : struct
 {
     /// <summary>
     /// 主键Id
