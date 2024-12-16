@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCopyrightAttribute("yzxs")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Lightweight EFCore Universal Library")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("3.1.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("3.1+d33fcea137146175f86015cd2a07df276d76141e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("3.1+d9fa5c262449f0cceadb3267bf5f6de39eb69591")]
 [assembly: System.Reflection.AssemblyProductAttribute("Acme.EFCore")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Acme.EFCore")]
 [assembly: System.Reflection.AssemblyVersionAttribute("3.1.0.0")]

@@ -18,7 +18,7 @@
 		<PackageReleaseNotes>
 			A brand new version of Acme EFCore
 		</PackageReleaseNotes>
-		<PackageProjectUrl>https://www.nuget.org/packages/Acme.EFCore/3.0.9#readme-body-tab</PackageProjectUrl>
+		<PackageProjectUrl>https://www.nuget.org/packages/Acme.EFCore/3.1#readme-body-tab</PackageProjectUrl>
 	</PropertyGroup>
 	<!--<ItemGroup Condition="'$(TargetFramework)' == 'net8' ">
 		

@@ -1,13 +1,13 @@
-﻿using Acme.EFCore.AggregateRoots;
-using Acme.EFCore.Extensions;
-using Acme.EFCore.Page;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Acme.EFCore.AggregateRoots;
+using Acme.EFCore.Extensions;
+using Acme.EFCore.Page;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Acme.EFCore.Repositorys;
 
@@ -544,7 +544,7 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
     /// <param name="pageSize">每页大小</param>
     /// <param name="keySelector">排序键选择器</param>
     /// <returns>分页列表</returns>
-    public PageList<TEntity> GetPageList(
+    public IPageList GetPageList(
         int pageIndex,
         int pageSize,
         Expression<Func<TEntity, TKey>> keySelector)
@@ -558,7 +558,7 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
     /// <param name="keySelector">排序键选择器</param>
     /// <param name="whereLamdba">查询条件</param>
     /// <returns>分页列表</returns>
-    public PageList<TEntity> GetPageList(
+    public IPageList GetPageList(
         int pageIndex,
         int pageSize,
         Expression<Func<TEntity, TKey>> keySelector,
@@ -572,7 +572,7 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
     /// <param name="pageSize">每页大小</param>
     /// <param name="keySelector">排序键选择器</param>
     /// <returns>分页列表</returns>
-    public async Task<PageList<TEntity>> GetPageListAsync(
+    public async Task<IPageList> GetPageListAsync(
         int pageIndex,
         int pageSize,
         Expression<Func<TEntity, TKey>> keySelector)
@@ -586,7 +586,7 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
     /// <param name="keySelector">排序键选择器</param>
     /// <param name="whereLamdba">查询条件</param>
     /// <returns>分页列表</returns>
-    public async Task<PageList<TEntity>> GetPageListAsync(
+    public async Task<IPageList> GetPageListAsync(
         int pageIndex,
         int pageSize,
         Expression<Func<TEntity, TKey>> keySelector,
