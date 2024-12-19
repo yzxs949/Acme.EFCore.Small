@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.EFCore.Small.Core", "A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.EFCore", "Acme.EFCore\Acme.EFCore.csproj", "{ACDA0E04-3549-4EFD-8843-C8B8F4619C24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.EFCore.Test", "Acme.EFCore.Test\Acme.EFCore.Test.csproj", "{90C31046-15C1-4A90-AF90-1D6B22169AE8}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{ACDA0E04-3549-4EFD-8843-C8B8F4619C24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACDA0E04-3549-4EFD-8843-C8B8F4619C24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACDA0E04-3549-4EFD-8843-C8B8F4619C24}.Release|Any CPU.Build.0 = Release|Any CPU
-		{90C31046-15C1-4A90-AF90-1D6B22169AE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{90C31046-15C1-4A90-AF90-1D6B22169AE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{90C31046-15C1-4A90-AF90-1D6B22169AE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{90C31046-15C1-4A90-AF90-1D6B22169AE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
