@@ -1,0 +1,1148 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Acme.EFCore</name>
+    </assembly>
+    <members>
+        <member name="T:Acme.EFCore.AggregateRoots.IdAggregateRoot`1">
+            <summary>
+            聚合根
+            </summary>
+            <typeparam name="TKey"></typeparam>
+        </member>
+        <member name="P:Acme.EFCore.AggregateRoots.IdAggregateRoot`1.Id">
+            <summary>
+            主键Id
+            </summary>
+        </member>
+        <member name="M:Acme.EFCore.AggregateRoots.IdAggregateRoot`1.SetId(`0)">
+            <summary>
+            给Id赋值
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="T:Acme.EFCore.AggregateRoots.StateAggregateRoot`1">
+            <summary>
+            状态聚合根
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <remarks>
+            构造函数，初始化状态聚合根
+            </remarks>
+        </member>
+        <member name="M:Acme.EFCore.AggregateRoots.StateAggregateRoot`1.#ctor(System.Boolean)">
+            <summary>
+            构造函数，初始化状态聚合根
+            </summary>
+            <param name="isDisable"></param>
+        </member>
+        <member name="P:Acme.EFCore.AggregateRoots.StateAggregateRoot`1.IsDisable">
+            <summary>
+            是否禁用
+            </summary>
+        </member>
+        <member name="M:Acme.EFCore.AggregateRoots.StateAggregateRoot`1.Enable">
+            <summary>
+            启用
+            </summary>
+        </member>
+        <member name="M:Acme.EFCore.AggregateRoots.StateAggregateRoot`1.Disable">
+            <summary>
+            禁用
+            </summary>
+        </member>
+        <member name="T:Acme.EFCore.Extensions.CollectionExtension">
+            <summary>
+            提供一组扩展方法，用于依赖注入的配置。
+            </summary>
+        </member>
+        <member name="M:Acme.EFCore.Extensions.CollectionExtension.AddRepositorys(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加基础服务。
+            </summary>
+            <param name="serviceCollection">IServiceCollection 实例。</param>
+        </member>
+        <member name="T:Acme.EFCore.Extensions.LinqExtension">
+            <summary>
+            Linq拓展类
+            </summary>
+        </member>
+        <member name="M:Acme.EFCore.Extensions.LinqExtension.WhereIf``1(System.Linq.IQueryable{``0},System.Boolean,System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Linq验证查询方法拓展
+            </summary>
+            <typeparam name="T">泛型</typeparam>
+            <param name="source">IQueryable</param>
+            <param name="verification">验证语句</param>
+            <param name="anyLambda">Linq语句</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Extensions.LinqExtension.Where``1(Microsoft.EntityFrameworkCore.DbContext,System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Linq验证查询方法拓展
+            </summary>
+            <typeparam name="T">泛型</typeparam>
+            <param name="dbContext">数据库上下文</param>
+            <param name="anyLambda">Linq语句</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Extensions.LinqExtension.WhereIf``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Func{``0,System.Int32,System.Boolean})">
+            <summary>
+            Linq验证查询方法拓展
+            </summary>
+            <typeparam name="T">泛型</typeparam>
+            <param name="source">IEnumerable</param>
+            <param name="verification">验证语句</param>
+            <param name="anyLambda">Linq语句</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Extensions.LinqExtension.WhereIf``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Func{``0,System.Boolean})">
+            <summary>
+            Linq验证查询方法拓展
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="source"></param>
+            <param name="verification"></param>
+            <param name="anyLambda"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Extensions.LinqExtension.ToPageList``1(System.Linq.IQueryable{``0},System.Int32,System.Int32)">
+            <summary>
+            分页（排序后使用）
+            </summary>
+            <typeparam name="T">实体</typeparam>
+            <param name="source">分页数据</param>
+            <param name="pageIndex">页码</param>
+            <param name="pageSize">每页显示的条数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Extensions.LinqExtension.ToPageListAsync``1(System.Linq.IQueryable{``0},System.Int32,System.Int32)">
+            <summary>
+            分页（排序后使用）
+            </summary>
+            <typeparam name="T">实体</typeparam>
+            <param name="source">分页数据</param>
+            <param name="pageIndex">页码</param>
+            <param name="pageSize">每页显示的条数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Extensions.LinqExtension.GetKey``2(System.Linq.IQueryable{``0},System.Func{``0,``1})">
+            <summary>
+            集合中获取指定字段的唯一值列表。
+            </summary>
+            <typeparam name="T">集合中的元素类型。</typeparam>
+            <typeparam name="TKey">字段的类型。</typeparam>
+            <param name="items">要获取字段值的 IQueryable&lt;T&gt; 集合。</param>
+            <param name="keySelector">用于从元素中提取字段值的函数。</param>
+            <returns>字段值的列表。</returns>
+        </member>
+        <member name="M:Acme.EFCore.Extensions.LinqExtension.GetKeyList``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})">
+            <summary>
+            集合中获取指定字段的唯一值列表。
+            </summary>
+            <typeparam name="T">集合中的元素类型。</typeparam>
+            <typeparam name="TKey">字段的类型。</typeparam>
+            <param name="items">要获取字段值的 IEnumerable&lt;T&gt; 集合。</param>
+            <param name="keySelector">用于从元素中提取字段值的函数。</param>
+            <returns>字段值的列表。</returns>
+        </member>
+        <member name="T:Acme.EFCore.Extensions.PageListExtension">
+            <summary>
+            分页拓展类
+            </summary>
+        </member>
+        <member name="M:Acme.EFCore.Extensions.PageListExtension.ToPageList(System.Collections.Generic.List{System.Object},System.Int32)">
+            <summary>
+            集合转化为分页实体
+            </summary>
+            <param name="items"></param>
+            <param name="total"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Extensions.PageListExtension.ToPageList``1(System.Collections.Generic.List{``0},System.Int32)">
+            <summary>
+            实体转化为分页实体
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="items"></param>
+            <param name="total"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Acme.EFCore.Page.IPageList">
+            <summary>
+            分页列表接口
+            </summary>
+        </member>
+        <member name="T:Acme.EFCore.Page.PageList`1">
+            <summary>
+            分页返回结果
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+            <param name="Total">总条数</param>
+            <param name="Items">集合数据</param>
+        </member>
+        <member name="M:Acme.EFCore.Page.PageList`1.#ctor(System.Int32,System.Collections.Generic.List{`0})">
+            <summary>
+            分页返回结果
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+            <param name="Total">总条数</param>
+            <param name="Items">集合数据</param>
+        </member>
+        <member name="P:Acme.EFCore.Page.PageList`1.Total">
+            <summary>总条数</summary>
+        </member>
+        <member name="P:Acme.EFCore.Page.PageList`1.Items">
+            <summary>集合数据</summary>
+        </member>
+        <member name="T:Acme.EFCore.Page.PageList">
+            <summary>
+            分页返回结果
+            </summary>
+            <param name="Total">总条数</param>
+            <param name="Items">集合数据</param>
+        </member>
+        <member name="M:Acme.EFCore.Page.PageList.#ctor(System.Int32,System.Collections.Generic.List{System.Object})">
+            <summary>
+            分页返回结果
+            </summary>
+            <param name="Total">总条数</param>
+            <param name="Items">集合数据</param>
+        </member>
+        <member name="P:Acme.EFCore.Page.PageList.Total">
+            <summary>总条数</summary>
+        </member>
+        <member name="P:Acme.EFCore.Page.PageList.Items">
+            <summary>集合数据</summary>
+        </member>
+        <member name="T:Acme.EFCore.Repositorys.IRepository`2">
+            <summary>
+            仓储接口
+            </summary>
+            <typeparam name="TEntity">实体</typeparam>
+            <typeparam name="TKey">主键类型</typeparam>
+        </member>
+        <member name="P:Acme.EFCore.Repositorys.IRepository`2.DbContext">
+            <summary>
+            数据库上下文
+            </summary>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.Submit">
+            <summary>
+            提交
+            </summary>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.SubmitAsync">
+            <summary>
+            异步提交
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.Add(`0)">
+            <summary>
+            新增
+            </summary>
+            <param name="entity">要添加的实体对象</param>
+            <returns>已添加的实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.AddNowSave(`0)">
+            <summary>
+            新增立即保存
+            </summary>
+            <param name="entity">要添加的实体对象</param>
+            <returns>已添加的实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.AddAsync(`0)">
+            <summary>
+            异步新增
+            </summary>
+            <param name="entity">要添加的实体对象</param>
+            <returns>已添加的实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.AddNowSaveAsync(`0)">
+            <summary>
+            异步新增立即提交
+            </summary>
+            <param name="entity">要添加的实体对象</param>
+            <returns>已添加的实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.AddMany(System.Collections.Generic.List{`0})">
+            <summary>
+            批量新增
+            </summary>
+            <param name="list">要新增的实体集合</param>
+            <returns>已添加的实体集合</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.AddManyNowSave(System.Collections.Generic.List{`0})">
+            <summary>
+            批量新增立即提交
+            </summary>
+            <param name="list">要新增的实体集合</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.AddManyAsync(System.Collections.Generic.List{`0})">
+            <summary>
+            异步批量新增
+            </summary>
+            <param name="list">要新增的实体集合</param>
+            <returns>已新增的实体集合</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.AddManyNowSaveAsync(System.Collections.Generic.List{`0})">
+            <summary>
+            异步批量新增立即提交
+            </summary>
+            <param name="list">要新增的实体集合</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.Delete(`0)">
+            <summary>
+            删除
+            </summary>
+            <param name="entity">要删除的实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.DeleteNowSave(`0)">
+            <summary>
+            删除立即保存
+            </summary>
+            <param name="entity">要删除的实体</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.DeleteNowSave(`1)">
+            <summary>
+            删除立即保存
+            </summary>
+            <param name="id">主键Id</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.DeleteNowSaveAsync(`1)">
+            <summary>
+            异步删除立即提交
+            </summary>
+            <param name="id">主键Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.DeleteNowSaveAsync(`0)">
+            <summary>
+            异步删除立即提交
+            </summary>
+            <param name="entity">要删除的实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.DelMany(System.Collections.Generic.List{`0})">
+            <summary>
+            批量删除
+            </summary>
+            <param name="list">要删除的实体集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.DelManyNowSave(System.Collections.Generic.List{`0})">
+            <summary>
+            批量删除立即提交
+            </summary>
+            <param name="list">要删除的实体集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.DelManyNowSaveAsync(System.Collections.Generic.List{`0})">
+            <summary>
+            异步批量删除立即提交
+            </summary>
+            <param name="list">要删除的实体集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.Update(`0)">
+            <summary>
+            修改
+            </summary>
+            <param name="entity">要修改的实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.UpdateNowSave(`0)">
+            <summary>
+            修改立即提交
+            </summary>
+            <param name="entity">要修改的实体</param>
+            <returns>是否修改成功</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.UpdateSaveAsync(`0)">
+            <summary>
+            异步修改立即提交
+            </summary>
+            <param name="entity">要修改的实体</param>
+            <returns>是否修改成功</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.UpdateMany(System.Collections.Generic.List{`0})">
+            <summary>
+            批量修改
+            </summary>
+            <param name="list">要修改的实体集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.UpdateManyNowSave(System.Collections.Generic.List{`0})">
+            <summary>
+            批量修改立即提交
+            </summary>
+            <param name="list">要修改的实体集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.UpdateManyNowSaveAsync(System.Collections.Generic.List{`0})">
+            <summary>
+            异步批量修改立即提交
+            </summary>
+            <param name="list">要修改的实体集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.Any(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            判断是否存在
+            </summary>
+            <param name="anyLambda">Linq语句</param>
+            <returns>是否存在</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.AnyAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            异步判断是否存在
+            </summary>
+            <param name="anyLambda">Linq语句</param>
+            <returns>是否存在</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.Queryable">
+            <summary>
+            TEntity类型的IQueryable
+            </summary>
+            <returns>IQueryable</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.Queryable(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            按条件返回TEntity类型的IQueryable
+            </summary>
+            <param name="whereLamdba">Linq语句</param>
+            <returns>IQueryable</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.GetInfo(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            获取单条数据
+            </summary>
+            <param name="whereLamdba">linq语句</param>
+            <returns>实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.GetInfoAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            异步获取单条数据
+            </summary>
+            <param name="whereLamdba">linq语句</param>
+            <returns>实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.GetInfo(`1)">
+            <summary>
+            获取单条数据
+            </summary>
+            <param name="id">主键Id</param>
+            <returns>实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.GetInfoAsync(`1)">
+            <summary>
+            异步获取单条数据
+            </summary>
+            <param name="id">主键Id</param>
+            <returns>实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.GetInfoNoTracking(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            获取单条数据不追踪
+            </summary>
+            <param name="whereLamdba">linq语句</param>
+            <returns>实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.GetInfoNoTrackingAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            异步获取单条数据不追踪
+            </summary>
+            <param name="whereLamdba">linq语句</param>
+            <returns>实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.GetInfoNoTracking(`1)">
+            <summary>
+            获取单条数据不追踪
+            </summary>
+            <param name="id">主键Id</param>
+            <returns>实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.GetInfoNoTrackingAsync(`1)">
+            <summary>
+            异步获取单条数据不追踪
+            </summary>
+            <param name="id">主键Id</param>
+            <returns>实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.GetInfoDefault(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            获取单条数据返回默认值
+            </summary>
+            <param name="whereLamdba">Linq语句</param>
+            <returns>实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.GetInfoDefaultAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            获取单条数据返回默认值
+            </summary>
+            <param name="whereLamdba">Linq语句</param>
+            <returns>实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.GetInfoDefault(`1)">
+            <summary>
+            获取单条数据返回默认值
+            </summary>
+            <param name="id">主键Id</param>
+            <returns>Linq语句</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.GetInfoDefaultAsync(`1)">
+            <summary>
+            获取单条数据返回默认值
+            </summary>
+            <param name="id">主键id</param>
+            <returns>实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.Count(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            获取条数
+            </summary>
+            <param name="whereLamdba">linq语句</param>
+            <returns>条数</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.CountAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            异步获取条数
+            </summary>
+            <param name="whereLamdba">linq语句</param>
+            <returns>条数</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.Count">
+            <summary>
+            获取条数
+            </summary>
+            <returns>条数</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.CountAsync">
+            <summary>
+            获取条数
+            </summary>
+            <returns>条数</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.GetList(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            获取集合数据
+            </summary>
+            <param name="whereLamdba">Linq语句</param>
+            <returns>实体集合</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.GetListTake(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Int32)">
+            <summary>
+            获取集合数据
+            </summary>
+            <param name="whereLamdba">linq语句</param>
+            <param name="strip">条数</param>
+            <returns>实体集合</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.GetListTakeAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Int32)">
+            <summary>
+            获取集合数据
+            </summary>
+            <param name="whereLamdba"></param>
+            <param name="strip">条数</param>
+            <returns>实体集合</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.GetListTake(System.Int32)">
+            <summary>
+            获取集合数据
+            </summary>
+            <param name="strip">条数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.GetListTakeAsync(System.Int32)">
+            <summary>
+            获取集合数据
+            </summary>
+            <param name="strip">条数</param>
+            <returns>实体集合</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.GetListNoTracking(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            根据指定条件获取不跟踪的实体列表
+            </summary>
+            <param name="whereLamdba">筛选条件的 Lambda 表达式</param>
+            <returns>符合条件的实体列表</returns>
+            <remarks>
+            此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景
+            </remarks>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.GetListNoTracking">
+            <summary>
+            根据指定条件获取不跟踪的实体列表
+            </summary>
+            <returns>符合条件的实体列表</returns>
+            <remarks>
+            此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景
+            </remarks>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.GetList">
+            <summary>
+            获取集合数据
+            </summary>
+            <returns>实体集合</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.GetPageList(System.Int32,System.Int32,System.Linq.Expressions.Expression{System.Func{`0,`1}})">
+            <summary>
+            获取分页列表
+            </summary>
+            <param name="pageIndex">页索引</param>
+            <param name="pageSize">每页大小</param>
+            <param name="keySelector">排序键选择器</param>
+            <returns>分页列表</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.GetPageList(System.Int32,System.Int32,System.Linq.Expressions.Expression{System.Func{`0,`1}},System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            获取分页列表
+            </summary>
+            <param name="pageIndex">页索引</param>
+            <param name="pageSize">每页大小</param>
+            <param name="keySelector">排序键选择器</param>
+            <param name="whereLamdba">Linq查询语句</param>
+            <returns>分页列表</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.GetPageListAsync(System.Int32,System.Int32,System.Linq.Expressions.Expression{System.Func{`0,`1}})">
+            <summary>
+            异步获取分页列表
+            </summary>
+            <param name="pageIndex">页索引</param>
+            <param name="pageSize">每页大小</param>
+            <param name="keySelector">排序键选择器</param>
+            <returns>分页列表</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.GetPageListAsync(System.Int32,System.Int32,System.Linq.Expressions.Expression{System.Func{`0,`1}},System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            异步获取分页列表
+            </summary>
+            <param name="pageIndex">页索引</param>
+            <param name="pageSize">每页大小</param>
+            <param name="keySelector">排序键选择器</param>
+            <param name="whereLamdba">查询条件</param>
+            <returns>分页列表</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.BeginTransaction">
+            <summary>
+            开启事务
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.BeginTransactionAsync">
+            <summary>
+            开启事务
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.CommitTransaction">
+            <summary>
+            提交事务
+            </summary>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.CommitTransactionAsync">
+            <summary>
+            提交事务
+            </summary>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.RollbackTransaction">
+            <summary>
+            回滚事务
+            </summary>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.RollbackTransactionAsync">
+            <summary>
+            回滚事务
+            </summary>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.DisposeTransaction">
+            <summary>
+            关闭事务释放资源
+            </summary>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.IRepository`2.DisposeTransactionAsync">
+            <summary>
+            关闭事务释放资源
+            </summary>
+        </member>
+        <member name="T:Acme.EFCore.Repositorys.Repository`2">
+            <summary>
+            仓储通用类
+            </summary>
+            <typeparam name="TEntity">实体</typeparam>
+             <typeparam name="TKey">主键类型</typeparam>
+        </member>
+        <member name="P:Acme.EFCore.Repositorys.Repository`2.DbContext">
+            <summary>
+            数据库上下文
+            </summary>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.#ctor(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            构造函数，初始化仓储实例
+            </summary>
+            <param name="dbContext"></param>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.Submit">
+            <summary>
+            提交
+            </summary>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.SubmitAsync">
+            <summary>
+            异步提交
+            </summary>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.Add(`0)">
+            <summary>
+            新增
+            </summary>
+            <param name="entity">要添加的实体对象</param>
+            <returns>已添加的实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.AddNowSave(`0)">
+            <summary>
+            新增立即保存
+            </summary>
+            <param name="entity">要添加的实体对象</param>
+            <returns>已添加的实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.AddAsync(`0)">
+            <summary>
+            异步新增
+            </summary>
+            <param name="entity">要添加的实体对象</param>
+            <returns>已添加的实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.AddNowSaveAsync(`0)">
+            <summary>
+            异步新增立即提交
+            </summary>
+            <param name="entity">要添加的实体对象</param>
+            <returns>已添加的实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.AddMany(System.Collections.Generic.List{`0})">
+            <summary>
+            批量新增
+            </summary>
+            <param name="list">要新增的实体集合</param>
+            <returns>已新增的实体集合</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.AddManyNowSave(System.Collections.Generic.List{`0})">
+            <summary>
+            批量新增立即提交
+            </summary>
+            <param name="list">要新增的实体集合</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.AddManyAsync(System.Collections.Generic.List{`0})">
+            <summary>
+            异步批量新增
+            </summary>
+            <param name="list">要新增的实体集合</param>
+            <returns>已新增的实体集合</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.AddManyNowSaveAsync(System.Collections.Generic.List{`0})">
+            <summary>
+            异步批量新增立即提交
+            </summary>
+            <param name="list">要新增的实体集合</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.Delete(`0)">
+            <summary>
+            删除
+            </summary>
+            <param name="entity">要删除的实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.Delete(`1)">
+            <summary>
+            删除
+            </summary>
+            <param name="id">主键Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.DeleteNowSave(`0)">
+            <summary>
+            删除立即保存
+            </summary>
+            <param name="entity">要删除的实体</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.DeleteNowSave(`1)">
+            <summary>
+            删除立即保存
+            </summary>
+            <param name="id">主键Id</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.DeleteNowSaveAsync(`0)">
+            <summary>
+            异步删除立即提交
+            </summary>
+            <param name="entity">要删除的实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.DeleteNowSaveAsync(`1)">
+            <summary>
+            异步删除立即提交
+            </summary>
+            <param name="id">主键Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.DelMany(System.Collections.Generic.List{`0})">
+            <summary>
+            批量删除
+            </summary>
+            <param name="list">要删除的实体集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.DelManyNowSave(System.Collections.Generic.List{`0})">
+            <summary>
+            批量删除立即提交
+            </summary>
+            <param name="list">要删除的实体集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.DelManyNowSaveAsync(System.Collections.Generic.List{`0})">
+            <summary>
+            异步批量删除立即提交
+            </summary>
+            <param name="list">要删除的实体集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.Update(`0)">
+            <summary>
+            修改
+            </summary>
+            <param name="entity">要修改的实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.UpdateNowSave(`0)">
+            <summary>
+            修改立即提交
+            </summary>
+            <param name="entity">要修改的实体</param>
+            <returns>是否修改成功</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.UpdateSaveAsync(`0)">
+            <summary>
+            异步修改立即提交
+            </summary>
+            <param name="entity">要修改的实体</param>
+            <returns>是否修改成功</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.UpdateMany(System.Collections.Generic.List{`0})">
+            <summary>
+            批量修改
+            </summary>
+            <param name="list">要修改的实体集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.UpdateManyNowSave(System.Collections.Generic.List{`0})">
+            <summary>
+            批量修改立即提交
+            </summary>
+            <param name="list">要修改的实体集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.UpdateManyNowSaveAsync(System.Collections.Generic.List{`0})">
+            <summary>
+            异步批量修改立即提交
+            </summary>
+            <param name="list">要修改的实体集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.Any(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            判断是否存在
+            </summary>
+            <param name="anyLambda">Linq语句</param>
+            <returns>是否存在</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.AnyAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            异步判断是否存在
+            </summary>
+            <param name="anyLambda">Linq语句</param>
+            <returns>是否存在</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.Queryable">
+            <summary>
+            TEntity类型的IQueryable
+            </summary>
+            <returns>IQueryable</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.Queryable(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            按条件返回TEntity类型的IQueryable
+            </summary>
+            <param name="whereLamdba">Linq语句</param>
+            <returns>IQueryable</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.GetInfo(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            获取单条数据
+            </summary>
+            <param name="whereLamdba">linq语句</param>
+            <returns>实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.GetInfoAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            异步获取单条数据
+            </summary>
+            <param name="whereLamdba">linq语句</param>
+            <returns>实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.GetInfo(`1)">
+            <summary>
+            获取单条数据
+            </summary>
+            <param name="id">主键Id</param>
+            <returns>实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.GetInfoAsync(`1)">
+            <summary>
+            异步获取单条数据
+            </summary>
+            <param name="id">主键Id</param>
+            <returns>实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.GetInfoNoTracking(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            获取单条数据不追踪
+            </summary>
+            <param name="whereLamdba">linq语句</param>
+            <returns>实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.GetInfoNoTrackingAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            异步获取单条数据不追踪
+            </summary>
+            <param name="whereLamdba">linq语句</param>
+            <returns>实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.GetInfoNoTracking(`1)">
+            <summary>
+            获取单条数据不追踪
+            </summary>
+            <param name="id">主键Id</param>
+            <returns>实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.GetInfoNoTrackingAsync(`1)">
+            <summary>
+            异步获取单条数据不追踪
+            </summary>
+            <param name="id">主键Id</param>
+            <returns>实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.GetInfoDefault(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            获取单条数据返回默认值
+            </summary>
+            <param name="whereLamdba">Linq语句</param>
+            <returns>实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.GetInfoDefaultAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            获取单条数据返回默认值
+            </summary>
+            <param name="whereLamdba">Linq语句</param>
+            <returns>实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.GetInfoDefault(`1)">
+            <summary>
+            获取单条数据返回默认值
+            </summary>
+            <param name="id">主键Id</param>
+            <returns>Linq语句</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.GetInfoDefaultAsync(`1)">
+            <summary>
+            获取单条数据返回默认值
+            </summary>
+            <param name="id">主键id</param>
+            <returns>实体对象</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.Count(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            获取条数
+            </summary>
+            <param name="whereLamdba">linq语句</param>
+            <returns>条数</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.CountAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            异步获取条数
+            </summary>
+            <param name="whereLamdba">linq语句</param>
+            <returns>条数</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.Count">
+            <summary>
+            获取条数
+            </summary>
+            <returns>条数</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.CountAsync">
+            <summary>
+            获取条数
+            </summary>
+            <returns>条数</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.GetList(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            获取集合数据
+            </summary>
+            <param name="whereLamdba">Linq语句</param>
+            <returns>实体集合</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.GetListTake(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Int32)">
+            <summary>
+            获取集合数据
+            </summary>
+            <param name="whereLamdba">linq语句</param>
+            <param name="strip">条数</param>
+            <returns>实体集合</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.GetListTakeAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Int32)">
+            <summary>
+            获取集合数据
+            </summary>
+            <param name="whereLamdba"></param>
+            <param name="strip">条数</param>
+            <returns>实体集合</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.GetListTake(System.Int32)">
+            <summary>
+            获取集合数据
+            </summary>
+            <param name="strip">条数</param>
+            <returns>实体集合</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.GetListTakeAsync(System.Int32)">
+            <summary>
+            获取集合数据
+            </summary>
+            <param name="strip">条数</param>
+            <returns>实体集合</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.GetListNoTracking(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            根据指定条件获取不跟踪的实体列表
+            </summary>
+            <param name="whereLamdba">筛选条件的 Lambda 表达式</param>
+            <returns>符合条件的实体列表</returns>
+            <remarks>
+            此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景
+            </remarks>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.GetListNoTracking">
+            <summary>
+            根据指定条件获取不跟踪的实体列表
+            </summary>
+            <returns>符合条件的实体列表</returns>
+            <remarks>
+            此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景
+            </remarks>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.GetList">
+            <summary>
+            获取集合数据
+            </summary>
+            <returns>实体集合</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.GetPageList(System.Int32,System.Int32,System.Linq.Expressions.Expression{System.Func{`0,`1}})">
+            <summary>
+            获取分页列表
+            </summary>
+            <param name="pageIndex">页索引</param>
+            <param name="pageSize">每页大小</param>
+            <param name="keySelector">排序键选择器</param>
+            <returns>分页列表</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.GetPageList(System.Int32,System.Int32,System.Linq.Expressions.Expression{System.Func{`0,`1}},System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            获取分页列表
+            </summary>
+            <param name="pageIndex">页索引</param>
+            <param name="pageSize">每页大小</param>
+            <param name="keySelector">排序键选择器</param>
+            <param name="whereLamdba">查询条件</param>
+            <returns>分页列表</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.GetPageListAsync(System.Int32,System.Int32,System.Linq.Expressions.Expression{System.Func{`0,`1}})">
+            <summary>
+            异步获取分页列表
+            </summary>
+            <param name="pageIndex">页索引</param>
+            <param name="pageSize">每页大小</param>
+            <param name="keySelector">排序键选择器</param>
+            <returns>分页列表</returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.GetPageListAsync(System.Int32,System.Int32,System.Linq.Expressions.Expression{System.Func{`0,`1}},System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            异步获取分页列表
+            </summary>
+            <param name="pageIndex">页索引</param>
+            <param name="pageSize">每页大小</param>
+            <param name="keySelector">排序键选择器</param>
+            <param name="whereLamdba">查询条件</param>
+            <returns>分页列表</returns>
+        </member>
+        <member name="P:Acme.EFCore.Repositorys.Repository`2.ContextTransaction">
+            <summary>
+            事务
+            </summary>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.BeginTransaction">
+            <summary>
+            开启事务
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.BeginTransactionAsync">
+            <summary>
+            开启事务
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.CommitTransaction">
+            <summary>
+            提交事务
+            </summary>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.CommitTransactionAsync">
+            <summary>
+            提交事务
+            </summary>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.RollbackTransaction">
+            <summary>
+            回滚事务
+            </summary>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.RollbackTransactionAsync">
+            <summary>
+            回滚事务
+            </summary>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.DisposeTransaction">
+            <summary>
+            关闭事务释放资源
+            </summary>
+        </member>
+        <member name="M:Acme.EFCore.Repositorys.Repository`2.DisposeTransactionAsync">
+            <summary>
+            关闭事务释放资源
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -10,18 +10,10 @@ public static class PageListExtension
     /// </summary>
     /// <param name="items"></param>
     /// <param name="total"></param>
-    /// <param name="PageIndex"></param>
-    /// <param name="PageSize"></param>
     /// <returns></returns>
-    public static PageList<object> ToPageList(this List<object> items, int total, int PageIndex, int PageSize)
+    public static IPageList ToPageList(this List<object> items, int total)
     {
-        PageList<object> pageList = new()
-        {
-            Total = total,
-            PageIndex = PageIndex,
-            PageSize = PageSize,
-            Items = items,
-        };
+        var pageList = new PageList<object>(total, items);
         return pageList;
     }
 
@@ -31,18 +23,10 @@ public static class PageListExtension
     /// <typeparam name="T"></typeparam>
     /// <param name="items"></param>
     /// <param name="total"></param>
-    /// <param name="PageIndex"></param>
-    /// <param name="PageSize"></param>
     /// <returns></returns>
-    public static PageList<T> ToPageList<T>(this List<T> items, int total, int PageIndex, int PageSize)
+    public static IPageList ToPageList<T>(this List<T> items, int total)
     {
-        PageList<T> pageList = new()
-        {
-            Total = total,
-            PageIndex = PageIndex,
-            PageSize = PageSize,
-            Items = items,
-        };
+        PageList<T> pageList = new(total, items);
         return pageList;
     }
 }

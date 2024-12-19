@@ -7,14 +7,18 @@
 /// <remarks>
 /// 构造函数，初始化状态聚合根
 /// </remarks>
-/// <param name="isDisable">是否禁用</param>
-public abstract class StateAggregateRoot<TKey>(bool isDisable) : IdAggregateRoot<TKey> where TKey : struct
+public abstract class StateAggregateRoot<TKey> : IdAggregateRoot<TKey> where TKey : struct
 {
+    /// <summary>
+    /// 构造函数，初始化状态聚合根
+    /// </summary>
+    /// <param name="isDisable"></param>
+    public StateAggregateRoot(bool isDisable) => IsDisable = isDisable;
 
     /// <summary>
     /// 是否禁用
     /// </summary>
-    public bool IsDisable { get; private set; } = isDisable;
+    public bool IsDisable { get; private set; }
 
     /// <summary>
     /// 启用

@@ -15,11 +15,11 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyCopyrightAttribute("yzxs")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Lightweight EFCore Universal Library")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("3.1.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("3.1+d9fa5c262449f0cceadb3267bf5f6de39eb69591")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("3.2.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("3.2+2a5e8ff1ef50d8709ff4c2dedafc5fb7d3aaaeac")]
 [assembly: System.Reflection.AssemblyProductAttribute("Acme.EFCore")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Acme.EFCore")]
-[assembly: System.Reflection.AssemblyVersionAttribute("3.1.0.0")]
+[assembly: System.Reflection.AssemblyVersionAttribute("3.2.0.0")]
 
 // 由 MSBuild WriteCodeFragment 类生成。
 

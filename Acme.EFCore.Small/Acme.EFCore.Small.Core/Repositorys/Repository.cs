@@ -1,359 +1,628 @@
-﻿using Acme.EFCore.Small.BaseServices;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Acme.EFCore.Small.AggregateRoots;
+using Acme.EFCore.Small.Page;
+using Microsoft.EntityFrameworkCore;
+using Acme.EFCore.Small.Extensions;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Acme.EFCore.Small.Repositorys
 {
-
     /// <summary>
-    /// 仓储类
+    /// 仓储通用类
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class Repository<T> : IRepository<T> where T : class, new()
+    /// <typeparam name="TEntity">实体</typeparam>
+    ///  <typeparam name="TKey">主键类型</typeparam>
+    public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
+        where TEntity : IdAggregateRoot<TKey>, new() where TKey : struct
     {
-        private readonly IBaseService _baseService;
+        /// <summary>
+        /// 数据库上下文
+        /// </summary>
+        public DbContext DbContext { get; }
 
         /// <summary>
-        /// 构造函数
+        /// 构造函数，初始化仓储实例
         /// </summary>
-        /// <param name="baseService"></param>
-        public Repository(IBaseService baseService)
+        /// <param name="dbContext"></param>
+        public Repository(DbContext dbContext) => DbContext = dbContext;
+
+        #region 提交
+        /// <summary>
+        /// 提交
+        /// </summary>
+        public int Submit() => DbContext.SaveChanges();
+
+        /// <summary>
+        /// 异步提交
+        /// </summary>
+        public async Task<int> SubmitAsync()
+            => await DbContext.SaveChangesAsync();
+        #endregion
+
+        #region 新增 
+        /// <summary>
+        /// 新增
+        /// </summary>
+        /// <param name="entity">要添加的实体对象</param>
+        /// <returns>已添加的实体对象</returns>
+        public TEntity Add(TEntity entity)
         {
-            _baseService = baseService;
+            DbContext.Set<TEntity>().Add(entity);
+            return entity;
         }
 
         /// <summary>
-        /// 新增实体
+        /// 新增立即保存
         /// </summary>
-        /// <param name="entity">实体</param>
-        /// <returns></returns>
-        public T Add(T entity)
+        /// <param name="entity">要添加的实体对象</param>
+        /// <returns>已添加的实体对象</returns>
+        public TEntity AddNowSave(TEntity entity)
         {
-            return _baseService.Add<T>(entity);
+            DbContext.Set<TEntity>().Add(entity);
+            Submit();
+            return entity;
         }
 
         /// <summary>
-        /// 新增实体集合
+        /// 异步新增
         /// </summary>
-        /// <param name="entitys">实体集合</param>
-        /// <returns></returns>
-        public bool Add(List<T> entitys)
+        /// <param name="entity">要添加的实体对象</param>
+        /// <returns>已添加的实体对象</returns>
+        public async Task<TEntity> AddAsync(TEntity entity)
         {
-            return _baseService.AddMany<T>(entitys);
+            await DbContext.Set<TEntity>().AddAsync(entity);
+            return entity;
         }
 
         /// <summary>
-        /// 新增实体
+        /// 异步新增立即提交
         /// </summary>
-        /// <param name="entity">实体</param>
-        /// <returns></returns>
-        public async Task<T> AddAsync(T entity)
+        /// <param name="entity">要添加的实体对象</param>
+        /// <returns>已添加的实体对象</returns>
+        public async Task<TEntity> AddNowSaveAsync(TEntity entity)
         {
-            return await _baseService.AddAsync<T>(entity);
+            await AddAsync(entity);
+            await SubmitAsync();
+            return entity;
         }
 
         /// <summary>
-        /// 新增实体集合
+        /// 批量新增
         /// </summary>
-        /// <param name="entitys">实体集合</param>
-        /// <returns></returns>
-        public async Task<bool> AddAsync(List<T> entitys)
+        /// <param name="list">要新增的实体集合</param>
+        /// <returns>已新增的实体集合</returns>
+        public List<TEntity> AddMany(List<TEntity> list)
         {
-            return await _baseService.AddManyAsync<T>(entitys);
+            DbContext.Set<TEntity>().AddRange(list);
+            return list;
         }
+
+        /// <summary>
+        /// 批量新增立即提交
+        /// </summary>
+        /// <param name="list">要新增的实体集合</param>
+        /// <returns>是否成功</returns>
+        public bool AddManyNowSave(List<TEntity> list)
+        {
+            AddMany(list);
+            return Submit() > 0;
+        }
+
+        /// <summary>
+        /// 异步批量新增
+        /// </summary>
+        /// <param name="list">要新增的实体集合</param>
+        /// <returns>已新增的实体集合</returns>
+        public async Task<List<TEntity>> AddManyAsync(List<TEntity> list)
+        {
+            await DbContext.Set<TEntity>().AddRangeAsync(list);
+            return list;
+        }
+
+        /// <summary>
+        /// 异步批量新增立即提交
+        /// </summary>
+        /// <param name="list">要新增的实体集合</param>
+        /// <returns>是否成功</returns>
+        public async Task<bool> AddManyNowSaveAsync(List<TEntity> list)
+        {
+            await AddManyAsync(list);
+            return await SubmitAsync() > 0;
+        }
+        #endregion
+
+        #region 删除
 
         /// <summary>
         /// 删除
         /// </summary>
-        /// <param name="entity">删除</param>
+        /// <param name="entity">要删除的实体</param>
         /// <returns></returns>
-        public bool Delete(T entity)
-        {
-            return _baseService.Delete<T>(entity);
-        }
-
-        /// <summary>
-        /// 删除集合
-        /// </summary>
-        /// <param name="entitys">集合</param>
-        /// <returns></returns>
-        public bool Delete(List<T> entitys)
-        {
-            return _baseService.DelMany<T>(entitys);
-        }
+        public void Delete(TEntity entity)
+            => DbContext.Set<TEntity>().Remove(entity);
 
         /// <summary>
         /// 删除
         /// </summary>
-        /// <param name="entity">删除</param>
+        /// <param name="id">主键Id</param>
         /// <returns></returns>
-        public async Task<bool> DeleteAsync(T entity)
+        public void Delete(TKey id)
         {
-            return await _baseService.DeleteAsync<T>(entity);
+            var info = GetInfo(id);
+            Delete(info);
         }
 
         /// <summary>
-        /// 删除集合
+        /// 删除立即保存
         /// </summary>
-        /// <param name="entitys">删除</param>
-        /// <returns></returns>
-        public async Task<bool> DeleteAsync(List<T> entitys)
+        /// <param name="entity">要删除的实体</param>
+        /// <returns>是否成功</returns>
+        public bool DeleteNowSave(TEntity entity)
         {
-            return await _baseService.DelManyAsync<T>(entitys);
+            Delete(entity);
+            return Submit() > 0;
         }
+
+        /// <summary>
+        /// 删除立即保存
+        /// </summary>
+        /// <param name="id">主键Id</param>
+        /// <returns>是否成功</returns>
+        public bool DeleteNowSave(TKey id)
+        {
+            var info = GetInfo(id);
+            return DeleteNowSave(info);
+        }
+
+        /// <summary>
+        /// 异步删除立即提交
+        /// </summary>
+        /// <param name="entity">要删除的实体</param>
+        /// <returns></returns>
+        public async Task<bool> DeleteNowSaveAsync(TEntity entity)
+        {
+            Delete(entity);
+            return await SubmitAsync() > 0;
+        }
+
+        /// <summary>
+        /// 异步删除立即提交
+        /// </summary>
+        /// <param name="id">主键Id</param>
+        /// <returns></returns>
+        public async Task<bool> DeleteNowSaveAsync(TKey id)
+        {
+            var info = GetInfo(id);
+            return await DeleteNowSaveAsync(info);
+        }
+
+        /// <summary>
+        /// 批量删除
+        /// </summary>
+        /// <param name="list">要删除的实体集合</param>
+        /// <returns></returns>
+        public void DelMany(List<TEntity> list)
+            => DbContext.Set<TEntity>().RemoveRange(list);
+
+        /// <summary>
+        /// 批量删除立即提交
+        /// </summary>
+        /// <param name="list">要删除的实体集合</param>
+        /// <returns></returns>
+        public bool DelManyNowSave(List<TEntity> list)
+        {
+            DelMany(list);
+            return Submit() > 0;
+        }
+
+        /// <summary>
+        /// 异步批量删除立即提交
+        /// </summary>
+        /// <param name="list">要删除的实体集合</param>
+        /// <returns></returns>
+        public async Task<bool> DelManyNowSaveAsync(List<TEntity> list)
+        {
+            DelMany(list);
+            return await SubmitAsync() > 0;
+        }
+        #endregion
+
+        #region 修改
 
         /// <summary>
         /// 修改
         /// </summary>
-        /// <param name="entity">删除</param>
+        /// <param name="entity">要修改的实体</param>
         /// <returns></returns>
-        public bool Update(T entity)
-        {
-            return _baseService.Update<T>(entity);
-        }
+        public void Update(TEntity entity)
+            => DbContext.Update(entity);
 
         /// <summary>
-        /// 修改集合
+        /// 修改立即提交
         /// </summary>
-        /// <param name="entitys">集合</param>
-        /// <returns></returns>
-        public bool Update(List<T> entitys)
+        /// <param name="entity">要修改的实体</param>
+        /// <returns>是否修改成功</returns>
+        public bool UpdateNowSave(TEntity entity)
         {
-            return _baseService.UpdateMany(entitys);
+            Update(entity);
+            return Submit() > 0;
         }
 
         /// <summary>
-        /// 修改
+        /// 异步修改立即提交
         /// </summary>
-        /// <param name="entity">实体</param>
-        /// <returns></returns>
-        public async Task<bool> UpdateAsync(T entity)
+        /// <param name="entity">要修改的实体</param>
+        /// <returns>是否修改成功</returns>
+        public async Task<bool> UpdateSaveAsync(TEntity entity)
         {
-            return await _baseService.UpdateAsync<T>(entity);
+            Update(entity);
+            return await SubmitAsync() > 0;
         }
 
         /// <summary>
-        /// 修改
+        /// 批量修改
         /// </summary>
-        /// <param name="entitys">集合</param>
+        /// <param name="list">要修改的实体集合</param>
         /// <returns></returns>
-        public async Task<bool> UpdateAsync(List<T> entitys)
-        {
-            return await _baseService.UpdateManyAsync<T>(entitys);
-        }
+        public void UpdateMany(List<TEntity> list)
+            => DbContext.UpdateRange(list);
 
         /// <summary>
-        /// 获取Queryable
+        /// 批量修改立即提交
         /// </summary>
+        /// <param name="list">要修改的实体集合</param>
         /// <returns></returns>
-        public IQueryable<T> GetQueryable()
+        public bool UpdateManyNowSave(List<TEntity> list)
         {
-            return _baseService.GetQueryable<T>();
+            UpdateMany(list);
+            return Submit() > 0;
         }
 
         /// <summary>
-        /// 按条件获取Queryable
+        /// 异步批量修改立即提交
+        /// </summary>
+        /// <param name="list">要修改的实体集合</param>
+        /// <returns></returns>
+        public async Task<bool> UpdateManyNowSaveAsync(List<TEntity> list)
+        {
+            UpdateMany(list);
+            return await SubmitAsync() > 0;
+        }
+        #endregion
+
+        #region 是否存在
+        /// <summary>
+        /// 判断是否存在
+        /// </summary>
+        /// <param name="anyLambda">Linq语句</param>
+        /// <returns>是否存在</returns>
+        public bool Any(Expression<Func<TEntity, bool>> anyLambda)
+            => DbContext.Set<TEntity>().Any(anyLambda);
+
+        /// <summary>
+        /// 异步判断是否存在
+        /// </summary>
+        /// <param name="anyLambda">Linq语句</param>
+        /// <returns>是否存在</returns>
+        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> anyLambda)
+            => await DbContext.Set<TEntity>().AnyAsync(anyLambda);
+        #endregion
+
+        #region 获取Queryable
+        /// <summary>
+        /// TEntity类型的IQueryable
+        /// </summary>
+        /// <returns>IQueryable</returns>
+        public IQueryable<TEntity> Queryable()
+            => DbContext.Set<TEntity>();
+
+        /// <summary>
+        /// 按条件返回TEntity类型的IQueryable
         /// </summary>
         /// <param name="whereLamdba">Linq语句</param>
-        /// <returns></returns>
-        public IQueryable<T> GetQueryable(Expression<Func<T, bool>> whereLamdba)
+        /// <returns>IQueryable</returns>
+        public IQueryable<TEntity> Queryable(Expression<Func<TEntity, bool>> whereLamdba)
         {
-            return _baseService.GetQueryable<T>(whereLamdba);
+            return DbContext.Where(whereLamdba);
         }
+        #endregion
+
+        #region 获取单条数据
 
         /// <summary>
         /// 获取单条数据
         /// </summary>
-        /// <param name="whereLamdba"></param>
-        /// <returns></returns>
-        public T GetInfo(Expression<Func<T, bool>> whereLamdba)
-        {
-            return _baseService.GetInfo<T>(whereLamdba);
-        }
+        /// <param name="whereLamdba">linq语句</param>
+        /// <returns>实体对象</returns>
+        public TEntity GetInfo(Expression<Func<TEntity, bool>> whereLamdba)
+            => DbContext.Find<TEntity>(whereLamdba);
+
+        /// <summary>
+        /// 异步获取单条数据
+        /// </summary>
+        /// <param name="whereLamdba">linq语句</param>
+        /// <returns>实体对象</returns>
+        public async Task<TEntity> GetInfoAsync(Expression<Func<TEntity, bool>> whereLamdba)
+            => await DbContext.FindAsync<TEntity>(whereLamdba);
 
         /// <summary>
         /// 获取单条数据
         /// </summary>
-        /// <param name="whereLamdba"></param>
-        /// <returns></returns>
-        public async Task<T> GetInfoAsync(Expression<Func<T, bool>> whereLamdba)
+        /// <param name="id">主键Id</param>
+        /// <returns>实体对象</returns>
+        public TEntity GetInfo(TKey id)
         {
-            return await _baseService.GetInfoAsync<T>(whereLamdba);
+            return GetInfo(s => s.Id.Equals(id));
         }
 
         /// <summary>
-        /// 获取集合数据
+        /// 异步获取单条数据
         /// </summary>
-        /// <param name="whereLamdba"></param>
-        /// <returns></returns>
-        public List<T> GetList(Expression<Func<T, bool>> whereLamdba)
+        /// <param name="id">主键Id</param>
+        /// <returns>实体对象</returns>
+        public async Task<TEntity> GetInfoAsync(TKey id)
         {
-            return _baseService.GetList<T>(whereLamdba);
+            return await GetInfoAsync(s => s.Id.Equals(id));
         }
 
         /// <summary>
-        /// 根据指定条件获取不跟踪的实体列表。
+        /// 获取单条数据不追踪
         /// </summary>
-        /// <param name="whereLamdba">筛选条件的 Lambda 表达式。</param>
-        /// <returns>符合条件的实体列表。</returns>
-        /// <remarks>
-        /// 此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景。
-        /// </remarks>
-        public List<T> GetListNoTracking(Expression<Func<T, bool>> whereLamdba)
-        {
-            return _baseService.GetListNoTracking<T>(whereLamdba);
-        }
+        /// <param name="whereLamdba">linq语句</param>
+        /// <returns>实体对象</returns>
+        public TEntity GetInfoNoTracking(Expression<Func<TEntity, bool>> whereLamdba)
+            => Queryable(whereLamdba).AsNoTracking().FirstOrDefault(whereLamdba);
 
         /// <summary>
-        /// 获取集合数据
+        /// 异步获取单条数据不追踪
         /// </summary>
-        /// <returns></returns>
-        public List<T> GetList()
-        {
-            return _baseService.GetList<T>();
-        }
+        /// <param name="whereLamdba">linq语句</param>
+        /// <returns>实体对象</returns>
+        public async Task<TEntity> GetInfoNoTrackingAsync(Expression<Func<TEntity, bool>> whereLamdba)
+            => await Queryable(whereLamdba).AsNoTracking().FirstOrDefaultAsync(whereLamdba);
 
         /// <summary>
-        /// 根据指定条件获取不跟踪的实体列表。
+        /// 获取单条数据不追踪
         /// </summary>
-        /// <returns>符合条件的实体列表。</returns>
-        /// <remarks>
-        /// 此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景。
-        /// </remarks>
-        public List<T> GetListNoTracking()
-        {
-            return _baseService.GetListNoTracking<T>();
-        }
+        /// <param name="id">主键Id</param>
+        /// <returns>实体对象</returns>
+        public TEntity GetInfoNoTracking(TKey id)
+            => Queryable(s => s.Id.Equals(id)).AsNoTracking().FirstOrDefault();
 
         /// <summary>
-        /// 获取集合数据
+        /// 异步获取单条数据不追踪
         /// </summary>
-        /// <param name="whereLamdba"></param>
-        /// <returns></returns>
-        public async Task<List<T>> GetListAsync(Expression<Func<T, bool>> whereLamdba)
-        {
-            return await _baseService.GetListAsync<T>(whereLamdba);
-        }
-
-        /// <summary>
-        /// 根据指定条件获取不跟踪的实体列表。
-        /// </summary>
-        /// <param name="whereLamdba">筛选条件的 Lambda 表达式。</param>
-        /// <returns>符合条件的实体列表。</returns>
-        /// <remarks>
-        /// 此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景。
-        /// </remarks>
-        public async Task<List<T>> GetListNoTrackingAsync(Expression<Func<T, bool>> whereLamdba)
-        {
-            return await _baseService.GetListNoTrackingAsync<T>(whereLamdba);
-        }
-
-        /// <summary>
-        /// 获取集合数据
-        /// </summary>
-        /// <returns></returns>
-        public async Task<List<T>> GetListAsync()
-        {
-            return await _baseService.GetListAsync<T>();
-        }
-
-        /// <summary>
-        /// 根据指定条件获取不跟踪的实体列表。
-        /// </summary>
-        /// <returns>符合条件的实体列表。</returns>
-        /// <remarks>
-        /// 此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景。
-        /// </remarks>
-        public async Task<List<T>> GetListNoTrackingAsync()
-        {
-            return await _baseService.GetListNoTrackingAsync<T>();
-        }
+        /// <param name="id">主键Id</param>
+        /// <returns>实体对象</returns>
+        public async Task<TEntity> GetInfoNoTrackingAsync(TKey id)
+            => await Queryable(s => s.Id.Equals(id)).AsNoTracking().FirstOrDefaultAsync();
 
         /// <summary>
         /// 获取单条数据返回默认值
         /// </summary>
-        /// <param name="whereLamdba"></param>
-        /// <returns></returns>
-        public T GetInfoDefault(Expression<Func<T, bool>> whereLamdba)
-        {
-            return _baseService.GetInfoDefault<T>(whereLamdba);
-        }
+        /// <param name="whereLamdba">Linq语句</param>
+        /// <returns>实体对象</returns>
+        public TEntity GetInfoDefault(Expression<Func<TEntity, bool>> whereLamdba)
+            => DbContext.Set<TEntity>().FirstOrDefault(whereLamdba);
 
         /// <summary>
         /// 获取单条数据返回默认值
         /// </summary>
-        /// <param name="whereLamdba"></param>
-        /// <returns></returns>
-        public async Task<T> GetInfoDefaultAsync(Expression<Func<T, bool>> whereLamdba)
-        {
-            return await _baseService.GetInfoDefaultAsync<T>(whereLamdba);
-        }
+        /// <param name="whereLamdba">Linq语句</param>
+        /// <returns>实体对象</returns>
+        public async Task<TEntity> GetInfoDefaultAsync(Expression<Func<TEntity, bool>> whereLamdba)
+            => await DbContext.Set<TEntity>().FirstOrDefaultAsync(whereLamdba);
+
+        /// <summary>
+        /// 获取单条数据返回默认值
+        /// </summary>
+        /// <param name="id">主键Id</param>
+        /// <returns>Linq语句</returns>
+        public TEntity GetInfoDefault(TKey id)
+            => DbContext.Set<TEntity>().FirstOrDefault(s => s.Id.Equals(id));
+
+        /// <summary>
+        /// 获取单条数据返回默认值
+        /// </summary>
+        /// <param name="id">主键id</param>
+        /// <returns>实体对象</returns>
+        public async Task<TEntity> GetInfoDefaultAsync(TKey id)
+            => await DbContext.Set<TEntity>().FirstOrDefaultAsync(s => s.Id.Equals(id));
+        #endregion
+
+        #region 获取条数
+        /// <summary>
+        /// 获取条数
+        /// </summary>
+        /// <param name="whereLamdba">linq语句</param>
+        /// <returns>条数</returns>
+        public int Count(Expression<Func<TEntity, bool>> whereLamdba)
+            => DbContext.Set<TEntity>().Count(whereLamdba);
+
+        /// <summary>
+        /// 异步获取条数
+        /// </summary>
+        /// <param name="whereLamdba">linq语句</param>
+        /// <returns>条数</returns>
+        public async Task<int> CountAsync(Expression<Func<TEntity, bool>> whereLamdba)
+            => await DbContext.Set<TEntity>().CountAsync(whereLamdba);
 
         /// <summary>
         /// 获取条数
         /// </summary>
-        /// <param name="whereLamdba"></param>
-        /// <returns></returns>
-        public int Count(Expression<Func<T, bool>> whereLamdba)
-        {
-            return _baseService.Count(whereLamdba);
-        }
-
-        /// <summary>
-        /// 获取条数
-        /// </summary>
-        /// <param name="whereLamdba"></param>
-        /// <returns></returns>
-        public async Task<int> CountAsync(Expression<Func<T, bool>> whereLamdba)
-        {
-            return await _baseService.CountAsync<T>(whereLamdba);
-        }
-
-        /// <summary>
-        /// 获取条数
-        /// </summary>
-        /// <returns></returns>
+        /// <returns>条数</returns>
         public int Count()
-        {
-            return _baseService.Count<T>();
-        }
+            => DbContext.Set<TEntity>().Count();
 
         /// <summary>
         /// 获取条数
         /// </summary>
-        /// <returns></returns>
+        /// <returns>条数</returns>
         public async Task<int> CountAsync()
-        {
-            return await _baseService.CountAsync<T>();
-        }
+            => await DbContext.Set<TEntity>().CountAsync();
+        #endregion
+
+        #region 获取集合数据
+        /// <summary>
+        /// 获取集合数据
+        /// </summary>
+        /// <param name="whereLamdba">Linq语句</param>
+        /// <returns>实体集合</returns>
+        public List<TEntity> GetList(Expression<Func<TEntity, bool>> whereLamdba)
+            => Queryable(whereLamdba).ToList();
+
+        /// <summary>
+        /// 获取集合数据
+        /// </summary>
+        /// <param name="whereLamdba">linq语句</param>
+        /// <param name="strip">条数</param>
+        /// <returns>实体集合</returns>
+        public List<TEntity> GetListTake(Expression<Func<TEntity, bool>> whereLamdba, int strip)
+            => Queryable(whereLamdba).Take(strip).ToList();
+
+        /// <summary>
+        /// 获取集合数据
+        /// </summary>
+        /// <param name="whereLamdba"></param>
+        /// <param name="strip">条数</param>
+        /// <returns>实体集合</returns>
+        public async Task<List<TEntity>> GetListTakeAsync(Expression<Func<TEntity, bool>> whereLamdba, int strip)
+             => await Queryable(whereLamdba).Take(strip).ToListAsync();
+
+        /// <summary>
+        /// 获取集合数据
+        /// </summary>
+        /// <param name="strip">条数</param>
+        /// <returns>实体集合</returns>
+        public List<TEntity> GetListTake(int strip)
+            => Queryable().Take(strip).ToList();
+
+        /// <summary>
+        /// 获取集合数据
+        /// </summary>
+        /// <param name="strip">条数</param>
+        /// <returns>实体集合</returns>
+        public async Task<List<TEntity>> GetListTakeAsync(int strip)
+            => await Queryable().Take(strip).ToListAsync();
+
+        /// <summary>
+        /// 根据指定条件获取不跟踪的实体列表
+        /// </summary>
+        /// <param name="whereLamdba">筛选条件的 Lambda 表达式</param>
+        /// <returns>符合条件的实体列表</returns>
+        /// <remarks>
+        /// 此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景
+        /// </remarks>
+        public List<TEntity> GetListNoTracking(Expression<Func<TEntity, bool>> whereLamdba)
+            => Queryable(whereLamdba).AsNoTracking().ToList();
+
+        /// <summary>
+        /// 根据指定条件获取不跟踪的实体列表
+        /// </summary>
+        /// <returns>符合条件的实体列表</returns>
+        /// <remarks>
+        /// 此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景
+        /// </remarks>
+        public List<TEntity> GetListNoTracking()
+            => Queryable().AsNoTracking().ToList();
+
+        /// <summary>
+        /// 获取集合数据
+        /// </summary>
+        /// <returns>实体集合</returns>
+        public List<TEntity> GetList()
+            => Queryable().ToList();
+        #endregion
+
+        #region 分页获取数据
+        /// <summary>
+        /// 获取分页列表
+        /// </summary>
+        /// <param name="pageIndex">页索引</param>
+        /// <param name="pageSize">每页大小</param>
+        /// <param name="keySelector">排序键选择器</param>
+        /// <returns>分页列表</returns>
+        public IPageList GetPageList(
+            int pageIndex,
+            int pageSize,
+            Expression<Func<TEntity, TKey>> keySelector)
+        => Queryable().OrderBy(keySelector).ToPageList(pageIndex, pageSize);
+
+        /// <summary>
+        /// 获取分页列表
+        /// </summary>
+        /// <param name="pageIndex">页索引</param>
+        /// <param name="pageSize">每页大小</param>
+        /// <param name="keySelector">排序键选择器</param>
+        /// <param name="whereLamdba">查询条件</param>
+        /// <returns>分页列表</returns>
+        public IPageList GetPageList(
+            int pageIndex,
+            int pageSize,
+            Expression<Func<TEntity, TKey>> keySelector,
+            Expression<Func<TEntity, bool>> whereLamdba)
+        => Queryable().Where(whereLamdba).OrderBy(keySelector).ToPageList(pageIndex, pageSize);
+
+        /// <summary>
+        /// 异步获取分页列表
+        /// </summary>
+        /// <param name="pageIndex">页索引</param>
+        /// <param name="pageSize">每页大小</param>
+        /// <param name="keySelector">排序键选择器</param>
+        /// <returns>分页列表</returns>
+        public async Task<IPageList> GetPageListAsync(
+            int pageIndex,
+            int pageSize,
+            Expression<Func<TEntity, TKey>> keySelector)
+        => await Queryable().OrderBy(keySelector).ToPageListAsync(pageIndex, pageSize);
+
+        /// <summary>
+        /// 异步获取分页列表
+        /// </summary>
+        /// <param name="pageIndex">页索引</param>
+        /// <param name="pageSize">每页大小</param>
+        /// <param name="keySelector">排序键选择器</param>
+        /// <param name="whereLamdba">查询条件</param>
+        /// <returns>分页列表</returns>
+        public async Task<IPageList> GetPageListAsync(
+            int pageIndex,
+            int pageSize,
+            Expression<Func<TEntity, TKey>> keySelector,
+            Expression<Func<TEntity, bool>> whereLamdba)
+        => await Queryable(whereLamdba).OrderBy(keySelector).ToPageListAsync(pageIndex, pageSize);
+        #endregion
+
+        #region 事务
+        /// <summary>
+        /// 事务
+        /// </summary>
+        private IDbContextTransaction ContextTransaction { get; set; }
 
         /// <summary>
         /// 开启事务
         /// </summary>
         /// <returns></returns>
-        public void BeginTransaction()
-        {
-            _baseService.BeginTransaction();
-        }
+        public void BeginTransaction() => ContextTransaction = DbContext.Database.BeginTransaction();
 
         /// <summary>
         /// 开启事务
         /// </summary>
         /// <returns></returns>
-        public async Task BeginTransactionAsync()
-        {
-            await _baseService.BeginTransactionAsync();
-        }
+        public async Task BeginTransactionAsync() => ContextTransaction = await DbContext.Database.BeginTransactionAsync();
 
         /// <summary>
         /// 提交事务
         /// </summary>
         public void CommitTransaction()
         {
-            _baseService.CommitTransaction();
+            if (ContextTransaction != null)
+                ContextTransaction.Commit();
+            else
+                throw new Exception("您未开启事务！");
         }
 
         /// <summary>
@@ -361,7 +630,10 @@ namespace Acme.EFCore.Small.Repositorys
         /// </summary>
         public async Task CommitTransactionAsync()
         {
-            await _baseService.CommitTransactionAsync();
+            if (ContextTransaction != null)
+                await ContextTransaction.CommitAsync();
+            else
+                throw new Exception("您未开启事务！");
         }
 
         /// <summary>
@@ -369,7 +641,10 @@ namespace Acme.EFCore.Small.Repositorys
         /// </summary>
         public void RollbackTransaction()
         {
-            _baseService.RollbackTransaction();
+            if (ContextTransaction != null)
+                ContextTransaction.Rollback();
+            else
+                throw new Exception("您未开启事务！");
         }
 
         /// <summary>
@@ -377,7 +652,10 @@ namespace Acme.EFCore.Small.Repositorys
         /// </summary>
         public async Task RollbackTransactionAsync()
         {
-            await _baseService.RollbackTransactionAsync();
+            if (ContextTransaction != null)
+                await ContextTransaction.RollbackAsync();
+            else
+                throw new Exception("您未开启事务！");
         }
 
         /// <summary>
@@ -385,7 +663,13 @@ namespace Acme.EFCore.Small.Repositorys
         /// </summary>
         public void DisposeTransaction()
         {
-            _baseService.DisposeTransaction();
+            if (ContextTransaction != null)
+            {
+                ContextTransaction.Dispose();
+                DbContext.Dispose();
+            }
+            else
+                throw new Exception("您未开启事务！");
         }
 
         /// <summary>
@@ -393,49 +677,184 @@ namespace Acme.EFCore.Small.Repositorys
         /// </summary>
         public async Task DisposeTransactionAsync()
         {
-            await _baseService.DisposeTransactionAsync();
+            if (ContextTransaction != null)
+            {
+                await ContextTransaction.DisposeAsync();
+                await DbContext.DisposeAsync();
+            }
+            else
+                throw new Exception("您未开启事务！");
         }
 
-        /// <summary>
-        /// 获取集合数据
-        /// </summary>
-        /// <param name="whereLamdba"></param>
-        /// <param name="strip">条数</param>
-        /// <returns></returns>
-        public List<T> GetListTake(Expression<Func<T, bool>> whereLamdba, int strip)
+        List<TEntity> IRepository<TEntity, TKey>.AddMany(List<TEntity> list)
         {
-            return _baseService.GetListTake<T>(whereLamdba, strip);
+            throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// 获取集合数据
-        /// </summary>
-        /// <param name="whereLamdba"></param>
-        /// <param name="strip">条数</param>
-        /// <returns></returns>
-        public async Task<List<T>> GetListTakeAsync(Expression<Func<T, bool>> whereLamdba, int strip)
+        bool IRepository<TEntity, TKey>.AddManyNowSave(List<TEntity> list)
         {
-            return await _baseService.GetListTakeAsync(whereLamdba, strip);
+            throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// 获取集合数据
-        /// </summary>
-        /// <param name="strip">条数</param>
-        /// <returns></returns>
-        public List<T> GetListTake(int strip)
+        Task<List<TEntity>> IRepository<TEntity, TKey>.AddManyAsync(List<TEntity> list)
         {
-            return _baseService.GetListTake<T>(strip);
+            throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// 获取集合数据
-        /// </summary>
-        /// <param name="strip">条数</param>
-        /// <returns></returns>
-        public async Task<List<T>> GetListTakeAsync(int strip)
+        Task<bool> IRepository<TEntity, TKey>.AddManyNowSaveAsync(List<TEntity> list)
         {
-            return await _baseService.GetListTakeAsync<T>(strip);
+            throw new NotImplementedException();
         }
+
+        void IRepository<TEntity, TKey>.DelMany(List<TEntity> list)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IRepository<TEntity, TKey>.DelManyNowSave(List<TEntity> list)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> IRepository<TEntity, TKey>.DelManyNowSaveAsync(List<TEntity> list)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IRepository<TEntity, TKey>.UpdateMany(List<TEntity> list)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IRepository<TEntity, TKey>.UpdateManyNowSave(List<TEntity> list)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> IRepository<TEntity, TKey>.UpdateManyNowSaveAsync(List<TEntity> list)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IRepository<TEntity, TKey>.Any(Expression<Func<TEntity, bool>> anyLambda)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> IRepository<TEntity, TKey>.AnyAsync(Expression<Func<TEntity, bool>> anyLambda)
+        {
+            throw new NotImplementedException();
+        }
+
+        IQueryable<TEntity> IRepository<TEntity, TKey>.Queryable()
+        {
+            throw new NotImplementedException();
+        }
+
+        IQueryable<TEntity> IRepository<TEntity, TKey>.Queryable(Expression<Func<TEntity, bool>> whereLamdba)
+        {
+            throw new NotImplementedException();
+        }
+
+        TEntity IRepository<TEntity, TKey>.GetInfo(Expression<Func<TEntity, bool>> whereLamdba)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<TEntity> IRepository<TEntity, TKey>.GetInfoAsync(Expression<Func<TEntity, bool>> whereLamdba)
+        {
+            throw new NotImplementedException();
+        }
+
+        TEntity IRepository<TEntity, TKey>.GetInfoNoTracking(Expression<Func<TEntity, bool>> whereLamdba)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<TEntity> IRepository<TEntity, TKey>.GetInfoNoTrackingAsync(Expression<Func<TEntity, bool>> whereLamdba)
+        {
+            throw new NotImplementedException();
+        }
+
+        TEntity IRepository<TEntity, TKey>.GetInfoDefault(Expression<Func<TEntity, bool>> whereLamdba)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<TEntity> IRepository<TEntity, TKey>.GetInfoDefaultAsync(Expression<Func<TEntity, bool>> whereLamdba)
+        {
+            throw new NotImplementedException();
+        }
+
+        int IRepository<TEntity, TKey>.Count(Expression<Func<TEntity, bool>> whereLamdba)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<int> IRepository<TEntity, TKey>.CountAsync(Expression<Func<TEntity, bool>> whereLamdba)
+        {
+            throw new NotImplementedException();
+        }
+
+        List<TEntity> IRepository<TEntity, TKey>.GetList(Expression<Func<TEntity, bool>> whereLamdba)
+        {
+            throw new NotImplementedException();
+        }
+
+        List<TEntity> IRepository<TEntity, TKey>.GetListTake(Expression<Func<TEntity, bool>> whereLamdba, int strip)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<List<TEntity>> IRepository<TEntity, TKey>.GetListTakeAsync(Expression<Func<TEntity, bool>> whereLamdba, int strip)
+        {
+            throw new NotImplementedException();
+        }
+
+        List<TEntity> IRepository<TEntity, TKey>.GetListTake(int strip)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<List<TEntity>> IRepository<TEntity, TKey>.GetListTakeAsync(int strip)
+        {
+            throw new NotImplementedException();
+        }
+
+        List<TEntity> IRepository<TEntity, TKey>.GetListNoTracking(Expression<Func<TEntity, bool>> whereLamdba)
+        {
+            throw new NotImplementedException();
+        }
+
+        List<TEntity> IRepository<TEntity, TKey>.GetListNoTracking()
+        {
+            throw new NotImplementedException();
+        }
+
+        List<TEntity> IRepository<TEntity, TKey>.GetList()
+        {
+            throw new NotImplementedException();
+        }
+
+        IPageList IRepository<TEntity, TKey>.GetPageList(int pageIndex, int pageSize, Expression<Func<TEntity, TKey>> keySelector)
+        {
+            throw new NotImplementedException();
+        }
+
+        IPageList IRepository<TEntity, TKey>.GetPageList(int pageIndex, int pageSize, Expression<Func<TEntity, TKey>> keySelector, Expression<Func<TEntity, bool>> whereLamdba)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IPageList> IRepository<TEntity, TKey>.GetPageListAsync(int pageIndex, int pageSize, Expression<Func<TEntity, TKey>> keySelector)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IPageList> IRepository<TEntity, TKey>.GetPageListAsync(int pageIndex, int pageSize, Expression<Func<TEntity, TKey>> keySelector, Expression<Func<TEntity, bool>> whereLamdba)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
     }
 }

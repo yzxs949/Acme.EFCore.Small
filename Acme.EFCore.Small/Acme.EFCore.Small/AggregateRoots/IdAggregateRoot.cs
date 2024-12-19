@@ -1,0 +1,23 @@
+﻿namespace Acme.EFCore.Small.AggregateRoots;
+
+/// <summary>
+/// 聚合根
+/// </summary>
+/// <typeparam name="TKey"></typeparam>
+public abstract class IdAggregateRoot<TKey> where TKey : struct
+{
+    /// <summary>
+    /// 主键Id
+    /// </summary>
+    [Key]
+    public TKey Id { get; private set; }
+
+    /// <summary>
+    /// 给Id赋值
+    /// </summary>
+    /// <param name="id"></param>
+    public void SetId(TKey id)
+    {
+        Id = id;
+    }
+}

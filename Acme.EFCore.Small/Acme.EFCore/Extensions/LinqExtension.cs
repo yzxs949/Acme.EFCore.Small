@@ -84,7 +84,7 @@ public static class LinqExtension
         int total = source.Count();
         var rows = new List<T>();
         if (total > 0)
-            rows = [.. source.Skip((pageIndex > 0 ? pageIndex - 1 : 0) * pageSize).Take(pageSize)];
+            rows = source.Skip((pageIndex > 0 ? pageIndex - 1 : 0) * pageSize).Take(pageSize).ToList();
         return new PageList<T>(total, rows);
     }
 

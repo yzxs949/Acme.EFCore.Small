@@ -17,7 +17,7 @@ public static class LinqExtension
     public static IQueryable<T> WhereIf<T>(
         this IQueryable<T> source,
         bool verification,
-        Expression<Func<T, bool>> anyLambda) 
+        Expression<Func<T, bool>> anyLambda)
         => verification ? source.Where(anyLambda) : source;
 
     /// <summary>
@@ -28,7 +28,7 @@ public static class LinqExtension
     /// <param name="anyLambda">Linq语句</param>
     /// <returns></returns>
     public static IQueryable<T> Where<T>(this DbContext dbContext, Expression<Func<T, bool>> anyLambda)
-        where T : class 
+        where T : class
         => dbContext.Set<T>().Where(anyLambda);
 
     /// <summary>
@@ -42,7 +42,7 @@ public static class LinqExtension
     public static IEnumerable<T> WhereIf<T>(
         this IEnumerable<T> source,
         bool verification,
-        Func<T, int, bool> anyLambda) 
+        Func<T, int, bool> anyLambda)
     => verification ? source.Where(anyLambda) : source;
 
     /// <summary>
@@ -67,7 +67,7 @@ public static class LinqExtension
     /// <param name="pageIndex">页码</param>
     /// <param name="pageSize">每页显示的条数</param>
     /// <returns></returns>
-    public static PageList<T> ToPageList<T>(
+    public static IPageList ToPageList<T>(
        this IQueryable<T> source,
        int pageIndex,
        int pageSize)
@@ -76,8 +76,7 @@ public static class LinqExtension
         var rows = new List<T>();
         if (total > 0)
             rows = source.Skip((pageIndex > 0 ? pageIndex - 1 : 0) * pageSize).Take(pageSize).ToList();
-        var data = rows.ToPageList<T>(total, pageIndex, pageSize);
-        return data;
+        return new PageList<T>(total, rows);
     }
 
     /// <summary>
@@ -88,7 +87,7 @@ public static class LinqExtension
     /// <param name="pageIndex">页码</param>
     /// <param name="pageSize">每页显示的条数</param>
     /// <returns></returns>
-    public async static Task<PageList<T>> ToPageListAsync<T>(
+    public async static Task<IPageList> ToPageListAsync<T>(
        this IQueryable<T> source,
        int pageIndex,
        int pageSize)
@@ -97,7 +96,7 @@ public static class LinqExtension
         var rows = new List<T>();
         if (total > 0)
             rows = await source.Skip((pageIndex > 0 ? pageIndex - 1 : 0) * pageSize).Take(pageSize).ToListAsync();
-        var data = rows.ToPageList<T>(total, pageIndex, pageSize);
+        var data = new PageList<T>(total, rows);
         return data;
     }
 
@@ -109,7 +108,7 @@ public static class LinqExtension
     /// <param name="items">要获取字段值的 IQueryable&lt;T&gt; 集合。</param>
     /// <param name="keySelector">用于从元素中提取字段值的函数。</param>
     /// <returns>字段值的列表。</returns>
-    public static IEnumerable<TKey> GetKey<T, TKey>(this IQueryable<T> items, Func<T, TKey> keySelector) 
+    public static IEnumerable<TKey> GetKey<T, TKey>(this IQueryable<T> items, Func<T, TKey> keySelector)
         => items.GroupBy(keySelector).Select(g => g.Key);
 
     /// <summary>
@@ -120,6 +119,6 @@ public static class LinqExtension
     /// <param name="items">要获取字段值的 IEnumerable&lt;T&gt; 集合。</param>
     /// <param name="keySelector">用于从元素中提取字段值的函数。</param>
     /// <returns>字段值的列表。</returns>
-    public static IEnumerable<TKey> GetKeyList<T, TKey>(this IEnumerable<T> items, Func<T, TKey> keySelector) 
+    public static IEnumerable<TKey> GetKeyList<T, TKey>(this IEnumerable<T> items, Func<T, TKey> keySelector)
         => items.GroupBy(keySelector).Select(g => g.Key);
 }

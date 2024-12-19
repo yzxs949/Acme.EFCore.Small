@@ -3,57 +3,14 @@
 /// <summary>
 /// 分页返回结果
 /// </summary>
-public class PageList<T>
-{
-    /// <summary>
-    /// 总条数
-    /// </summary>
-    public int Total { get; set; }
+/// <typeparam name="T">实体类型</typeparam>
+/// <param name="Total">总条数</param>
+/// <param name="Items">集合数据</param>
+public record PageList<T>(int Total, List<T> Items) : IPageList;
 
-    /// <summary>
-    /// 索引
-    /// </summary>
-
-    public int PageIndex { get; set; }
-
-    /// <summary>
-    /// 每页大小
-    /// </summary>
-
-    public int PageSize { get; set; }
-
-    /// <summary>
-    /// 集合数据
-    /// </summary>
-
-    public List<T> Items { get; set; } = new List<T>();
-}
-
-///<summary>
+/// <summary>
 /// 分页返回结果
 /// </summary>
-public class PageList
-{
-    /// <summary>
-    /// 总条数
-    /// </summary>
-    public int Total { get; set; }
-
-    /// <summary>
-    /// 索引
-    /// </summary>
-
-    public int PageIndex { get; set; }
-
-    /// <summary>
-    /// 每页大小
-    /// </summary>
-
-    public int PageSize { get; set; }
-
-    /// <summary>
-    /// 集合数据
-    /// </summary>
-
-    public List<object> Items { get; set; } = new List<object>();
-}
+/// <param name="Total">总条数</param>
+/// <param name="Items">集合数据</param>
+public record PageList(int Total, List<object> Items) : IPageList;

@@ -1,9 +1,8 @@
-﻿using Acme.EFCore.Small.Page;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Acme.EFCore.Small.Page;
 
 namespace Acme.EFCore.Small.Extensions
 {
-
     /// <summary>
     /// 分页拓展类
     /// </summary>
@@ -14,18 +13,10 @@ namespace Acme.EFCore.Small.Extensions
         /// </summary>
         /// <param name="items"></param>
         /// <param name="total"></param>
-        /// <param name="PageIndex"></param>
-        /// <param name="PageSize"></param>
         /// <returns></returns>
-        public static PageList<object> ToPageList(this List<object> items, int total, int PageIndex, int PageSize)
+        public static IPageList ToPageList(this List<object> items, int total)
         {
-            PageList<object> pageList = new PageList<object>()
-            {
-                Total = total,
-                PageIndex = PageIndex,
-                PageSize = PageSize,
-                Items = items,
-            };
+            var pageList = new PageList<object>(total, items);
             return pageList;
         }
 
@@ -35,18 +26,10 @@ namespace Acme.EFCore.Small.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="items"></param>
         /// <param name="total"></param>
-        /// <param name="PageIndex"></param>
-        /// <param name="PageSize"></param>
         /// <returns></returns>
-        public static PageList<T> ToPageList<T>(this List<T> items, int total, int PageIndex, int PageSize)
+        public static IPageList ToPageList<T>(this List<T> items, int total)
         {
-            PageList<T> pageList = new PageList<T>()
-            {
-                Total = total,
-                PageIndex = PageIndex,
-                PageSize = PageSize,
-                Items = items,
-            };
+            PageList<T> pageList = new PageList<T>(total, items);
             return pageList;
         }
     }

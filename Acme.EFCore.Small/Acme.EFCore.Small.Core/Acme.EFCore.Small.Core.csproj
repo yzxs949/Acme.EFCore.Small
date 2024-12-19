@@ -4,7 +4,7 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageId>Acme.EFCore.Small</PackageId>
-		<Version>1.0.3.9</Version>
+		<Version>1.0.4</Version>
 		<Authors>yzxs</Authors>
 		<Company>yzxs</Company>
 		<Product>Acme.EFCore.Small</Product>

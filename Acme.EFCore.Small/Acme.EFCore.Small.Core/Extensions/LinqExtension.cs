@@ -1,14 +1,13 @@
-﻿using Acme.EFCore.Small.Page;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Acme.EFCore.Small.Page;
+using Microsoft.EntityFrameworkCore;
 
 namespace Acme.EFCore.Small.Extensions
 {
-
 
     /// <summary>
     /// Linq拓展类
@@ -27,9 +26,18 @@ namespace Acme.EFCore.Small.Extensions
             this IQueryable<T> source,
             bool verification,
             Expression<Func<T, bool>> anyLambda)
-        {
-            return verification ? source.Where(anyLambda) : source;
-        }
+            => verification ? source.Where(anyLambda) : source;
+
+        /// <summary>
+        /// Linq验证查询方法拓展
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <param name="dbContext">数据库上下文</param>
+        /// <param name="anyLambda">Linq语句</param>
+        /// <returns></returns>
+        public static IQueryable<T> Where<T>(this DbContext dbContext, Expression<Func<T, bool>> anyLambda)
+            where T : class
+            => dbContext.Set<T>().Where(anyLambda);
 
         /// <summary>
         /// Linq验证查询方法拓展
@@ -43,9 +51,7 @@ namespace Acme.EFCore.Small.Extensions
             this IEnumerable<T> source,
             bool verification,
             Func<T, int, bool> anyLambda)
-        {
-            return verification ? source.Where(anyLambda) : source;
-        }
+        => verification ? source.Where(anyLambda) : source;
 
         /// <summary>
         /// Linq验证查询方法拓展
@@ -59,9 +65,7 @@ namespace Acme.EFCore.Small.Extensions
             this IEnumerable<T> source,
             bool verification,
             Func<T, bool> anyLambda)
-        {
-            return verification ? source.Where(anyLambda) : source;
-        }
+        => verification ? source.Where(anyLambda) : source;
 
         /// <summary>
         /// 分页（排序后使用）
@@ -71,7 +75,7 @@ namespace Acme.EFCore.Small.Extensions
         /// <param name="pageIndex">页码</param>
         /// <param name="pageSize">每页显示的条数</param>
         /// <returns></returns>
-        public static PageList<T> ToPageList<T>(
+        public static IPageList ToPageList<T>(
            this IQueryable<T> source,
            int pageIndex,
            int pageSize)
@@ -80,8 +84,7 @@ namespace Acme.EFCore.Small.Extensions
             var rows = new List<T>();
             if (total > 0)
                 rows = source.Skip((pageIndex > 0 ? pageIndex - 1 : 0) * pageSize).Take(pageSize).ToList();
-            var data = rows.ToPageList<T>(total, pageIndex, pageSize);
-            return data;
+            return new PageList<T>(total, rows);
         }
 
         /// <summary>
@@ -92,7 +95,7 @@ namespace Acme.EFCore.Small.Extensions
         /// <param name="pageIndex">页码</param>
         /// <param name="pageSize">每页显示的条数</param>
         /// <returns></returns>
-        public async static Task<PageList<T>> ToPageListAsync<T>(
+        public async static Task<IPageList> ToPageListAsync<T>(
            this IQueryable<T> source,
            int pageIndex,
            int pageSize)
@@ -101,7 +104,7 @@ namespace Acme.EFCore.Small.Extensions
             var rows = new List<T>();
             if (total > 0)
                 rows = await source.Skip((pageIndex > 0 ? pageIndex - 1 : 0) * pageSize).Take(pageSize).ToListAsync();
-            var data = rows.ToPageList<T>(total, pageIndex, pageSize);
+            var data = new PageList<T>(total, rows);
             return data;
         }
 
@@ -114,9 +117,7 @@ namespace Acme.EFCore.Small.Extensions
         /// <param name="keySelector">用于从元素中提取字段值的函数。</param>
         /// <returns>字段值的列表。</returns>
         public static IEnumerable<TKey> GetKey<T, TKey>(this IQueryable<T> items, Func<T, TKey> keySelector)
-        {
-            return items.GroupBy(keySelector).Select(g => g.Key);
-        }
+            => items.GroupBy(keySelector).Select(g => g.Key);
 
         /// <summary>
         /// 集合中获取指定字段的唯一值列表。
@@ -127,8 +128,6 @@ namespace Acme.EFCore.Small.Extensions
         /// <param name="keySelector">用于从元素中提取字段值的函数。</param>
         /// <returns>字段值的列表。</returns>
         public static IEnumerable<TKey> GetKeyList<T, TKey>(this IEnumerable<T> items, Func<T, TKey> keySelector)
-        {
-            return items.GroupBy(keySelector).Select(g => g.Key);
-        }
+            => items.GroupBy(keySelector).Select(g => g.Key);
     }
 }
