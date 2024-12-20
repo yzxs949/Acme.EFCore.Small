@@ -28,7 +28,10 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
     /// 构造函数，初始化仓储实例
     /// </summary>
     /// <param name="dbContext"></param>
-    public Repository(DbContext dbContext) => DbContext = dbContext;
+    public Repository(DbContext dbContext)
+    {
+        DbContext = dbContext;
+    }
 
     #region 提交
     /// <summary>
@@ -354,7 +357,7 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
     /// <returns>实体对象</returns>
     public TEntity GetInfo(TKey id)
     {
-        return GetInfo(s => s.Id.Equals(id));
+        return GetInfo(s => s.Id.Equals(id) && !s.IsDeleted);
     }
 
     /// <summary>
@@ -364,7 +367,7 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
     /// <returns>实体对象</returns>
     public async Task<TEntity> GetInfoAsync(TKey id)
     {
-        return await GetInfoAsync(s => s.Id.Equals(id));
+        return await GetInfoAsync(s => s.Id.Equals(id) && !s.IsDeleted);
     }
 
     /// <summary>

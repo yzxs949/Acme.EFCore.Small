@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCopyrightAttribute("yzxs")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("轻量级EFCore通用类库")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.4.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.4+4f667a63075f40c44eceb0945deda434102ae0d5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.4+c4bfcff51c54f8fa154d25a4a0926f0de3d9620d")]
 [assembly: System.Reflection.AssemblyProductAttribute("Acme.EFCore.Small")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Acme.EFCore.Small")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.4.0")]

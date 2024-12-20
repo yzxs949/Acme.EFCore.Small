@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Acme.EFCore.AggregateRoots;
 
@@ -13,6 +14,33 @@ public abstract class IdAggregateRoot<TKey> where TKey : struct
     /// </summary>
     [Key]
     public TKey Id { get; private set; }
+
+    /// <summary>
+    /// 是否删除
+    /// </summary>
+    public bool IsDeleted { get; protected set; }
+
+    /// <summary>
+    /// 删除时间
+    /// </summary>
+    public DateTime? DeleteTime { get; protected set; }
+
+    /// <summary>
+    /// 删除人员Id
+    /// </summary>
+    public TKey DeletePersId { get; protected set; }
+
+    /// <summary>
+    /// 逻辑删除
+    /// </summary>
+    /// <param name="deletePersId"></param>
+
+    public void LogicDelete(TKey deletePersId)
+    {
+        IsDeleted = true;
+        DeletePersId = deletePersId;
+        DeleteTime = DateTime.Now;
+    }
 
     /// <summary>
     /// 给Id赋值
