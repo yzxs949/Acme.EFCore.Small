@@ -5,7 +5,7 @@
   },
   "projects": {
     "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small.Core\\Acme.EFCore.Small.Core.csproj": {
-      "version": "1.0.5",
+      "version": "1.0.5.1-alpha",
       "restore": {
         "projectUniqueName": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small.Core\\Acme.EFCore.Small.Core.csproj",
         "projectName": "Acme.EFCore.Small",
