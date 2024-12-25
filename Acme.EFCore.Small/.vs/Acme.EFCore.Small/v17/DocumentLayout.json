@@ -53,22 +53,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{F2F45B5B-95EF-4282-B117-7C3D69251CD9}|Acme.EFCore.Small\\Acme.EFCore.Small.csproj|d:\\yzxs\\code\\efcore\\acme.-efcore.-small\\acme.efcore.small\\acme.efcore.small\\page\\pagelist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F2F45B5B-95EF-4282-B117-7C3D69251CD9}|Acme.EFCore.Small\\Acme.EFCore.Small.csproj|solutionrelative:acme.efcore.small\\page\\pagelist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8AC99E39-BC3E-42B5-A6FC-AF99D2207939}|Acme.EFCore.Small.Core\\Acme.EFCore.Small.Core.csproj|d:\\yzxs\\code\\efcore\\acme.-efcore.-small\\acme.efcore.small\\acme.efcore.small.core\\page\\pagelist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8AC99E39-BC3E-42B5-A6FC-AF99D2207939}|Acme.EFCore.Small.Core\\Acme.EFCore.Small.Core.csproj|solutionrelative:acme.efcore.small.core\\page\\pagelist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8AC99E39-BC3E-42B5-A6FC-AF99D2207939}|Acme.EFCore.Small.Core\\Acme.EFCore.Small.Core.csproj|d:\\yzxs\\code\\efcore\\acme.-efcore.-small\\acme.efcore.small\\acme.efcore.small.core\\acme.efcore.small.core.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{8AC99E39-BC3E-42B5-A6FC-AF99D2207939}|Acme.EFCore.Small.Core\\Acme.EFCore.Small.Core.csproj|solutionrelative:acme.efcore.small.core\\acme.efcore.small.core.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8AC99E39-BC3E-42B5-A6FC-AF99D2207939}|Acme.EFCore.Small.Core\\Acme.EFCore.Small.Core.csproj|d:\\yzxs\\code\\efcore\\acme.-efcore.-small\\acme.efcore.small\\acme.efcore.small.core\\aggregateroots\\stateaggregateroot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8AC99E39-BC3E-42B5-A6FC-AF99D2207939}|Acme.EFCore.Small.Core\\Acme.EFCore.Small.Core.csproj|solutionrelative:acme.efcore.small.core\\aggregateroots\\stateaggregateroot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8AC99E39-BC3E-42B5-A6FC-AF99D2207939}|Acme.EFCore.Small.Core\\Acme.EFCore.Small.Core.csproj|d:\\yzxs\\code\\efcore\\acme.-efcore.-small\\acme.efcore.small\\acme.efcore.small.core\\aggregateroots\\idaggregateroot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8AC99E39-BC3E-42B5-A6FC-AF99D2207939}|Acme.EFCore.Small.Core\\Acme.EFCore.Small.Core.csproj|solutionrelative:acme.efcore.small.core\\aggregateroots\\idaggregateroot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -78,7 +62,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
@@ -108,19 +92,6 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "PageListExtension.cs",
-              "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\Extensions\\PageListExtension.cs",
-              "RelativeDocumentMoniker": "Acme.EFCore.Small\\Extensions\\PageListExtension.cs",
-              "ToolTip": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\Extensions\\PageListExtension.cs",
-              "RelativeToolTip": "Acme.EFCore.Small\\Extensions\\PageListExtension.cs",
-              "ViewState": "AgIAABYAAAAAAAAAAAAjwCAAAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-25T02:02:21.976Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 8,
               "Title": "LinqExtension.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\Extensions\\LinqExtension.cs",
@@ -140,7 +111,7 @@
               "RelativeDocumentMoniker": "Acme.EFCore.Small\\Acme.EFCore.Small.csproj",
               "ToolTip": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\Acme.EFCore.Small.csproj",
               "RelativeToolTip": "Acme.EFCore.Small\\Acme.EFCore.Small.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABQAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
               "WhenOpened": "2024-12-25T01:20:54.766Z",
               "EditorCaption": ""
@@ -186,19 +157,6 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "CollectionExtension.cs",
-              "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\Extensions\\CollectionExtension.cs",
-              "RelativeDocumentMoniker": "Acme.EFCore.Small\\Extensions\\CollectionExtension.cs",
-              "ToolTip": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\Extensions\\CollectionExtension.cs",
-              "RelativeToolTip": "Acme.EFCore.Small\\Extensions\\CollectionExtension.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-25T01:50:51.269Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
               "Title": "ISingRepository.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\SingRepositorys\\ISingRepository.cs",
@@ -225,6 +183,32 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CollectionExtension.cs",
+              "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\Extensions\\CollectionExtension.cs",
+              "RelativeDocumentMoniker": "Acme.EFCore.Small\\Extensions\\CollectionExtension.cs",
+              "ToolTip": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\Extensions\\CollectionExtension.cs",
+              "RelativeToolTip": "Acme.EFCore.Small\\Extensions\\CollectionExtension.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-25T01:50:51.269Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "PageListExtension.cs",
+              "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\Extensions\\PageListExtension.cs",
+              "RelativeDocumentMoniker": "Acme.EFCore.Small\\Extensions\\PageListExtension.cs",
+              "ToolTip": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\Extensions\\PageListExtension.cs",
+              "RelativeToolTip": "Acme.EFCore.Small\\Extensions\\PageListExtension.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAjwCAAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-25T02:02:21.976Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 11,
               "Title": "SingRepository.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\SingRepositorys\\SingRepository.cs",
@@ -247,58 +231,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-25T02:03:40.088Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "PageList.cs",
-              "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small.Core\\Page\\PageList.cs",
-              "RelativeDocumentMoniker": "Acme.EFCore.Small.Core\\Page\\PageList.cs",
-              "ToolTip": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small.Core\\Page\\PageList.cs",
-              "RelativeToolTip": "Acme.EFCore.Small.Core\\Page\\PageList.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAIwCAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-25T02:04:16.387Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Acme.EFCore.Small.Core",
-              "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small.Core\\Acme.EFCore.Small.Core.csproj",
-              "RelativeDocumentMoniker": "Acme.EFCore.Small.Core\\Acme.EFCore.Small.Core.csproj",
-              "ToolTip": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small.Core\\Acme.EFCore.Small.Core.csproj",
-              "RelativeToolTip": "Acme.EFCore.Small.Core\\Acme.EFCore.Small.Core.csproj",
-              "ViewState": "AgIAAA8AAAAAAAAAAADwvxsAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-12-25T01:53:54.34Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "StateAggregateRoot.cs",
-              "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small.Core\\AggregateRoots\\StateAggregateRoot.cs",
-              "RelativeDocumentMoniker": "Acme.EFCore.Small.Core\\AggregateRoots\\StateAggregateRoot.cs",
-              "ToolTip": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small.Core\\AggregateRoots\\StateAggregateRoot.cs",
-              "RelativeToolTip": "Acme.EFCore.Small.Core\\AggregateRoots\\StateAggregateRoot.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-25T01:54:10.039Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "IdAggregateRoot.cs",
-              "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small.Core\\AggregateRoots\\IdAggregateRoot.cs",
-              "RelativeDocumentMoniker": "Acme.EFCore.Small.Core\\AggregateRoots\\IdAggregateRoot.cs",
-              "ToolTip": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small.Core\\AggregateRoots\\IdAggregateRoot.cs",
-              "RelativeToolTip": "Acme.EFCore.Small.Core\\AggregateRoots\\IdAggregateRoot.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-25T01:54:08.245Z",
               "EditorCaption": ""
             }
           ]
