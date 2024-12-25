@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Acme.EFCore.AggregateRoots;
 using Acme.EFCore.Extensions;
 using Acme.EFCore.Page;
+using Acme.EFCore.SearchConditions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 

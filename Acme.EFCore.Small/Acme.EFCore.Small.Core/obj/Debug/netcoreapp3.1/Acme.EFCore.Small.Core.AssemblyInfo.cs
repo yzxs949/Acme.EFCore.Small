@@ -14,12 +14,12 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("yzxs")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyCopyrightAttribute("yzxs")]
-[assembly: System.Reflection.AssemblyDescriptionAttribute("轻量级EFCore通用类库")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.4.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.4+c4bfcff51c54f8fa154d25a4a0926f0de3d9620d")]
+[assembly: System.Reflection.AssemblyDescriptionAttribute("net6;net7;net8;net9最新版本使用1.2.8.2，core3.1;net5最新使用1.0.5")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.5.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.5+8aaa6535af65d07d4b643021396c65187c3a78e3")]
 [assembly: System.Reflection.AssemblyProductAttribute("Acme.EFCore.Small")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Acme.EFCore.Small")]
-[assembly: System.Reflection.AssemblyVersionAttribute("1.0.4.0")]
+[assembly: System.Reflection.AssemblyVersionAttribute("1.0.5.0")]
 
 // 由 MSBuild WriteCodeFragment 类生成。
 

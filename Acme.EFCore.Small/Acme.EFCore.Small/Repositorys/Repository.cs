@@ -1,25 +1,27 @@
-﻿using Acme.EFCore.Small.AggregateRoots;
-
-namespace Acme.EFCore.Small.Repositorys;
+﻿namespace Acme.EFCore.Small.Repositorys;
 
 /// <summary>
 /// 仓储通用类
 /// </summary>
+/// <typeparam name="TDbContext">数据库上下文</typeparam>
 /// <typeparam name="TEntity">实体</typeparam>
-///  <typeparam name="TKey">主键类型</typeparam>
-public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
-    where TEntity : IdAggregateRoot<TKey>, new() where TKey : struct
+public class Repository<TDbContext, TEntity> : IRepository<TDbContext, TEntity>
+    where TDbContext : DbContext
+    where TEntity : class, new()
 {
     /// <summary>
     /// 数据库上下文
     /// </summary>
-    public DbContext DbContext { get; init; }
+    public TDbContext DbContext { get; init; }
 
     /// <summary>
     /// 构造函数，初始化仓储实例
     /// </summary>
     /// <param name="dbContext"></param>
-    public Repository(DbContext dbContext) => DbContext = dbContext;
+    public Repository(TDbContext dbContext)
+    {
+        DbContext = dbContext;
+    }
 
     #region 提交
     /// <summary>
@@ -137,17 +139,6 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
         => DbContext.Set<TEntity>().Remove(entity);
 
     /// <summary>
-    /// 删除
-    /// </summary>
-    /// <param name="id">主键Id</param>
-    /// <returns></returns>
-    public void Delete(TKey id)
-    {
-        var info = GetInfo(id);
-        Delete(info);
-    }
-
-    /// <summary>
     /// 删除立即保存
     /// </summary>
     /// <param name="entity">要删除的实体</param>
@@ -159,17 +150,6 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
     }
 
     /// <summary>
-    /// 删除立即保存
-    /// </summary>
-    /// <param name="id">主键Id</param>
-    /// <returns>是否成功</returns>
-    public bool DeleteNowSave(TKey id)
-    {
-        var info = GetInfo(id);
-        return DeleteNowSave(info);
-    }
-
-    /// <summary>
     /// 异步删除立即提交
     /// </summary>
     /// <param name="entity">要删除的实体</param>
@@ -178,17 +158,6 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
     {
         Delete(entity);
         return await SubmitAsync() > 0;
-    }
-
-    /// <summary>
-    /// 异步删除立即提交
-    /// </summary>
-    /// <param name="id">主键Id</param>
-    /// <returns></returns>
-    public async Task<bool> DeleteNowSaveAsync(TKey id)
-    {
-        var info = GetInfo(id);
-        return await DeleteNowSaveAsync(info);
     }
 
     /// <summary>
@@ -339,26 +308,6 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
         => await DbContext.FindAsync<TEntity>(whereLamdba);
 
     /// <summary>
-    /// 获取单条数据
-    /// </summary>
-    /// <param name="id">主键Id</param>
-    /// <returns>实体对象</returns>
-    public TEntity GetInfo(TKey id)
-    {
-        return GetInfo(s => s.Id.Equals(id));
-    }
-
-    /// <summary>
-    /// 异步获取单条数据
-    /// </summary>
-    /// <param name="id">主键Id</param>
-    /// <returns>实体对象</returns>
-    public async Task<TEntity> GetInfoAsync(TKey id)
-    {
-        return await GetInfoAsync(s => s.Id.Equals(id));
-    }
-
-    /// <summary>
     /// 获取单条数据不追踪
     /// </summary>
     /// <param name="whereLamdba">linq语句</param>
@@ -375,22 +324,6 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
         => await Queryable(whereLamdba).AsNoTracking().FirstOrDefaultAsync(whereLamdba);
 
     /// <summary>
-    /// 获取单条数据不追踪
-    /// </summary>
-    /// <param name="id">主键Id</param>
-    /// <returns>实体对象</returns>
-    public TEntity GetInfoNoTracking(TKey id)
-        => Queryable(s => s.Id.Equals(id)).AsNoTracking().FirstOrDefault();
-
-    /// <summary>
-    /// 异步获取单条数据不追踪
-    /// </summary>
-    /// <param name="id">主键Id</param>
-    /// <returns>实体对象</returns>
-    public async Task<TEntity> GetInfoNoTrackingAsync(TKey id)
-        => await Queryable(s => s.Id.Equals(id)).AsNoTracking().FirstOrDefaultAsync();
-
-    /// <summary>
     /// 获取单条数据返回默认值
     /// </summary>
     /// <param name="whereLamdba">Linq语句</param>
@@ -405,22 +338,6 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
     /// <returns>实体对象</returns>
     public async Task<TEntity> GetInfoDefaultAsync(Expression<Func<TEntity, bool>> whereLamdba)
         => await DbContext.Set<TEntity>().FirstOrDefaultAsync(whereLamdba);
-
-    /// <summary>
-    /// 获取单条数据返回默认值
-    /// </summary>
-    /// <param name="id">主键Id</param>
-    /// <returns>Linq语句</returns>
-    public TEntity GetInfoDefault(TKey id)
-        => DbContext.Set<TEntity>().FirstOrDefault(s => s.Id.Equals(id));
-
-    /// <summary>
-    /// 获取单条数据返回默认值
-    /// </summary>
-    /// <param name="id">主键id</param>
-    /// <returns>实体对象</returns>
-    public async Task<TEntity> GetInfoDefaultAsync(TKey id)
-        => await DbContext.Set<TEntity>().FirstOrDefaultAsync(s => s.Id.Equals(id));
     #endregion
 
     #region 获取条数
@@ -527,64 +444,6 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
     /// <returns>实体集合</returns>
     public List<TEntity> GetList()
         => Queryable().ToList();
-    #endregion
-
-    #region 分页获取数据
-    /// <summary>
-    /// 获取分页列表
-    /// </summary>
-    /// <param name="pageIndex">页索引</param>
-    /// <param name="pageSize">每页大小</param>
-    /// <param name="keySelector">排序键选择器</param>
-    /// <returns>分页列表</returns>
-    public IPageList GetPageList(
-        int pageIndex,
-        int pageSize,
-        Expression<Func<TEntity, TKey>> keySelector)
-    => Queryable().OrderBy(keySelector).ToPageList(pageIndex, pageSize);
-
-    /// <summary>
-    /// 获取分页列表
-    /// </summary>
-    /// <param name="pageIndex">页索引</param>
-    /// <param name="pageSize">每页大小</param>
-    /// <param name="keySelector">排序键选择器</param>
-    /// <param name="whereLamdba">查询条件</param>
-    /// <returns>分页列表</returns>
-    public IPageList GetPageList(
-        int pageIndex,
-        int pageSize,
-        Expression<Func<TEntity, TKey>> keySelector,
-        Expression<Func<TEntity, bool>> whereLamdba)
-    => Queryable().Where(whereLamdba).OrderBy(keySelector).ToPageList(pageIndex, pageSize);
-
-    /// <summary>
-    /// 异步获取分页列表
-    /// </summary>
-    /// <param name="pageIndex">页索引</param>
-    /// <param name="pageSize">每页大小</param>
-    /// <param name="keySelector">排序键选择器</param>
-    /// <returns>分页列表</returns>
-    public async Task<IPageList> GetPageListAsync(
-        int pageIndex,
-        int pageSize,
-        Expression<Func<TEntity, TKey>> keySelector)
-    => await Queryable().OrderBy(keySelector).ToPageListAsync(pageIndex, pageSize);
-
-    /// <summary>
-    /// 异步获取分页列表
-    /// </summary>
-    /// <param name="pageIndex">页索引</param>
-    /// <param name="pageSize">每页大小</param>
-    /// <param name="keySelector">排序键选择器</param>
-    /// <param name="whereLamdba">查询条件</param>
-    /// <returns>分页列表</returns>
-    public async Task<IPageList> GetPageListAsync(
-        int pageIndex,
-        int pageSize,
-        Expression<Func<TEntity, TKey>> keySelector,
-        Expression<Func<TEntity, bool>> whereLamdba)
-    => await Queryable(whereLamdba).OrderBy(keySelector).ToPageListAsync(pageIndex, pageSize);
     #endregion
 
     #region 事务

@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v5.0": {
-      "Acme.EFCore.Small/1.0.4": {
+      "Acme.EFCore.Small/1.0.5": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "5.0.17",
           "NuGet.Build.Tasks.Pack": "6.9.1"
@@ -143,7 +143,7 @@
     }
   },
   "libraries": {
-    "Acme.EFCore.Small/1.0.4": {
+    "Acme.EFCore.Small/1.0.5": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

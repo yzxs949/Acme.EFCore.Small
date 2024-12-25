@@ -4,7 +4,7 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageId>Acme.EFCore.Small</PackageId>
-		<Version>1.0.4</Version>
+		<Version>1.0.5</Version>
 		<Authors>yzxs</Authors>
 		<Company>yzxs</Company>
 		<Product>Acme.EFCore.Small</Product>
@@ -12,14 +12,17 @@
 		<PackageIcon></PackageIcon>
 		<AssemblyName>Acme.EFCore.Small</AssemblyName>
 		<RootNamespace>Acme.EFCore.Small</RootNamespace>
-		<Description>轻量级EFCore通用类库</Description>
+		<Description>net6;net7;net8;net9最新版本使用1.2.8.2，core3.1;net5最新使用1.0.5</Description>
 		<Title>Acme.EFCore.Small</Title>
-		<PackageTags>Acme;EntityFrameworkCore;EF;EFCore;EFCore.Small;yzxs;云中小生;netcoreapp3.1</PackageTags>
+		<PackageTags>Acme;EntityFrameworkCore;EF;EFCore;EFCore.Small;yzxs;云中小生;netcoreapp3.1;net5</PackageTags>
 		<PackageProjectUrl>https://www.nuget.org/packages/Acme.EFCore.Small/</PackageProjectUrl>
 		<PackageReleaseNotes>
 			修复已知bug（技术支持联系邮箱：yzxs949@163.com）
 		</PackageReleaseNotes>
 	</PropertyGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.14" />
+	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.32" />
 	</ItemGroup>

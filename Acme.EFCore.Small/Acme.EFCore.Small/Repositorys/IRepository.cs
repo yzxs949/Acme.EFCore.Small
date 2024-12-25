@@ -1,20 +1,18 @@
-﻿using Acme.EFCore.Small.AggregateRoots;
-
-namespace Acme.EFCore.Small.Repositorys;
+﻿namespace Acme.EFCore.Small.Repositorys;
 
 /// <summary>
 /// 仓储接口
 /// </summary>
+/// <typeparam name="TDbContext">数据库上下文</typeparam>
 /// <typeparam name="TEntity">实体</typeparam>
-/// <typeparam name="TKey">主键类型</typeparam>
-public interface IRepository<TEntity, TKey>
-    where TEntity : IdAggregateRoot<TKey>, new()
-    where TKey : struct
+public interface IRepository<TDbContext, TEntity>
+    where TDbContext : DbContext
+    where TEntity : class, new()
 {
     /// <summary>
     /// 数据库上下文
     /// </summary>
-    public DbContext DbContext { get; init; }
+    public TDbContext DbContext { get; init; }
 
     #region 提交
     /// <summary>
@@ -102,20 +100,6 @@ public interface IRepository<TEntity, TKey>
     /// <param name="entity">要删除的实体</param>
     /// <returns>是否成功</returns>
     bool DeleteNowSave(TEntity entity);
-
-    /// <summary>
-    /// 删除立即保存
-    /// </summary>
-    /// <param name="id">主键Id</param>
-    /// <returns>是否成功</returns>
-    bool DeleteNowSave(TKey id);
-
-    /// <summary>
-    /// 异步删除立即提交
-    /// </summary>
-    /// <param name="id">主键Id</param>
-    /// <returns></returns>
-    Task<bool> DeleteNowSaveAsync(TKey id);
 
     /// <summary>
     /// 异步删除立即提交
@@ -242,20 +226,6 @@ public interface IRepository<TEntity, TKey>
     Task<TEntity> GetInfoAsync(Expression<Func<TEntity, bool>> whereLamdba);
 
     /// <summary>
-    /// 获取单条数据
-    /// </summary>
-    /// <param name="id">主键Id</param>
-    /// <returns>实体对象</returns>
-    TEntity GetInfo(TKey id);
-
-    /// <summary>
-    /// 异步获取单条数据
-    /// </summary>
-    /// <param name="id">主键Id</param>
-    /// <returns>实体对象</returns>
-    Task<TEntity> GetInfoAsync(TKey id);
-
-    /// <summary>
     /// 获取单条数据不追踪
     /// </summary>
     /// <param name="whereLamdba">linq语句</param>
@@ -270,20 +240,6 @@ public interface IRepository<TEntity, TKey>
     Task<TEntity> GetInfoNoTrackingAsync(Expression<Func<TEntity, bool>> whereLamdba);
 
     /// <summary>
-    /// 获取单条数据不追踪
-    /// </summary>
-    /// <param name="id">主键Id</param>
-    /// <returns>实体对象</returns>
-    TEntity GetInfoNoTracking(TKey id);
-
-    /// <summary>
-    /// 异步获取单条数据不追踪
-    /// </summary>
-    /// <param name="id">主键Id</param>
-    /// <returns>实体对象</returns>
-    Task<TEntity> GetInfoNoTrackingAsync(TKey id);
-
-    /// <summary>
     /// 获取单条数据返回默认值
     /// </summary>
     /// <param name="whereLamdba">Linq语句</param>
@@ -296,20 +252,6 @@ public interface IRepository<TEntity, TKey>
     /// <param name="whereLamdba">Linq语句</param>
     /// <returns>实体对象</returns>
     Task<TEntity> GetInfoDefaultAsync(Expression<Func<TEntity, bool>> whereLamdba);
-
-    /// <summary>
-    /// 获取单条数据返回默认值
-    /// </summary>
-    /// <param name="id">主键Id</param>
-    /// <returns>Linq语句</returns>
-    TEntity GetInfoDefault(TKey id);
-
-    /// <summary>
-    /// 获取单条数据返回默认值
-    /// </summary>
-    /// <param name="id">主键id</param>
-    /// <returns>实体对象</returns>
-    Task<TEntity> GetInfoDefaultAsync(TKey id);
     #endregion
 
     #region 获取条数
@@ -404,61 +346,6 @@ public interface IRepository<TEntity, TKey>
     /// <returns>实体集合</returns>
     List<TEntity> GetList();
 
-    #endregion
-
-    #region 分页获取数据
-
-    /// <summary>
-    /// 获取分页列表
-    /// </summary>
-    /// <param name="pageIndex">页索引</param>
-    /// <param name="pageSize">每页大小</param>
-    /// <param name="keySelector">排序键选择器</param>
-    /// <returns>分页列表</returns>
-    IPageList GetPageList(
-        int pageIndex,
-        int pageSize,
-        Expression<Func<TEntity, TKey>> keySelector);
-
-    /// <summary>
-    /// 获取分页列表
-    /// </summary>
-    /// <param name="pageIndex">页索引</param>
-    /// <param name="pageSize">每页大小</param>
-    /// <param name="keySelector">排序键选择器</param>
-    /// <param name="whereLamdba">Linq查询语句</param>
-    /// <returns>分页列表</returns>
-    IPageList GetPageList(
-        int pageIndex,
-        int pageSize,
-        Expression<Func<TEntity, TKey>> keySelector,
-        Expression<Func<TEntity, bool>> whereLamdba);
-
-    /// <summary>
-    /// 异步获取分页列表
-    /// </summary>
-    /// <param name="pageIndex">页索引</param>
-    /// <param name="pageSize">每页大小</param>
-    /// <param name="keySelector">排序键选择器</param>
-    /// <returns>分页列表</returns>
-    Task<IPageList> GetPageListAsync(
-        int pageIndex,
-        int pageSize,
-        Expression<Func<TEntity, TKey>> keySelector);
-
-    /// <summary>
-    /// 异步获取分页列表
-    /// </summary>
-    /// <param name="pageIndex">页索引</param>
-    /// <param name="pageSize">每页大小</param>
-    /// <param name="keySelector">排序键选择器</param>
-    /// <param name="whereLamdba">查询条件</param>
-    /// <returns>分页列表</returns>
-    Task<IPageList> GetPageListAsync(
-        int pageIndex,
-        int pageSize,
-        Expression<Func<TEntity, TKey>> keySelector,
-        Expression<Func<TEntity, bool>> whereLamdba);
     #endregion
 
     #region 事务

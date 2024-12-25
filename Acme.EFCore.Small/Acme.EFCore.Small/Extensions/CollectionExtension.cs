@@ -1,4 +1,5 @@
 ﻿using Acme.EFCore.Small.Repositorys;
+using Acme.EFCore.Small.SingRepositorys;
 
 namespace Acme.EFCore.Small.Extensions;
 
@@ -13,4 +14,11 @@ public static class CollectionExtension
     /// <param name="serviceCollection">IServiceCollection 实例。</param>
     public static void AddRepositorys(this IServiceCollection serviceCollection)
         => serviceCollection.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
+
+    /// <summary>
+    /// 添加单例服务。
+    /// </summary>
+    /// <param name="serviceCollection">IServiceCollection 实例。</param>
+    public static void AddSingRepositorys(this IServiceCollection serviceCollection)
+        => serviceCollection.AddScoped(typeof(ISingRepository<>), typeof(SingRepository<>));
 }

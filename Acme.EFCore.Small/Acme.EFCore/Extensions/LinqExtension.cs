@@ -96,7 +96,7 @@ public static class LinqExtension
     /// <param name="pageIndex">页码</param>
     /// <param name="pageSize">每页显示的条数</param>
     /// <returns></returns>
-    public async static Task<IPageList> ToPageListAsync<T>(
+    public async static Task<PageList<T>> ToPageListAsync<T>(
        this IQueryable<T> source,
        int pageIndex,
        int pageSize)

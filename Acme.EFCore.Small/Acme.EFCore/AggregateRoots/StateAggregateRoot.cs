@@ -15,7 +15,7 @@ public abstract class StateAggregateRoot<TKey> : IdAggregateRoot<TKey> where TKe
     /// 构造函数，初始化状态聚合根
     /// </summary>
     /// <param name="isDisable"></param>
-    public StateAggregateRoot(bool isDisable)
+    public StateAggregateRoot(bool isDisable = false)
     {
         IsDisable = isDisable;
         OperationTime = DateTime.Now;

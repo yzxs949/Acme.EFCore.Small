@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Acme.EFCore.Small</id>
+    <version>1.0.5</version>
+    <title>Acme.EFCore.Small</title>
+    <authors>yzxs</authors>
+    <projectUrl>https://www.nuget.org/packages/Acme.EFCore.Small/</projectUrl>
+    <description>net6;net7;net8;net9最新版本使用1.2.8.2，core3.1;net5最新使用1.0.5</description>
+    <releaseNotes>修复已知bug（技术支持联系邮箱：yzxs949@163.com）</releaseNotes>
+    <copyright>yzxs</copyright>
+    <tags>Acme EntityFrameworkCore EF EFCore EFCore.Small yzxs 云中小生 netcoreapp3.1 net5</tags>
+    <repository type="git" commit="8aaa6535af65d07d4b643021396c65187c3a78e3" />
+    <dependencies>
+      <group targetFramework=".NETCoreApp3.1">
+        <dependency id="Microsoft.EntityFrameworkCore" version="3.1.32" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net5.0">
+        <dependency id="Microsoft.EntityFrameworkCore" version="5.0.17" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="D:\yzxs\Code\EFCore\acme.-efcore.-small\Acme.EFCore.Small\Acme.EFCore.Small.Core\bin\Debug\net5\Acme.EFCore.Small.dll" target="lib\net5.0\Acme.EFCore.Small.dll" />
+    <file src="D:\yzxs\Code\EFCore\acme.-efcore.-small\Acme.EFCore.Small\Acme.EFCore.Small.Core\bin\Debug\net5\Acme.EFCore.Small.xml" target="lib\net5.0\Acme.EFCore.Small.xml" />
+    <file src="D:\yzxs\Code\EFCore\acme.-efcore.-small\Acme.EFCore.Small\Acme.EFCore.Small.Core\bin\Debug\netcoreapp3.1\Acme.EFCore.Small.dll" target="lib\netcoreapp3.1\Acme.EFCore.Small.dll" />
+    <file src="D:\yzxs\Code\EFCore\acme.-efcore.-small\Acme.EFCore.Small\Acme.EFCore.Small.Core\bin\Debug\netcoreapp3.1\Acme.EFCore.Small.xml" target="lib\netcoreapp3.1\Acme.EFCore.Small.xml" />
+  </files>
+</package>
