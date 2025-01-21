@@ -22,6 +22,18 @@ public abstract class StateAggregateRoot<TKey> : IdAggregateRoot<TKey> where TKe
     }
 
     /// <summary>
+    /// 构造函数，初始化状态聚合根
+    /// </summary>
+    /// <param name="operatorId"></param>
+    /// <param name="isDisable"></param>
+    public StateAggregateRoot(TKey operatorId, bool isDisable = false)
+    {
+        IsDisable = isDisable;
+        OperatorId = operatorId;
+        OperationTime = DateTime.Now;
+    }
+
+    /// <summary>
     /// 是否禁用
     /// </summary>
     public bool IsDisable { get; private set; }
@@ -52,6 +64,16 @@ public abstract class StateAggregateRoot<TKey> : IdAggregateRoot<TKey> where TKe
     public void Disable(TKey operatorId)
     {
         IsDisable = true;
+        OperatorId = operatorId;
+        OperationTime = DateTime.Now;
+    }
+
+    /// <summary>
+    /// 更新
+    /// </summary>
+    /// <param name="operatorId"></param>
+    public void Update(TKey operatorId)
+    {
         OperatorId = operatorId;
         OperationTime = DateTime.Now;
     }
