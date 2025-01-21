@@ -69,6 +69,73 @@ public static class LinqExtension
     => verification ? source.Where(anyLambda) : source;
 
     /// <summary>
+    /// 条件表达式
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="query"></param>
+    /// <param name="key">字段名</param>
+    /// <param name="symbol">运算符号</param>
+    /// <param name="value">值</param>
+    /// <returns></returns>
+    public static IQueryable<T> AddConditions<T>(
+        this IQueryable<T> query,
+        string key,
+        string symbol,
+        string value)
+    {
+        var parameter = Expression.Parameter(typeof(T), "x");
+        var right = Expression.Constant(Convert.ChangeType(value, Expression.Property(parameter, key).Type));
+        var conditionExpression = symbol switch
+        {
+            "==" => Expression.Equal(Expression.Property(parameter, key), right),
+            "!=" => Expression.NotEqual(Expression.Property(parameter, key), right),
+            ">" => Expression.GreaterThan(Expression.Property(parameter, key), right),
+            "<" => Expression.LessThan(Expression.Property(parameter, key), right),
+            ">=" => Expression.GreaterThanOrEqual(Expression.Property(parameter, key), right),
+            "<=" => Expression.LessThanOrEqual(Expression.Property(parameter, key), right),
+            _ => throw new ArgumentException("Unsupported symbol")
+        };
+        var lambda = Expression.Lambda<Func<T, bool>>(conditionExpression, parameter);
+        query = query.Where(lambda);
+        return query;
+    }
+
+    /// <summary>
+    /// 添加关键字模糊查询条件
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="query"></param>
+    /// <param name="keys">字段集合</param>
+    /// <param name="value">关键字值</param>
+    /// <returns></returns>
+    public static IQueryable<T> AddConditionsContains<T>(
+        this IQueryable<T> query,
+        string[] keys,
+        string value)
+    {
+        if (keys == null || keys.Length == 0 || string.IsNullOrEmpty(value))
+            return query;
+        var types = new Type[] { typeof(string) };
+        var param = Expression.Parameter(typeof(T), "s");
+        Expression body = null;
+        var containsMethod = typeof(string).GetMethod("Contains", types);
+        foreach (var key in keys)
+        {
+            var property = typeof(T).GetProperty(key);
+            if (property is not null)
+            {
+                var propertyAccess = Expression.MakeMemberAccess(param, property);
+                var constant = Expression.Constant(value, typeof(string));
+                var containsCall = Expression.Call(propertyAccess, containsMethod, constant);
+                body = body is null ? containsCall : Expression.OrElse(body, containsCall);
+            }
+        }
+        if (body is null)
+            return query;
+        return query.Where(Expression.Lambda<Func<T, bool>>(body, param));
+    }
+
+    /// <summary>
     /// 分页（排序后使用）
     /// </summary>
     /// <typeparam name="T">实体</typeparam>
