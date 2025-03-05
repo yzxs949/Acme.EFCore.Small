@@ -1,5 +1,4 @@
 ﻿using Acme.EFCore.Small.Repositorys;
-using Acme.EFCore.Small.SingRepositorys;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Acme.EFCore.Small.Extensions
@@ -14,13 +13,9 @@ namespace Acme.EFCore.Small.Extensions
         /// </summary>
         /// <param name="serviceCollection">IServiceCollection 实例。</param>
         public static void AddRepositorys(this IServiceCollection serviceCollection)
-            => serviceCollection.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
-
-        /// <summary>
-        /// 添加单例服务。
-        /// </summary>
-        /// <param name="serviceCollection">IServiceCollection 实例。</param>
-        public static void AddSingRepositorys(this IServiceCollection serviceCollection)
-            => serviceCollection.AddScoped(typeof(ISingRepository<>), typeof(SingRepository<>));
+        {
+            serviceCollection.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
+            serviceCollection.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        }
     }
 }

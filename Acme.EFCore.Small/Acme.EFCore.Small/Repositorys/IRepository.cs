@@ -400,4 +400,12 @@ namespace Acme.EFCore.Small.Repositorys
         Task DisposeTransactionAsync();
         #endregion
     }
+
+    /// <summary>
+    /// 单库仓储
+    /// </summary>
+    public interface IRepository<TEntity> : IRepository<DbContext, TEntity>
+        where TEntity : class, new()
+    {
+    }
 }

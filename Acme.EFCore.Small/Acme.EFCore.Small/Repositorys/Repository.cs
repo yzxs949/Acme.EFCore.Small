@@ -577,4 +577,20 @@ namespace Acme.EFCore.Small.Repositorys
         }
         #endregion
     }
+
+    /// <summary>
+    /// 单例仓储
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
+    public class Repository<TEntity> : Repository<DbContext, TEntity>, IRepository<TEntity>
+        where TEntity : class, new()
+    {
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="dbContext"></param>
+        public Repository(DbContext dbContext) : base(dbContext)
+        {
+        }
+    }
 }
