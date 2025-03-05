@@ -459,29 +459,44 @@ namespace Acme.EFCore.Small.Repositorys
         /// <summary>
         /// 事务
         /// </summary>
-        private IDbContextTransaction ContextTransaction { get; set; }
+        private IDbContextTransaction _contextTransaction = null;
 
         /// <summary>
         /// 开启事务
         /// </summary>
         /// <returns></returns>
-        public void BeginTransaction() => ContextTransaction = DbContext.Database.BeginTransaction();
+        public void BeginTransaction()
+        {
+            if (_contextTransaction != null)
+                throw new InvalidOperationException("已有未完成的事务存在，请先提交或回滚当前事务");
+            _contextTransaction = DbContext.Database.BeginTransaction();
+        }
 
         /// <summary>
         /// 开启事务
         /// </summary>
         /// <returns></returns>
-        public async Task BeginTransactionAsync() => ContextTransaction = await DbContext.Database.BeginTransactionAsync();
+        public async Task BeginTransactionAsync()
+        {
+            if (_contextTransaction != null)
+                throw new InvalidOperationException("已有未完成的事务存在，请先提交或回滚当前事务");
+            _contextTransaction = await DbContext.Database.BeginTransactionAsync();
+        }
 
         /// <summary>
         /// 提交事务
         /// </summary>
         public void CommitTransaction()
         {
-            if (ContextTransaction != null)
-                ContextTransaction.Commit();
-            else
-                throw new Exception("您未开启事务！");
+            EnsureTransactionExists();
+            try
+            {
+                _contextTransaction.Commit();
+            }
+            finally
+            {
+                DisposeTransaction();
+            }
         }
 
         /// <summary>
@@ -489,10 +504,15 @@ namespace Acme.EFCore.Small.Repositorys
         /// </summary>
         public async Task CommitTransactionAsync()
         {
-            if (ContextTransaction != null)
-                await ContextTransaction.CommitAsync();
-            else
-                throw new Exception("您未开启事务！");
+            EnsureTransactionExists();
+            try
+            {
+                await _contextTransaction.CommitAsync();
+            }
+            finally
+            {
+                await DisposeTransactionAsync();
+            }
         }
 
         /// <summary>
@@ -500,10 +520,15 @@ namespace Acme.EFCore.Small.Repositorys
         /// </summary>
         public void RollbackTransaction()
         {
-            if (ContextTransaction != null)
-                ContextTransaction.Rollback();
-            else
-                throw new Exception("您未开启事务！");
+            EnsureTransactionExists();
+            try
+            {
+                _contextTransaction.Rollback();
+            }
+            finally
+            {
+                DisposeTransaction();
+            }
         }
 
         /// <summary>
@@ -511,10 +536,15 @@ namespace Acme.EFCore.Small.Repositorys
         /// </summary>
         public async Task RollbackTransactionAsync()
         {
-            if (ContextTransaction != null)
-                await ContextTransaction.RollbackAsync();
-            else
-                throw new Exception("您未开启事务！");
+            EnsureTransactionExists();
+            try
+            {
+                await _contextTransaction.RollbackAsync();
+            }
+            finally
+            {
+                await DisposeTransactionAsync();
+            }
         }
 
         /// <summary>
@@ -522,13 +552,9 @@ namespace Acme.EFCore.Small.Repositorys
         /// </summary>
         public void DisposeTransaction()
         {
-            if (ContextTransaction != null)
-            {
-                ContextTransaction.Dispose();
-                DbContext.Dispose();
-            }
-            else
-                throw new Exception("您未开启事务！");
+            if (_contextTransaction == null) return;
+            _contextTransaction.Dispose();
+            _contextTransaction = null;
         }
 
         /// <summary>
@@ -536,13 +562,18 @@ namespace Acme.EFCore.Small.Repositorys
         /// </summary>
         public async Task DisposeTransactionAsync()
         {
-            if (ContextTransaction != null)
-            {
-                await ContextTransaction.DisposeAsync();
-                await DbContext.DisposeAsync();
-            }
-            else
-                throw new Exception("您未开启事务！");
+            if (_contextTransaction is null) return;
+            await _contextTransaction.DisposeAsync();
+            _contextTransaction = null;
+        }
+
+        /// <summary>
+        /// 检查事务是否存在
+        /// </summary>
+        private void EnsureTransactionExists()
+        {
+            if (_contextTransaction == null)
+                throw new InvalidOperationException("您未开启事务！");
         }
         #endregion
     }
