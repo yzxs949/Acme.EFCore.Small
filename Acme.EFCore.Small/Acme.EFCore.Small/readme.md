@@ -2,7 +2,7 @@
 
 ## 1、summary
 Acme.EFCore.Small is a lightweight EFCore general-purpose library designed to interact with databases using Entity Framework Core (EFCore). It serves as the fundamental component for handling various database operations.
-Version: v1.2.8.4
+Version: v1.2.8.9
 
 ## 2、 Beginner's Guide
 ### 1. Install Acme EFCore.Small
@@ -46,7 +46,7 @@ public class AppDbContext : DbContext
 ### 6.Dependency injection
 #### 6.1.Basic configuration
 ```csharp
-//调用数据库配置信息
-services.AddDbContext<AppDbContext1>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-services.AddBaseService();
+//Call database configuration information
+services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+services.AddRepositorys();
 ```
