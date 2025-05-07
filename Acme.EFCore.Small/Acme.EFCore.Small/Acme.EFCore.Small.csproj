@@ -11,7 +11,7 @@
 				-beta：Beta 版本，通常指可用于下一计划版本的功能完整的版本，但可能包含已知 bug。
 				-rc：候选发布，通常可能为最终（稳定）版本，除非出现重大 bug。
 		-->
-		<Version>1.2.9</Version>
+		<Version>1.3</Version>
 		<Authors>yzxs</Authors>
 		<Company>yzxs</Company>
 		<Product>Acme.EFCore.Small</Product>
@@ -21,10 +21,10 @@
 		<Description>轻量级EFCore操作类库</Description>
 		<Title>Acme.EFCore.Small</Title>
 		<PackageTags>Acme;EntityFrameworkCore;EF;EFCore;EFCore.Small;yzxs;core3.1;net5;net6;net7;net8;net9;</PackageTags>
-		<PackageProjectUrl>https://www.nuget.org/packages/Acme.EFCore.Small/1.2.9#readme-body-tab</PackageProjectUrl>
+		<PackageProjectUrl>https://www.nuget.org/packages/Acme.EFCore.Small/1.3#readme-body-tab</PackageProjectUrl>
 		<PackageReleaseNotes>
 			<!--合并core3.1;net5;到最新版本-->
-			更新EFCore版本
+			添加Linq拓展，关键字、排序等查询条件
 		</PackageReleaseNotes>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 	</PropertyGroup>
