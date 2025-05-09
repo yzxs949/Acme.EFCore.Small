@@ -16,22 +16,17 @@ namespace Acme.EFCore.Repositorys;
 /// </summary>
 /// <typeparam name="TEntity">实体</typeparam>
 ///  <typeparam name="TKey">主键类型</typeparam>
-public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
+/// <remarks>
+/// 构造函数，初始化仓储实例
+/// </remarks>
+/// <param name="dbContext"></param>
+public class Repository<TEntity, TKey>(DbContext dbContext) : IRepository<TEntity, TKey>
     where TEntity : IdAggregateRoot<TKey>, new() where TKey : struct
 {
     /// <summary>
     /// 数据库上下文
     /// </summary>
-    public DbContext DbContext { get; init; }
-
-    /// <summary>
-    /// 构造函数，初始化仓储实例
-    /// </summary>
-    /// <param name="dbContext"></param>
-    public Repository(DbContext dbContext)
-    {
-        DbContext = dbContext;
-    }
+    public DbContext DbContext { get; init; } = dbContext;
 
     #region 提交
     /// <summary>
@@ -474,7 +469,7 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
     /// <param name="whereLamdba">Linq语句</param>
     /// <returns>实体集合</returns>
     public List<TEntity> GetList(Expression<Func<TEntity, bool>> whereLamdba)
-        => Queryable(whereLamdba).ToList();
+        => [.. Queryable(whereLamdba)];
 
     /// <summary>
     /// 获取集合数据
@@ -483,7 +478,7 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
     /// <param name="strip">条数</param>
     /// <returns>实体集合</returns>
     public List<TEntity> GetListTake(Expression<Func<TEntity, bool>> whereLamdba, int strip)
-        => Queryable(whereLamdba).Take(strip).ToList();
+        => [.. Queryable(whereLamdba).Take(strip)];
 
     /// <summary>
     /// 获取集合数据
@@ -500,7 +495,7 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
     /// <param name="strip">条数</param>
     /// <returns>实体集合</returns>
     public List<TEntity> GetListTake(int strip)
-        => Queryable().Take(strip).ToList();
+        => [.. Queryable().Take(strip)];
 
     /// <summary>
     /// 获取集合数据
@@ -519,7 +514,7 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
     /// 此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景
     /// </remarks>
     public List<TEntity> GetListNoTracking(Expression<Func<TEntity, bool>> whereLamdba)
-        => Queryable(whereLamdba).AsNoTracking().ToList();
+        => [.. Queryable(whereLamdba).AsNoTracking()];
 
     /// <summary>
     /// 根据指定条件获取不跟踪的实体列表
@@ -529,14 +524,14 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
     /// 此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景
     /// </remarks>
     public List<TEntity> GetListNoTracking()
-        => Queryable().AsNoTracking().ToList();
+        => [.. Queryable().AsNoTracking()];
 
     /// <summary>
     /// 获取集合数据
     /// </summary>
     /// <returns>实体集合</returns>
     public List<TEntity> GetList()
-        => Queryable().ToList();
+        => [.. Queryable()];
     #endregion
 
     #region 分页获取数据

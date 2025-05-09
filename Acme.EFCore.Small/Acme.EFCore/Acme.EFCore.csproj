@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6;net7;net8;net9;</TargetFrameworks>
+		<TargetFrameworks>net8;net9;</TargetFrameworks>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageId>Acme.EFCore</PackageId>
-		<Version>3.3.5</Version>
+		<Version>3.3.6</Version>
 		<Authors>yzxs</Authors>
 		<Company>yzxs</Company>
 		<Product>Acme.EFCore</Product>
@@ -18,23 +18,15 @@
 		<PackageReleaseNotes>
 			A brand new version of Acme EFCore
 		</PackageReleaseNotes>
-		<PackageProjectUrl>https://www.nuget.org/packages/Acme.EFCore/3.2#readme-body-tab</PackageProjectUrl>
+		<PackageProjectUrl>https://www.nuget.org/packages/Acme.EFCore/3.3.6#readme-body-tab</PackageProjectUrl>
 	</PropertyGroup>
-	<ItemGroup Condition="'$(TargetFramework)' == 'net6' ">
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.20" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
-	</ItemGroup>
-	<ItemGroup Condition="'$(TargetFramework)' == 'net7' ">
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.20" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
-	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8' ">
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.4" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net9' ">
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.4" />
 	</ItemGroup>
 	<ItemGroup>
 	  <None Remove="readme.md" />
