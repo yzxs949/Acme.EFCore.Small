@@ -27,6 +27,7 @@
 			更新.net8、9的Microsoft.EntityFrameworkCore版本到9.0.4
 		</PackageReleaseNotes>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
+		<NoWarn></NoWarn>
 	</PropertyGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.32" />

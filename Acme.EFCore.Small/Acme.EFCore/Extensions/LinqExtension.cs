@@ -78,7 +78,7 @@ public static class LinqExtension
     /// <param name="pageIndex">页码</param>
     /// <param name="pageSize">每页显示的条数</param>
     /// <returns></returns>
-    public static IPageList ToPageList<T>(
+    public static PageList<T> ToPageList<T>(
        this IQueryable<T> source,
        int pageIndex,
        int pageSize)
@@ -98,7 +98,7 @@ public static class LinqExtension
     /// <param name="pageIndex">页码</param>
     /// <param name="pageSize">每页显示的条数</param>
     /// <returns></returns>
-    public async static Task<IPageList> ToPageListAsync<T>(
+    public async static Task<PageList<T>> ToPageListAsync<T>(
        this IQueryable<T> source,
        int pageIndex,
        int pageSize)
@@ -106,7 +106,7 @@ public static class LinqExtension
         int total = await source.CountAsync();
         var rows = new List<T>();
         if (total > 0)
-            rows = await source.Skip((pageIndex > 0 ? pageIndex - 1 : 0) * pageSize).Take(pageSize).ToListAsync();
+            rows = (await source.Skip((pageIndex > 0 ? pageIndex - 1 : 0) * pageSize).Take(pageSize).ToListAsync());
         var data = new PageList<T>(total, rows);
         return data;
     }

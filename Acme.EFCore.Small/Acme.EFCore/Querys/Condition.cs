@@ -1,6 +1,18 @@
 ﻿using Acme.EFCore.Enums;
+using System.Collections.Generic;
 
 namespace Acme.EFCore.Querys;
+
+/// <summary>
+/// 分页查询参数
+/// </summary>
+/// <param name="PageIndex">页码</param>
+/// <param name="PageSize">每页显示的条数</param>
+/// <param name="Conditions">查询条件</param>
+/// <param name="Sorting">排序</param>
+/// <param name="Keywords">关键字</param>
+public record PageQueryParam(int PageIndex,
+        int PageSize, List<Condition> Conditions, Sorting Sorting, Keywords Keywords);
 
 /// <summary>
 /// 查询条件

@@ -1,5 +1,6 @@
 ﻿using Acme.EFCore.AggregateRoots;
 using Acme.EFCore.Page;
+using Acme.EFCore.Querys;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -422,7 +423,7 @@ public interface IRepository<TEntity, TKey>
     /// <param name="pageSize">每页大小</param>
     /// <param name="keySelector">排序键选择器</param>
     /// <returns>分页列表</returns>
-    IPageList GetPageList(
+    PageList<TEntity> GetPageList(
         int pageIndex,
         int pageSize,
         Expression<Func<TEntity, TKey>> keySelector);
@@ -435,7 +436,7 @@ public interface IRepository<TEntity, TKey>
     /// <param name="keySelector">排序键选择器</param>
     /// <param name="whereLamdba">Linq查询语句</param>
     /// <returns>分页列表</returns>
-    IPageList GetPageList(
+    PageList<TEntity> GetPageList(
         int pageIndex,
         int pageSize,
         Expression<Func<TEntity, TKey>> keySelector,
@@ -448,7 +449,7 @@ public interface IRepository<TEntity, TKey>
     /// <param name="pageSize">每页大小</param>
     /// <param name="keySelector">排序键选择器</param>
     /// <returns>分页列表</returns>
-    Task<IPageList> GetPageListAsync(
+    Task<PageList<TEntity>> GetPageListAsync(
         int pageIndex,
         int pageSize,
         Expression<Func<TEntity, TKey>> keySelector);
@@ -461,11 +462,17 @@ public interface IRepository<TEntity, TKey>
     /// <param name="keySelector">排序键选择器</param>
     /// <param name="whereLamdba">查询条件</param>
     /// <returns>分页列表</returns>
-    Task<IPageList> GetPageListAsync(
+    Task<PageList<TEntity>> GetPageListAsync(
         int pageIndex,
         int pageSize,
         Expression<Func<TEntity, TKey>> keySelector,
         Expression<Func<TEntity, bool>> whereLamdba);
+
+    /// <summary>
+    /// 异步获取分页列表
+    /// </summary>
+    /// <returns>分页列表</returns>
+    Task<PageList<TEntity>> GetPageListAsync(PageQueryParam pageQuery);
     #endregion
 
     #region 事务

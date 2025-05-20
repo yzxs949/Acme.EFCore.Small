@@ -5,7 +5,7 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageId>Acme.EFCore</PackageId>
-		<Version>3.3.6</Version>
+		<Version>3.3.8-beta</Version>
 		<Authors>yzxs</Authors>
 		<Company>yzxs</Company>
 		<Product>Acme.EFCore</Product>
@@ -18,7 +18,7 @@
 		<PackageReleaseNotes>
 			A brand new version of Acme EFCore
 		</PackageReleaseNotes>
-		<PackageProjectUrl>https://www.nuget.org/packages/Acme.EFCore/3.3.6#readme-body-tab</PackageProjectUrl>
+		<PackageProjectUrl>https://www.nuget.org/packages/Acme.EFCore/3.3.8-beta#readme-body-tab</PackageProjectUrl>
 	</PropertyGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8' ">
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />

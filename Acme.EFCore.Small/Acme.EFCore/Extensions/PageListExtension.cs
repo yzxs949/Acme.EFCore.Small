@@ -14,9 +14,9 @@ public static class PageListExtension
     /// <param name="items"></param>
     /// <param name="total"></param>
     /// <returns></returns>
-    public static IPageList ToPageList(this List<object> items, int total)
+    public static PageList ToPageList(this List<object> items, int total)
     {
-        var pageList = new PageList<object>(total, items);
+        var pageList = new PageList(total, items);
         return pageList;
     }
 
@@ -27,7 +27,7 @@ public static class PageListExtension
     /// <param name="items"></param>
     /// <param name="total"></param>
     /// <returns></returns>
-    public static IPageList ToPageList<T>(this List<T> items, int total)
+    public static PageList<T> ToPageList<T>(this List<T> items, int total)
     {
         PageList<T> pageList = new(total, items);
         return pageList;

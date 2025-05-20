@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Acme.EFCore.AggregateRoots;
 using Acme.EFCore.Extensions;
 using Acme.EFCore.Page;
+using Acme.EFCore.Querys;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
@@ -542,7 +543,7 @@ public class Repository<TEntity, TKey>(DbContext dbContext) : IRepository<TEntit
     /// <param name="pageSize">每页大小</param>
     /// <param name="keySelector">排序键选择器</param>
     /// <returns>分页列表</returns>
-    public IPageList GetPageList(
+    public PageList<TEntity> GetPageList(
         int pageIndex,
         int pageSize,
         Expression<Func<TEntity, TKey>> keySelector)
@@ -556,7 +557,7 @@ public class Repository<TEntity, TKey>(DbContext dbContext) : IRepository<TEntit
     /// <param name="keySelector">排序键选择器</param>
     /// <param name="whereLamdba">查询条件</param>
     /// <returns>分页列表</returns>
-    public IPageList GetPageList(
+    public PageList<TEntity> GetPageList(
         int pageIndex,
         int pageSize,
         Expression<Func<TEntity, TKey>> keySelector,
@@ -570,7 +571,7 @@ public class Repository<TEntity, TKey>(DbContext dbContext) : IRepository<TEntit
     /// <param name="pageSize">每页大小</param>
     /// <param name="keySelector">排序键选择器</param>
     /// <returns>分页列表</returns>
-    public async Task<IPageList> GetPageListAsync(
+    public async Task<PageList<TEntity>> GetPageListAsync(
         int pageIndex,
         int pageSize,
         Expression<Func<TEntity, TKey>> keySelector)
@@ -584,12 +585,27 @@ public class Repository<TEntity, TKey>(DbContext dbContext) : IRepository<TEntit
     /// <param name="keySelector">排序键选择器</param>
     /// <param name="whereLamdba">查询条件</param>
     /// <returns>分页列表</returns>
-    public async Task<IPageList> GetPageListAsync(
+    public async Task<PageList<TEntity>> GetPageListAsync(
         int pageIndex,
         int pageSize,
         Expression<Func<TEntity, TKey>> keySelector,
         Expression<Func<TEntity, bool>> whereLamdba)
     => await Queryable(whereLamdba).OrderBy(keySelector).ToPageListAsync(pageIndex, pageSize);
+
+    /// <summary>
+    /// 异步获取分页列表
+    /// </summary>
+    /// <returns>分页列表</returns>
+    public async Task<PageList<TEntity>> GetPageListAsync(
+        PageQueryParam pageQuery)
+    {
+        var query = await Queryable()
+            .AddConditions(pageQuery.Conditions)
+            .AddConditionsContains(pageQuery.Keywords)
+            .AddSorting(pageQuery.Sorting)
+            .ToPageListAsync(pageQuery.PageIndex, pageQuery.PageSize);
+        return query;
+    }
     #endregion
 
     #region 事务
