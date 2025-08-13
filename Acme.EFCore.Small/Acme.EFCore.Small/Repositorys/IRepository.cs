@@ -294,9 +294,28 @@ namespace Acme.EFCore.Small.Repositorys
         /// <summary>
         /// 获取集合数据
         /// </summary>
+        /// <returns>实体集合</returns>
+        List<TEntity> GetList();
+
+        /// <summary>
+        /// 获取集合数据
+        /// </summary>
+        /// <returns>实体集合</returns>
+        Task<List<TEntity>> GetListAsync();
+
+        /// <summary>
+        /// 获取集合数据
+        /// </summary>
         /// <param name="whereLamdba">Linq语句</param>
         /// <returns>实体集合</returns>
         List<TEntity> GetList(Expression<Func<TEntity, bool>> whereLamdba);
+
+        /// <summary>
+        /// 获取集合数据
+        /// </summary>
+        /// <param name="whereLamdba">Linq语句</param>
+        /// <returns>实体集合</returns>
+        Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> whereLamdba);
 
         /// <summary>
         /// 获取集合数据
@@ -346,13 +365,6 @@ namespace Acme.EFCore.Small.Repositorys
         /// 此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景
         /// </remarks>
         List<TEntity> GetListNoTracking();
-
-        /// <summary>
-        /// 获取集合数据
-        /// </summary>
-        /// <returns>实体集合</returns>
-        List<TEntity> GetList();
-
         #endregion
 
         #region 事务

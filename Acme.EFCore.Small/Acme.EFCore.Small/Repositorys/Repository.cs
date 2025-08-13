@@ -385,11 +385,39 @@ namespace Acme.EFCore.Small.Repositorys
         /// <summary>
         /// 获取集合数据
         /// </summary>
+        /// <returns>实体集合</returns>
+        public List<TEntity> GetList()
+        {
+            return Queryable().ToList();
+        }
+
+        /// <summary>
+        /// 获取集合数据
+        /// </summary>
+        /// <returns>实体集合</returns>
+        public async Task<List<TEntity>> GetListAsync()
+        {
+            return await Queryable().ToListAsync();
+        }
+
+        /// <summary>
+        /// 获取集合数据
+        /// </summary>
         /// <param name="whereLamdba">Linq语句</param>
         /// <returns>实体集合</returns>
         public List<TEntity> GetList(Expression<Func<TEntity, bool>> whereLamdba)
         {
             return Queryable(whereLamdba).ToList();
+        }
+
+        /// <summary>
+        /// 获取集合数据
+        /// </summary>
+        /// <param name="whereLamdba">Linq语句</param>
+        /// <returns>实体集合</returns>
+        public async Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> whereLamdba)
+        {
+            return await Queryable(whereLamdba).ToListAsync();
         }
 
         /// <summary>
@@ -446,13 +474,6 @@ namespace Acme.EFCore.Small.Repositorys
         /// </remarks>
         public List<TEntity> GetListNoTracking()
             => Queryable().AsNoTracking().ToList();
-
-        /// <summary>
-        /// 获取集合数据
-        /// </summary>
-        /// <returns>实体集合</returns>
-        public List<TEntity> GetList()
-            => Queryable().ToList();
         #endregion
 
         #region 事务
