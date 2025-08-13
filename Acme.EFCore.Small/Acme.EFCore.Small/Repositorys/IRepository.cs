@@ -14,7 +14,7 @@ namespace Acme.EFCore.Small.Repositorys
     /// <typeparam name="TEntity">实体</typeparam>
     public interface IRepository<TDbContext, TEntity>
         where TDbContext : DbContext
-        where TEntity : class, new()
+        where TEntity : class
     {
         /// <summary>
         /// 数据库上下文
@@ -417,7 +417,7 @@ namespace Acme.EFCore.Small.Repositorys
     /// 单库仓储
     /// </summary>
     public interface IRepository<TEntity> : IRepository<DbContext, TEntity>
-        where TEntity : class, new()
+        where TEntity : class
     {
     }
 }
