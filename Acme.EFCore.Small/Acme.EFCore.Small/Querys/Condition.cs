@@ -1,7 +1,4 @@
 ﻿using Acme.EFCore.Small.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Acme.EFCore.Small.Querys
 {
@@ -11,7 +8,7 @@ namespace Acme.EFCore.Small.Querys
     public class Condition
     {
         /// <summary>
-        /// 查询条件
+        /// 构造函数，初始化 Condition 实例
         /// </summary>
         /// <param name="field">字段名</param>
         /// <param name="value">字段值</param>
@@ -21,6 +18,13 @@ namespace Acme.EFCore.Small.Querys
             Field = field;
             Value = value;
             Symbol = symbol;
+        }
+
+        /// <summary>
+        /// 构造函数，初始化 Condition 实例
+        /// </summary>
+        public Condition() 
+        {
         }
 
         /// <summary>
@@ -37,37 +41,5 @@ namespace Acme.EFCore.Small.Querys
         /// 运算符
         /// </summary>
         public Symbol Symbol { get; }
-    }
-
-    /// <summary>
-    /// 排序
-    /// </summary> 
-    public class Sorting
-    {
-        /// <summary>
-        /// 排序字段
-        /// </summary>
-        public string SortField { get; }
-
-        /// <summary>
-        /// 排序类型
-        /// </summary>
-        public SortingType SortingType { get; }
-    }
-
-    /// <summary>
-    /// 关键字搜索
-    /// </summary>
-    public class Keywords
-    {
-        /// <summary>
-        /// 字段名称数组
-        /// </summary>
-        public string[] Fields { get; }
-
-        /// <summary>
-        /// 值
-        /// </summary>
-        public string Value { get; }
     }
 }
