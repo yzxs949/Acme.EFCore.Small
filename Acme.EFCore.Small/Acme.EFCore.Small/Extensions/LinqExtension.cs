@@ -77,7 +77,7 @@ namespace Acme.EFCore.Small.Extensions
         /// <param name="pageIndex">页码</param>
         /// <param name="pageSize">每页显示的条数</param>
         /// <returns></returns>
-        public static IPageList ToPageList<TEntity>(
+        public static PageList<TEntity> ToPageList<TEntity>(
            this IQueryable<TEntity> source,
            int pageIndex,
            int pageSize)
@@ -97,7 +97,7 @@ namespace Acme.EFCore.Small.Extensions
         /// <param name="pageIndex">页码</param>
         /// <param name="pageSize">每页显示的条数</param>
         /// <returns></returns>
-        public async static Task<IPageList> ToPageListAsync<TEntity>(
+        public async static Task<PageList<TEntity>> ToPageListAsync<TEntity>(
            this IQueryable<TEntity> source,
            int pageIndex,
            int pageSize)

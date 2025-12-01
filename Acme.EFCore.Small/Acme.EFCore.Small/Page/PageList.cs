@@ -6,7 +6,7 @@ namespace Acme.EFCore.Small.Page
     /// 分页返回结果
     /// </summary>
     /// <typeparam name="T">实体类型</typeparam>
-    public class PageList<T> : IPageList
+    public class PageList<T>
     {
         /// <summary>
         /// 构造函数, 用于返回分页数据

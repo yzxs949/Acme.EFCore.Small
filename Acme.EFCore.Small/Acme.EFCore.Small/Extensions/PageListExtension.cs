@@ -14,7 +14,7 @@ namespace Acme.EFCore.Small.Extensions
         /// <param name="items"></param>
         /// <param name="total"></param>
         /// <returns></returns>
-        public static IPageList ToPageList(this List<object> items, int total)
+        public static PageList<object> ToPageList(this List<object> items, int total)
         {
             var pageList = new PageList<object>(total, items);
             return pageList;
@@ -27,9 +27,9 @@ namespace Acme.EFCore.Small.Extensions
         /// <param name="items"></param>
         /// <param name="total"></param>
         /// <returns></returns>
-        public static IPageList ToPageList<T>(this List<T> items, int total)
+        public static PageList<T> ToPageList<T>(this List<T> items, int total)
         {
-            PageList<T> pageList =new PageList<T>(total, items);
+            PageList<T> pageList = new PageList<T>(total, items);
             return pageList;
         }
     }

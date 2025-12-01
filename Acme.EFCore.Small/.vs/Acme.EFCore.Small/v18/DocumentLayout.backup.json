@@ -70,19 +70,31 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 11,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
               "$type": "Document",
@@ -94,7 +106,8 @@
               "RelativeToolTip": "Acme.EFCore.Small\\Extensions\\PageListExtension.cs",
               "ViewState": "AgIAAA4AAAAAAAAAAAAIwBUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-29T06:28:02.742Z"
+              "WhenOpened": "2025-09-29T06:28:02.742Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -106,7 +119,8 @@
               "RelativeToolTip": "Acme.EFCore.Small\\Properties\\PublishProfiles\\FolderProfile.pubxml",
               "ViewState": "AgIAAAAAAAAAAAAAAADwvwoAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003576|",
-              "WhenOpened": "2025-09-02T06:31:04.194Z"
+              "WhenOpened": "2025-09-02T06:31:04.194Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -118,7 +132,8 @@
               "RelativeToolTip": "Acme.EFCore.Small\\Enums\\Symbol.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-02T06:30:03.605Z"
+              "WhenOpened": "2025-09-02T06:30:03.605Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -130,7 +145,8 @@
               "RelativeToolTip": "Acme.EFCore.Small\\Enums\\SortingType.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-02T06:29:57.068Z"
+              "WhenOpened": "2025-09-02T06:29:57.068Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -142,7 +158,8 @@
               "RelativeToolTip": "Acme.EFCore.Small\\Repositorys\\IRepository.cs",
               "ViewState": "AgIAAG8BAAAAAAAAAAAMwKMBAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-13T09:51:32.645Z"
+              "WhenOpened": "2025-08-13T09:51:32.645Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -152,7 +169,7 @@
               "RelativeDocumentMoniker": "Acme.EFCore.Small\\Acme.EFCore.Small.csproj",
               "ToolTip": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\Acme.EFCore.Small.csproj",
               "RelativeToolTip": "Acme.EFCore.Small\\Acme.EFCore.Small.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
               "WhenOpened": "2025-08-13T09:51:11.222Z",
               "EditorCaption": ""
@@ -165,7 +182,7 @@
               "RelativeDocumentMoniker": "Acme.EFCore\\Acme.EFCore.csproj",
               "ToolTip": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore\\Acme.EFCore.csproj",
               "RelativeToolTip": "Acme.EFCore\\Acme.EFCore.csproj",
-              "ViewState": "AgIAABMAAAAAAAAAAABAwBkAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAABEAAAAAAAAAAABQwBkAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
               "WhenOpened": "2025-08-13T09:42:35.735Z",
               "EditorCaption": ""
@@ -180,7 +197,8 @@
               "RelativeToolTip": "Acme.EFCore.Small\\Extensions\\LinqExtension.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAPgAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-13T09:34:38.41Z"
+              "WhenOpened": "2025-08-13T09:34:38.41Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -192,7 +210,8 @@
               "RelativeToolTip": "Acme.EFCore.Small\\Repositorys\\Repository.cs",
               "ViewState": "AgIAAMsBAAAAAAAAAAAYwNMBAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-13T09:32:42.012Z"
+              "WhenOpened": "2025-08-13T09:32:42.012Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -204,7 +223,8 @@
               "RelativeToolTip": "Acme.EFCore.Small\\Extensions\\CollectionExtension.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-13T09:34:30.938Z"
+              "WhenOpened": "2025-08-13T09:34:30.938Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -216,7 +236,8 @@
               "RelativeToolTip": "Acme.EFCore.Small\\Querys\\Sorting.cs",
               "ViewState": "AgIAABAAAAAAAAAAAAAAwBQAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-02T06:36:49.658Z"
+              "WhenOpened": "2025-09-02T06:36:49.658Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -228,7 +249,8 @@
               "RelativeToolTip": "Acme.EFCore.Small\\Querys\\Keywords.cs",
               "ViewState": "AgIAABMAAAAAAAAAAAAAwBkAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-02T06:38:34.431Z"
+              "WhenOpened": "2025-09-02T06:38:34.431Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -240,7 +262,8 @@
               "RelativeToolTip": "Acme.EFCore.Small\\Querys\\Condition.cs",
               "ViewState": "AgIAABYAAAAAAAAAAAAAwCsAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-13T09:32:21.339Z"
+              "WhenOpened": "2025-08-13T09:32:21.339Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -252,7 +275,8 @@
               "RelativeToolTip": "Acme.EFCore\\AggregateRoots\\StateAggregateRoot.cs",
               "ViewState": "AgIAAEMAAAAAAAAAAAAiwAoAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-13T09:32:05.051Z"
+              "WhenOpened": "2025-08-13T09:32:05.051Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -264,7 +288,8 @@
               "RelativeToolTip": "Acme.EFCore\\AggregateRoots\\IdAggregateRoot.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-13T09:31:42.499Z"
+              "WhenOpened": "2025-08-13T09:31:42.499Z",
+              "EditorCaption": ""
             }
           ]
         },

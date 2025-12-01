@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netcoreapp3.1;net5;net6;net7;net8;net9;</TargetFrameworks>
+		<TargetFrameworks>netcoreapp3.1;net5;net6;net7;net8;net9;net10.0;</TargetFrameworks>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageId>Acme.EFCore.Small</PackageId>
@@ -11,7 +11,7 @@
 				-beta：Beta 版本，通常指可用于下一计划版本的功能完整的版本，但可能包含已知 bug。
 				-rc：候选发布，通常可能为最终（稳定）版本，除非出现重大 bug。
 		-->
-		<Version>1.3.5.1</Version>
+		<Version>1.3.6</Version>
 		<Authors>yzxs</Authors>
 		<Company>yzxs</Company>
 		<Product>Acme.EFCore.Small</Product>
@@ -20,11 +20,10 @@
 		<RootNamespace>Acme.EFCore.Small</RootNamespace>
 		<Description>轻量级EFCore操作类库</Description>
 		<Title>Acme.EFCore.Small</Title>
-		<PackageTags>Acme;EntityFrameworkCore;EF;EFCore;EFCore.Small;yzxs;core3.1;net5;net6;net7;net8;net9;云中小生</PackageTags>
-		<PackageProjectUrl>https://www.nuget.org/packages/Acme.EFCore.Small/1.3.5.1#readme-body-tab</PackageProjectUrl>
+		<PackageTags>Acme;EntityFrameworkCore;EF;EFCore;EFCore.Small;yzxs;core3.1;net5;net6;net7;net8;net9;net10;云中小生</PackageTags>
+		<PackageProjectUrl>https://www.nuget.org/packages/Acme.EFCore.Small/1.3.6#readme-body-tab</PackageProjectUrl>
 		<PackageReleaseNotes>
-			<!--合并core3.1;net5;到最新版本-->
-			更新添加查询
+			升级支持.NET10
 		</PackageReleaseNotes>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<NoWarn>IDE0305;IDE0300;IDE0290;</NoWarn>
@@ -42,10 +41,13 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.20" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8' ">
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.8" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.11" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net9' ">
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.8" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.11" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0' ">
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="NuGet.Build.Tasks.Pack" Version="6.14.0">
