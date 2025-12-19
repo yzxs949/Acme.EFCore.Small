@@ -2,8 +2,8 @@
 
 ## 1、summary
 Acme.EFCore.Small is a lightweight EFCore general-purpose library designed to interact with databases using Entity Framework Core (EFCore). It serves as the fundamental component for handling various database operations.    
-- Version: v1.3.6.1  
-- PackageReleaseNotes:Upgrade NET10 relies on Microsoft. Entity Framework Core version 10.0.1
+- Version: v1.3.6.2  
+- PackageReleaseNotes:Add entity base class, aggregate root base class, and value object base class
 
 
 
