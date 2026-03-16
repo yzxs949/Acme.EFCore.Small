@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Acme.EFCore.Small.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+83c38af4b3ce007eb4c51c0360fa3edb97a5717f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2e1d721607ac9e0434f89584dfa4629cceb44eae")]
 [assembly: System.Reflection.AssemblyProductAttribute("Acme.EFCore.Small.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Acme.EFCore.Small.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -639,7 +639,7 @@
           "build/net8.0/xunit.runner.visualstudio.props": {}
         }
       },
-      "Acme.EFCore.Small/1.3.6.6": {
+      "Acme.EFCore.Small/1.3.6.7": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
@@ -1577,7 +1577,7 @@
         "xunit.runner.visualstudio.nuspec"
       ]
     },
-    "Acme.EFCore.Small/1.3.6.6": {
+    "Acme.EFCore.Small/1.3.6.7": {
       "type": "project",
       "path": "../Acme.EFCore.Small/Acme.EFCore.Small.csproj",
       "msbuildProject": "../Acme.EFCore.Small/Acme.EFCore.Small.csproj"
@@ -1585,7 +1585,7 @@
   },
   "projectFileDependencyGroups": {
     "net10.0": [
-      "Acme.EFCore.Small >= 1.3.6.6",
+      "Acme.EFCore.Small >= 1.3.6.7",
       "Microsoft.NET.Test.Sdk >= 17.14.1",
       "Moq >= 4.20.72",
       "coverlet.collector >= 6.0.4",
