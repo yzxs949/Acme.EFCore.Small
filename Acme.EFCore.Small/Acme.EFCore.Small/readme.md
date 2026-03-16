@@ -2,7 +2,7 @@
 
 ## 1、项目概述
 Acme.EFCore.Small 是一个轻量级的 Entity Framework Core 通用库，用于使用 Entity Framework Core (EFCore) 与数据库进行交互。它是处理各种数据库操作的基础组件。
-- 版本：v1.3.6.6  
+- 版本：v1.3.6.7  
 - 发布说明：
   - 更新 .NET 10 依赖包版本，Microsoft.EntityFrameworkCore 版本从 10.0.4 更新到 10.0.5。
   - 修复已知 bug...
@@ -886,24 +886,19 @@ public class OrderService
 
 ## 6、支持的 .NET 版本
 - netcoreapp3.1
-- net5
-- net6
-- net7
-- net8
-- net9
+- net5.0
+- net6.0
+- net7.0
+- net8.0
+- net9.0
 - net10.0
 
 ## 7、NuGet 包信息
 - 包 ID: Acme.EFCore.Small
 - 作者: yzxs
 - 描述: 轻量级 EFCore 操作类库
-- 项目 URL: https://gitee.com/yzxs949/acme.-efcore.-small
-
-## 8、许可证
-MIT 许可证
-
-## 9、贡献
-欢迎贡献！请随时提交 Pull Request。
+- 项目 URL: https://www.nuget.org/packages/Acme.EFCore.Small/
 
 ## 10、联系
-如有任何问题或问题，请联系作者。
+如有任何问题或问题，请联系作者
+邮箱：yzxs949@163.com

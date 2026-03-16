@@ -1,10 +1,51 @@
-/Acme.EFCore.Small/Acme.EFCore/bin
-/Acme.EFCore.Small/Acme.EFCore/obj
-/Acme.EFCore.Small/Acme.EFCore.Small/bin
-/Acme.EFCore.Small/Acme.EFCore.Small/obj
-<<<<<<< HEAD
-=======
-/Acme.EFCore.Small/.vs/Acme.EFCore.Small/FileContentIndex
->>>>>>> 阿萨
-/Acme.EFCore.Small/Acme.EFCore.Small.Tests/obj/Debug/net10.0/Acme.EFCore.Small.Tests.AssemblyInfo.cs
-/Acme.EFCore.Small/Acme.EFCore.Small.Tests/obj/Debug/net10.0/Acme.EFCore.Small.Tests.AssemblyInfoInputs.cache
+﻿# ###############################################################################
+# 通用 .NET 项目 .gitignore (自动忽略 bin、obj、包、缓存、IDE 文件等)
+# ###############################################################################
+
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+packages/
+node_modules/
+*.nupkg
+*.snupkg
+
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.ide/
+
+*.dll
+*.exe
+*.pdb
+*.cache
+*.resources
+*.log
+*.tmp
+*.temp
+
+*.db
+*.sqlite
+*.mdf
+*.ldf
+
+wwwroot/lib/
+wwwroot/uploads/
+wwwroot/*.min.js.map
+
+TestResults/
+*.coverage
+*.coveragexml
+
+*.publishsettings
+*.pubxml.user
+*.deployproj
+
+.DS_Store
+Thumbs.db 
