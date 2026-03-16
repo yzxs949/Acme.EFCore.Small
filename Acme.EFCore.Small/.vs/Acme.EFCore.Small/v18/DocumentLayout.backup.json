@@ -3,38 +3,10 @@
   "WorkspaceRootPath": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\",
   "Documents": [
     {
-<<<<<<< Updated upstream
-      "AbsoluteMoniker": "D:0:0:{7E0B4834-FF46-493B-B5A7-0678709916ED}|Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj|d:\\yzxs\\code\\efcore\\acme.-efcore.-small\\acme.efcore.small\\acme.efcore.small.tests\\linqextensiontests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7E0B4834-FF46-493B-B5A7-0678709916ED}|Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj|solutionrelative:acme.efcore.small.tests\\linqextensiontests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7E0B4834-FF46-493B-B5A7-0678709916ED}|Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj|d:\\yzxs\\code\\efcore\\acme.-efcore.-small\\acme.efcore.small\\acme.efcore.small.tests\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7E0B4834-FF46-493B-B5A7-0678709916ED}|Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj|solutionrelative:acme.efcore.small.tests\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-=======
-      "AbsoluteMoniker": "D:0:0:{7E0B4834-FF46-493B-B5A7-0678709916ED}|Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj|d:\\yzxs\\code\\efcore\\acme.-efcore.-small\\acme.efcore.small\\acme.efcore.small.tests\\acme.efcore.small.tests.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{7E0B4834-FF46-493B-B5A7-0678709916ED}|Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj|solutionrelative:acme.efcore.small.tests\\acme.efcore.small.tests.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7E0B4834-FF46-493B-B5A7-0678709916ED}|Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj|d:\\yzxs\\code\\efcore\\acme.-efcore.-small\\acme.efcore.small\\acme.efcore.small.tests\\acme.efcore.small.tests.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
-      "RelativeMoniker": "D:0:0:{7E0B4834-FF46-493B-B5A7-0678709916ED}|Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj|solutionrelative:acme.efcore.small.tests\\acme.efcore.small.tests.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7E0B4834-FF46-493B-B5A7-0678709916ED}|Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj|d:\\yzxs\\code\\efcore\\acme.-efcore.-small\\acme.efcore.small\\acme.efcore.small.tests\\linqextensiontests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7E0B4834-FF46-493B-B5A7-0678709916ED}|Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj|solutionrelative:acme.efcore.small.tests\\linqextensiontests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
->>>>>>> Stashed changes
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7E0B4834-FF46-493B-B5A7-0678709916ED}|Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj|d:\\yzxs\\code\\efcore\\acme.-efcore.-small\\acme.efcore.small\\acme.efcore.small.tests\\entitytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7E0B4834-FF46-493B-B5A7-0678709916ED}|Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj|solutionrelative:acme.efcore.small.tests\\entitytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-<<<<<<< Updated upstream
-=======
-      "AbsoluteMoniker": "D:0:0:{7E0B4834-FF46-493B-B5A7-0678709916ED}|Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj|d:\\yzxs\\code\\efcore\\acme.-efcore.-small\\acme.efcore.small\\acme.efcore.small.tests\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7E0B4834-FF46-493B-B5A7-0678709916ED}|Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj|solutionrelative:acme.efcore.small.tests\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
->>>>>>> Stashed changes
       "AbsoluteMoniker": "D:0:0:{F2F45B5B-95EF-4282-B117-7C3D69251CD9}|Acme.EFCore.Small\\Acme.EFCore.Small.csproj|d:\\yzxs\\code\\efcore\\acme.-efcore.-small\\acme.efcore.small\\acme.efcore.small\\acme.efcore.small.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{F2F45B5B-95EF-4282-B117-7C3D69251CD9}|Acme.EFCore.Small\\Acme.EFCore.Small.csproj|solutionrelative:acme.efcore.small\\acme.efcore.small.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
@@ -133,6 +105,22 @@
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore\\AggregateRoots\\IdAggregateRoot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Acme.EFCore\\AggregateRoots\\IdAggregateRoot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small.Tests\\UnitTest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Acme.EFCore.Small.Tests\\UnitTest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small.Tests\\LinqExtensionTests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Acme.EFCore.Small.Tests\\LinqExtensionTests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small.Tests\\EntityTests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Acme.EFCore.Small.Tests\\EntityTests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -142,25 +130,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-<<<<<<< Updated upstream
-          "SelectedChildIndex": 4,
-=======
-          "SelectedChildIndex": 0,
->>>>>>> Stashed changes
+          "SelectedChildIndex": 3,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Acme.EFCore.Small.Tests",
-              "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj",
-              "RelativeDocumentMoniker": "Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj",
-              "ToolTip": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj",
-              "RelativeToolTip": "Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAADwvxIAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-03-16T05:55:44.476Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
@@ -175,22 +146,29 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-<<<<<<< Updated upstream
-=======
-              "Title": "Acme.EFCore.Small.Tests",
+              "DocumentIndex": 0,
+              "Title": "Acme.EFCore.Small.Tests.csproj",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj",
               "RelativeDocumentMoniker": "Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj",
               "ToolTip": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj",
               "RelativeToolTip": "Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-03-16T06:01:17.203Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-16T05:55:44.476Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
->>>>>>> Stashed changes
+              "DocumentIndex": 26,
+              "Title": "Acme.EFCore.Small.Tests.csproj",
+              "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj",
+              "RelativeDocumentMoniker": "Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj",
+              "ToolTip": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj",
+              "RelativeToolTip": "Acme.EFCore.Small.Tests\\Acme.EFCore.Small.Tests.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-03-16T06:01:17.203Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
               "Title": "UnitTest1.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small.Tests\\UnitTest1.cs",
               "RelativeDocumentMoniker": "Acme.EFCore.Small.Tests\\UnitTest1.cs",
@@ -198,37 +176,23 @@
               "RelativeToolTip": "Acme.EFCore.Small.Tests\\UnitTest1.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-16T05:55:59.763Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-16T05:55:59.763Z"
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 0,
-=======
-              "DocumentIndex": 2,
->>>>>>> Stashed changes
+              "DocumentIndex": 28,
               "Title": "LinqExtensionTests.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small.Tests\\LinqExtensionTests.cs",
               "RelativeDocumentMoniker": "Acme.EFCore.Small.Tests\\LinqExtensionTests.cs",
               "ToolTip": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small.Tests\\LinqExtensionTests.cs",
               "RelativeToolTip": "Acme.EFCore.Small.Tests\\LinqExtensionTests.cs",
-<<<<<<< Updated upstream
-              "ViewState": "AgIAAEYAAAAAAAAAAAAYwAoAAAARAAAAAAAAAA==",
-=======
               "ViewState": "AgIAAFcAAAAAAAAAAAAYwGIAAAAPAAAAAAAAAA==",
->>>>>>> Stashed changes
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-16T05:55:57.602Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-16T05:55:57.602Z"
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 2,
-=======
-              "DocumentIndex": 3,
->>>>>>> Stashed changes
+              "DocumentIndex": 29,
               "Title": "EntityTests.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small.Tests\\EntityTests.cs",
               "RelativeDocumentMoniker": "Acme.EFCore.Small.Tests\\EntityTests.cs",
@@ -236,16 +200,11 @@
               "RelativeToolTip": "Acme.EFCore.Small.Tests\\EntityTests.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-16T05:55:53.081Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-16T05:55:53.081Z"
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 7,
-=======
-              "DocumentIndex": 9,
->>>>>>> Stashed changes
+              "DocumentIndex": 5,
               "Title": "readme.en.md",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\readme.en.md",
               "RelativeDocumentMoniker": "Acme.EFCore.Small\\readme.en.md",
@@ -257,11 +216,7 @@
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 3,
-=======
-              "DocumentIndex": 5,
->>>>>>> Stashed changes
+              "DocumentIndex": 1,
               "Title": "Acme.EFCore.Small.csproj",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\Acme.EFCore.Small.csproj",
               "RelativeDocumentMoniker": "Acme.EFCore.Small\\Acme.EFCore.Small.csproj",
@@ -269,16 +224,11 @@
               "RelativeToolTip": "Acme.EFCore.Small\\Acme.EFCore.Small.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-08-13T09:51:11.222Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-13T09:51:11.222Z"
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 11,
-=======
-              "DocumentIndex": 13,
->>>>>>> Stashed changes
+              "DocumentIndex": 9,
               "Title": "Repository.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\Repositorys\\Repository.cs",
               "RelativeDocumentMoniker": "Acme.EFCore.Small\\Repositorys\\Repository.cs",
@@ -290,11 +240,7 @@
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 5,
-=======
-              "DocumentIndex": 7,
->>>>>>> Stashed changes
+              "DocumentIndex": 3,
               "Title": "LinqExtension.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\Extensions\\LinqExtension.cs",
               "RelativeDocumentMoniker": "Acme.EFCore.Small\\Extensions\\LinqExtension.cs",
@@ -306,11 +252,7 @@
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 10,
-=======
-              "DocumentIndex": 12,
->>>>>>> Stashed changes
+              "DocumentIndex": 8,
               "Title": "Condition.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\Querys\\Condition.cs",
               "RelativeDocumentMoniker": "Acme.EFCore.Small\\Querys\\Condition.cs",
@@ -322,11 +264,7 @@
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 9,
-=======
-              "DocumentIndex": 11,
->>>>>>> Stashed changes
+              "DocumentIndex": 7,
               "Title": "Keywords.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\Querys\\Keywords.cs",
               "RelativeDocumentMoniker": "Acme.EFCore.Small\\Querys\\Keywords.cs",
@@ -338,11 +276,7 @@
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 8,
-=======
-              "DocumentIndex": 10,
->>>>>>> Stashed changes
+              "DocumentIndex": 6,
               "Title": "Sorting.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\Querys\\Sorting.cs",
               "RelativeDocumentMoniker": "Acme.EFCore.Small\\Querys\\Sorting.cs",
@@ -354,11 +288,7 @@
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 4,
-=======
-              "DocumentIndex": 6,
->>>>>>> Stashed changes
+              "DocumentIndex": 2,
               "Title": "readme.md",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\readme.md",
               "RelativeDocumentMoniker": "Acme.EFCore.Small\\readme.md",
@@ -370,11 +300,7 @@
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 6,
-=======
-              "DocumentIndex": 8,
->>>>>>> Stashed changes
+              "DocumentIndex": 4,
               "Title": "CollectionExtension.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\Extensions\\CollectionExtension.cs",
               "RelativeDocumentMoniker": "Acme.EFCore.Small\\Extensions\\CollectionExtension.cs",
@@ -386,11 +312,7 @@
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 12,
-=======
-              "DocumentIndex": 14,
->>>>>>> Stashed changes
+              "DocumentIndex": 10,
               "Title": "BaseEntity.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\Entitys\\BaseEntity.cs",
               "RelativeDocumentMoniker": "Acme.EFCore.Small\\Entitys\\BaseEntity.cs",
@@ -402,11 +324,7 @@
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 15,
-=======
-              "DocumentIndex": 17,
->>>>>>> Stashed changes
+              "DocumentIndex": 13,
               "Title": "BaseValueObject.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\ValueObjects\\BaseValueObject.cs",
               "RelativeDocumentMoniker": "Acme.EFCore.Small\\ValueObjects\\BaseValueObject.cs",
@@ -418,11 +336,7 @@
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 13,
-=======
-              "DocumentIndex": 15,
->>>>>>> Stashed changes
+              "DocumentIndex": 11,
               "Title": "Symbol.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\Enums\\Symbol.cs",
               "RelativeDocumentMoniker": "Acme.EFCore.Small\\Enums\\Symbol.cs",
@@ -434,11 +348,7 @@
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 14,
-=======
-              "DocumentIndex": 16,
->>>>>>> Stashed changes
+              "DocumentIndex": 12,
               "Title": "SortingType.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\Enums\\SortingType.cs",
               "RelativeDocumentMoniker": "Acme.EFCore.Small\\Enums\\SortingType.cs",
@@ -450,11 +360,7 @@
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 23,
-=======
-              "DocumentIndex": 25,
->>>>>>> Stashed changes
+              "DocumentIndex": 21,
               "Title": "CollectionExtension.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore\\Extensions\\CollectionExtension.cs",
               "RelativeDocumentMoniker": "Acme.EFCore\\Extensions\\CollectionExtension.cs",
@@ -465,11 +371,7 @@
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 22,
-=======
-              "DocumentIndex": 24,
->>>>>>> Stashed changes
+              "DocumentIndex": 20,
               "Title": "Repository.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore\\Repositorys\\Repository.cs",
               "RelativeDocumentMoniker": "Acme.EFCore\\Repositorys\\Repository.cs",
@@ -480,11 +382,7 @@
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 21,
-=======
-              "DocumentIndex": 23,
->>>>>>> Stashed changes
+              "DocumentIndex": 19,
               "Title": "PageList.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore\\Page\\PageList.cs",
               "RelativeDocumentMoniker": "Acme.EFCore\\Page\\PageList.cs",
@@ -495,11 +393,7 @@
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 16,
-=======
-              "DocumentIndex": 18,
->>>>>>> Stashed changes
+              "DocumentIndex": 14,
               "Title": "BaseAggregateRoot.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\AggregateRoots\\BaseAggregateRoot.cs",
               "RelativeDocumentMoniker": "Acme.EFCore.Small\\AggregateRoots\\BaseAggregateRoot.cs",
@@ -511,11 +405,7 @@
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 24,
-=======
-              "DocumentIndex": 26,
->>>>>>> Stashed changes
+              "DocumentIndex": 22,
               "Title": "StateAggregateRoot.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore\\AggregateRoots\\StateAggregateRoot.cs",
               "RelativeDocumentMoniker": "Acme.EFCore\\AggregateRoots\\StateAggregateRoot.cs",
@@ -526,11 +416,7 @@
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 17,
-=======
-              "DocumentIndex": 19,
->>>>>>> Stashed changes
+              "DocumentIndex": 15,
               "Title": "FolderProfile.pubxml",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\Properties\\PublishProfiles\\FolderProfile.pubxml",
               "RelativeDocumentMoniker": "Acme.EFCore.Small\\Properties\\PublishProfiles\\FolderProfile.pubxml",
@@ -542,11 +428,7 @@
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 18,
-=======
-              "DocumentIndex": 20,
->>>>>>> Stashed changes
+              "DocumentIndex": 16,
               "Title": "IRepository.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\Repositorys\\IRepository.cs",
               "RelativeDocumentMoniker": "Acme.EFCore.Small\\Repositorys\\IRepository.cs",
@@ -558,11 +440,7 @@
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 25,
-=======
-              "DocumentIndex": 27,
->>>>>>> Stashed changes
+              "DocumentIndex": 23,
               "Title": "LinqExtension.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore\\Extensions\\LinqExtension.cs",
               "RelativeDocumentMoniker": "Acme.EFCore\\Extensions\\LinqExtension.cs",
@@ -573,11 +451,7 @@
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 26,
-=======
-              "DocumentIndex": 28,
->>>>>>> Stashed changes
+              "DocumentIndex": 24,
               "Title": "PageListExtension.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore\\Extensions\\PageListExtension.cs",
               "RelativeDocumentMoniker": "Acme.EFCore\\Extensions\\PageListExtension.cs",
@@ -588,11 +462,7 @@
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 27,
-=======
-              "DocumentIndex": 29,
->>>>>>> Stashed changes
+              "DocumentIndex": 25,
               "Title": "IdAggregateRoot.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore\\AggregateRoots\\IdAggregateRoot.cs",
               "RelativeDocumentMoniker": "Acme.EFCore\\AggregateRoots\\IdAggregateRoot.cs",
@@ -603,11 +473,7 @@
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 19,
-=======
-              "DocumentIndex": 21,
->>>>>>> Stashed changes
+              "DocumentIndex": 17,
               "Title": "PageListExtension.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\Extensions\\PageListExtension.cs",
               "RelativeDocumentMoniker": "Acme.EFCore.Small\\Extensions\\PageListExtension.cs",
@@ -619,11 +485,7 @@
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 20,
-=======
-              "DocumentIndex": 22,
->>>>>>> Stashed changes
+              "DocumentIndex": 18,
               "Title": "PageList.cs",
               "DocumentMoniker": "D:\\yzxs\\Code\\EFCore\\acme.-efcore.-small\\Acme.EFCore.Small\\Acme.EFCore.Small\\Page\\PageList.cs",
               "RelativeDocumentMoniker": "Acme.EFCore.Small\\Page\\PageList.cs",
