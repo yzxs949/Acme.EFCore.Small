@@ -466,6 +466,17 @@ namespace Acme.EFCore.Small.Repositorys
             => Queryable(whereLamdba).AsNoTracking().ToList();
 
         /// <summary>
+        /// 根据指定条件异步获取不跟踪的实体列表
+        /// </summary>
+        /// <param name="whereLamdba">筛选条件的 Lambda 表达式</param>
+        /// <returns>符合条件的实体列表</returns>
+        /// <remarks>
+        /// 此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景
+        /// </remarks>
+        public async Task<List<TEntity>> GetListNoTrackingAsync(Expression<Func<TEntity, bool>> whereLamdba)
+            => await Queryable(whereLamdba).AsNoTracking().ToListAsync();
+
+        /// <summary>
         /// 根据指定条件获取不跟踪的实体列表
         /// </summary>
         /// <returns>符合条件的实体列表</returns>
@@ -474,6 +485,16 @@ namespace Acme.EFCore.Small.Repositorys
         /// </remarks>
         public List<TEntity> GetListNoTracking()
             => Queryable().AsNoTracking().ToList();
+
+        /// <summary>
+        /// 异步获取不跟踪的实体列表
+        /// </summary>
+        /// <returns>符合条件的实体列表</returns>
+        /// <remarks>
+        /// 此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景
+        /// </remarks>
+        public async Task<List<TEntity>> GetListNoTrackingAsync()
+            => await Queryable().AsNoTracking().ToListAsync();
         #endregion
 
         #region 事务
