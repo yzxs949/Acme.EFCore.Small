@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Acme.EFCore.Small.Extensions;
+using Acme.EFCore.Small.UnitOfWorks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
-using Acme.EFCore.Small.Extensions;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Acme.EFCore.Small.Repositorys
 {
@@ -18,32 +20,18 @@ namespace Acme.EFCore.Small.Repositorys
         where TDbContext : DbContext
         where TEntity : class
     {
-        /// <summary>
-        /// 数据库上下文
-        /// </summary>
-        public TDbContext DbContext { get; }
+        private readonly IUnitOfWork<TDbContext> _unitOfWork;
+        private readonly DbSet<TEntity> _dbSet;
 
         /// <summary>
-        /// 构造函数，初始化仓储实例
+        /// 构造函数，初始化 Repository 实例
         /// </summary>
-        /// <param name="dbContext"></param>
-        public Repository(TDbContext dbContext)
+        /// <param name="unitOfWork"></param>
+        public Repository(IUnitOfWork<TDbContext> unitOfWork)
         {
-            DbContext = dbContext;
+            _unitOfWork = unitOfWork;
+            _dbSet = _unitOfWork.DbContext.Set<TEntity>();
         }
-
-        #region 提交
-        /// <summary>
-        /// 提交
-        /// </summary>
-        public int Submit() => DbContext.SaveChanges();
-
-        /// <summary>
-        /// 异步提交
-        /// </summary>
-        public async Task<int> SubmitAsync()
-            => await DbContext.SaveChangesAsync();
-        #endregion
 
         #region 新增 
         /// <summary>
@@ -51,10 +39,9 @@ namespace Acme.EFCore.Small.Repositorys
         /// </summary>
         /// <param name="entity">要添加的实体对象</param>
         /// <returns>已添加的实体对象</returns>
-        public TEntity Add(TEntity entity)
+        public void Add(TEntity entity)
         {
-            DbContext.Set<TEntity>().Add(entity);
-            return entity;
+            _dbSet.Add(entity);
         }
 
         /// <summary>
@@ -62,34 +49,33 @@ namespace Acme.EFCore.Small.Repositorys
         /// </summary>
         /// <param name="entity">要添加的实体对象</param>
         /// <returns>已添加的实体对象</returns>
-        public TEntity AddNowSave(TEntity entity)
+        public int AddNowSave(TEntity entity)
         {
-            DbContext.Set<TEntity>().Add(entity);
-            Submit();
-            return entity;
+            _dbSet.Add(entity);
+            return _unitOfWork.Submit();
         }
 
         /// <summary>
         /// 异步新增
         /// </summary>
         /// <param name="entity">要添加的实体对象</param>
+        /// <param name="cancellationToken">取消令牌</param>
         /// <returns>已添加的实体对象</returns>
-        public async Task<TEntity> AddAsync(TEntity entity)
+        public async Task AddAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
-            await DbContext.Set<TEntity>().AddAsync(entity);
-            return entity;
+            await _dbSet.AddAsync(entity, cancellationToken);
         }
 
         /// <summary>
         /// 异步新增立即提交
         /// </summary>
         /// <param name="entity">要添加的实体对象</param>
+        /// <param name="cancellationToken">取消令牌</param>
         /// <returns>已添加的实体对象</returns>
-        public async Task<TEntity> AddNowSaveAsync(TEntity entity)
+        public async Task<int> AddNowSaveAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
-            await AddAsync(entity);
-            await SubmitAsync();
-            return entity;
+            await AddAsync(entity, cancellationToken);
+            return await _unitOfWork.SubmitAsync(cancellationToken);
         }
 
         /// <summary>
@@ -97,10 +83,9 @@ namespace Acme.EFCore.Small.Repositorys
         /// </summary>
         /// <param name="list">要新增的实体集合</param>
         /// <returns>已新增的实体集合</returns>
-        public List<TEntity> AddMany(List<TEntity> list)
+        public void AddMany(List<TEntity> list)
         {
-            DbContext.Set<TEntity>().AddRange(list);
-            return list;
+            _dbSet.AddRange(list);
         }
 
         /// <summary>
@@ -108,32 +93,33 @@ namespace Acme.EFCore.Small.Repositorys
         /// </summary>
         /// <param name="list">要新增的实体集合</param>
         /// <returns>是否成功</returns>
-        public bool AddManyNowSave(List<TEntity> list)
+        public int AddManyNowSave(List<TEntity> list)
         {
             AddMany(list);
-            return Submit() > 0;
+            return _unitOfWork.Submit();
         }
 
         /// <summary>
         /// 异步批量新增
         /// </summary>
         /// <param name="list">要新增的实体集合</param>
+        /// <param name="cancellationToken">取消令牌</param>
         /// <returns>已新增的实体集合</returns>
-        public async Task<List<TEntity>> AddManyAsync(List<TEntity> list)
+        public async Task AddManyAsync(List<TEntity> list, CancellationToken cancellationToken = default)
         {
-            await DbContext.Set<TEntity>().AddRangeAsync(list);
-            return list;
+            await _dbSet.AddRangeAsync(list, cancellationToken);
         }
 
         /// <summary>
         /// 异步批量新增立即提交
         /// </summary>
         /// <param name="list">要新增的实体集合</param>
+        /// <param name="cancellationToken">取消令牌</param>
         /// <returns>是否成功</returns>
-        public async Task<bool> AddManyNowSaveAsync(List<TEntity> list)
+        public async Task<int> AddManyNowSaveAsync(List<TEntity> list, CancellationToken cancellationToken = default)
         {
-            await AddManyAsync(list);
-            return await SubmitAsync() > 0;
+            await AddManyAsync(list, cancellationToken);
+            return await _unitOfWork.SubmitAsync(cancellationToken);
         }
         #endregion
 
@@ -145,7 +131,8 @@ namespace Acme.EFCore.Small.Repositorys
         /// <param name="entity">要删除的实体</param>
         /// <returns></returns>
         public void Delete(TEntity entity)
-            => DbContext.Set<TEntity>().Remove(entity);
+            => _dbSet.Remove(entity);
+
 
         /// <summary>
         /// 删除立即保存
@@ -155,18 +142,19 @@ namespace Acme.EFCore.Small.Repositorys
         public bool DeleteNowSave(TEntity entity)
         {
             Delete(entity);
-            return Submit() > 0;
+            return _unitOfWork.Submit() > 0;
         }
 
         /// <summary>
         /// 异步删除立即提交
         /// </summary>
         /// <param name="entity">要删除的实体</param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<bool> DeleteNowSaveAsync(TEntity entity)
+        public async Task<bool> DeleteNowSaveAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
             Delete(entity);
-            return await SubmitAsync() > 0;
+            return await _unitOfWork.SubmitAsync(cancellationToken) > 0;
         }
 
         /// <summary>
@@ -175,7 +163,7 @@ namespace Acme.EFCore.Small.Repositorys
         /// <param name="list">要删除的实体集合</param>
         /// <returns></returns>
         public void DelMany(List<TEntity> list)
-            => DbContext.Set<TEntity>().RemoveRange(list);
+            => _dbSet.RemoveRange(list);
 
         /// <summary>
         /// 批量删除立即提交
@@ -185,18 +173,19 @@ namespace Acme.EFCore.Small.Repositorys
         public bool DelManyNowSave(List<TEntity> list)
         {
             DelMany(list);
-            return Submit() > 0;
+            return _unitOfWork.Submit() > 0;
         }
 
         /// <summary>
         /// 异步批量删除立即提交
         /// </summary>
         /// <param name="list">要删除的实体集合</param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<bool> DelManyNowSaveAsync(List<TEntity> list)
+        public async Task<bool> DelManyNowSaveAsync(List<TEntity> list, CancellationToken cancellationToken = default)
         {
             DelMany(list);
-            return await SubmitAsync() > 0;
+            return await _unitOfWork.SubmitAsync(cancellationToken) > 0;
         }
         #endregion
 
@@ -208,7 +197,7 @@ namespace Acme.EFCore.Small.Repositorys
         /// <param name="entity">要修改的实体</param>
         /// <returns></returns>
         public void Update(TEntity entity)
-            => DbContext.Update(entity);
+            => _dbSet.Update(entity);
 
         /// <summary>
         /// 修改立即提交
@@ -218,18 +207,19 @@ namespace Acme.EFCore.Small.Repositorys
         public bool UpdateNowSave(TEntity entity)
         {
             Update(entity);
-            return Submit() > 0;
+            return _unitOfWork.Submit() > 0;
         }
 
         /// <summary>
         /// 异步修改立即提交
         /// </summary>
         /// <param name="entity">要修改的实体</param>
+        /// <param name="cancellationToken">取消令牌</param>
         /// <returns>是否修改成功</returns>
-        public async Task<bool> UpdateSaveAsync(TEntity entity)
+        public async Task<bool> UpdateSaveAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
             Update(entity);
-            return await SubmitAsync() > 0;
+            return await _unitOfWork.SubmitAsync(cancellationToken) > 0;
         }
 
         /// <summary>
@@ -238,7 +228,7 @@ namespace Acme.EFCore.Small.Repositorys
         /// <param name="list">要修改的实体集合</param>
         /// <returns></returns>
         public void UpdateMany(List<TEntity> list)
-            => DbContext.UpdateRange(list);
+            => _dbSet.UpdateRange(list);
 
         /// <summary>
         /// 批量修改立即提交
@@ -248,18 +238,19 @@ namespace Acme.EFCore.Small.Repositorys
         public bool UpdateManyNowSave(List<TEntity> list)
         {
             UpdateMany(list);
-            return Submit() > 0;
+            return _unitOfWork.Submit() > 0;
         }
 
         /// <summary>
         /// 异步批量修改立即提交
         /// </summary>
         /// <param name="list">要修改的实体集合</param>
+        /// <param name="cancellationToken">取消令牌</param>
         /// <returns></returns>
-        public async Task<bool> UpdateManyNowSaveAsync(List<TEntity> list)
+        public async Task<bool> UpdateManyNowSaveAsync(List<TEntity> list, CancellationToken cancellationToken = default)
         {
             UpdateMany(list);
-            return await SubmitAsync() > 0;
+            return await _unitOfWork.SubmitAsync(cancellationToken) > 0;
         }
         #endregion
 
@@ -270,15 +261,16 @@ namespace Acme.EFCore.Small.Repositorys
         /// <param name="anyLambda">Linq语句</param>
         /// <returns>是否存在</returns>
         public bool Any(Expression<Func<TEntity, bool>> anyLambda)
-            => DbContext.Set<TEntity>().Any(anyLambda);
+            => _dbSet.Any(anyLambda);
 
         /// <summary>
         /// 异步判断是否存在
         /// </summary>
         /// <param name="anyLambda">Linq语句</param>
+        /// <param name="cancellationToken">取消令牌</param>
         /// <returns>是否存在</returns>
-        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> anyLambda)
-            => await DbContext.Set<TEntity>().AnyAsync(anyLambda);
+        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> anyLambda, CancellationToken cancellationToken = default)
+            => await _dbSet.AnyAsync(anyLambda, cancellationToken);
         #endregion
 
         #region 获取Queryable
@@ -287,7 +279,7 @@ namespace Acme.EFCore.Small.Repositorys
         /// </summary>
         /// <returns>IQueryable</returns>
         public IQueryable<TEntity> Queryable()
-            => DbContext.Set<TEntity>();
+            => _dbSet;
 
         /// <summary>
         /// 按条件返回TEntity类型的IQueryable
@@ -295,7 +287,7 @@ namespace Acme.EFCore.Small.Repositorys
         /// <param name="whereLamdba">Linq语句</param>
         /// <returns>IQueryable</returns>
         public IQueryable<TEntity> Queryable(Expression<Func<TEntity, bool>> whereLamdba)
-            => DbContext.Where(whereLamdba);
+            => _dbSet.Where(whereLamdba);
         #endregion
 
         #region 获取单条数据
@@ -303,34 +295,36 @@ namespace Acme.EFCore.Small.Repositorys
         /// <summary>
         /// 获取单条数据
         /// </summary>
-        /// <param name="whereLamdba">linq语句</param>
+        /// <param name="id">主键Id</param>
         /// <returns>实体对象</returns>
-        public TEntity GetInfo(Expression<Func<TEntity, bool>> whereLamdba)
-            => DbContext.Find<TEntity>(whereLamdba);
+        public TEntity GetInfoById<TKey>(TKey id) where TKey : struct
+            => _dbSet.Find(id);
 
         /// <summary>
         /// 异步获取单条数据
         /// </summary>
-        /// <param name="whereLamdba">linq语句</param>
+        /// <param name="id">主键Id</param>
+        /// <param name="cancellationToken">取消令牌</param>
         /// <returns>实体对象</returns>
-        public async Task<TEntity> GetInfoAsync(Expression<Func<TEntity, bool>> whereLamdba)
-            => await DbContext.FindAsync<TEntity>(whereLamdba);
+        public async Task<TEntity> GetInfoByIdAsync<TKey>(TKey id, CancellationToken cancellationToken = default) where TKey : struct 
+            => await _dbSet.FindAsync(new object[] { id }, cancellationToken: cancellationToken);
 
         /// <summary>
         /// 获取单条数据不追踪
         /// </summary>
         /// <param name="whereLamdba">linq语句</param>
         /// <returns>实体对象</returns>
-        public TEntity GetInfoNoTracking(Expression<Func<TEntity, bool>> whereLamdba)
+        public TEntity? GetInfoNoTracking(Expression<Func<TEntity, bool>> whereLamdba)
             => Queryable(whereLamdba).AsNoTracking().FirstOrDefault(whereLamdba);
 
         /// <summary>
         /// 异步获取单条数据不追踪
         /// </summary>
         /// <param name="whereLamdba">linq语句</param>
+        /// <param name="cancellationToken">取消令牌</param>
         /// <returns>实体对象</returns>
-        public async Task<TEntity> GetInfoNoTrackingAsync(Expression<Func<TEntity, bool>> whereLamdba)
-            => await Queryable(whereLamdba).AsNoTracking().FirstOrDefaultAsync(whereLamdba);
+        public async Task<TEntity> GetInfoNoTrackingAsync(Expression<Func<TEntity, bool>> whereLamdba, CancellationToken cancellationToken = default)
+            => await Queryable(whereLamdba).AsNoTracking().FirstOrDefaultAsync(whereLamdba, cancellationToken);
 
         /// <summary>
         /// 获取单条数据返回默认值
@@ -338,15 +332,16 @@ namespace Acme.EFCore.Small.Repositorys
         /// <param name="whereLamdba">Linq语句</param>
         /// <returns>实体对象</returns>
         public TEntity GetInfoDefault(Expression<Func<TEntity, bool>> whereLamdba)
-            => DbContext.Set<TEntity>().FirstOrDefault(whereLamdba);
+            => _dbSet.FirstOrDefault(whereLamdba);
 
         /// <summary>
         /// 获取单条数据返回默认值
         /// </summary>
         /// <param name="whereLamdba">Linq语句</param>
+        /// <param name="cancellationToken">取消令牌</param>
         /// <returns>实体对象</returns>
-        public async Task<TEntity> GetInfoDefaultAsync(Expression<Func<TEntity, bool>> whereLamdba)
-            => await DbContext.Set<TEntity>().FirstOrDefaultAsync(whereLamdba);
+        public async Task<TEntity> GetInfoDefaultAsync(Expression<Func<TEntity, bool>> whereLamdba, CancellationToken cancellationToken = default)
+            => await _dbSet.FirstOrDefaultAsync(whereLamdba, cancellationToken);
         #endregion
 
         #region 获取条数
@@ -356,29 +351,31 @@ namespace Acme.EFCore.Small.Repositorys
         /// <param name="whereLamdba">linq语句</param>
         /// <returns>条数</returns>
         public int Count(Expression<Func<TEntity, bool>> whereLamdba)
-            => DbContext.Set<TEntity>().Count(whereLamdba);
+            => _dbSet.Count(whereLamdba);
 
         /// <summary>
         /// 异步获取条数
         /// </summary>
         /// <param name="whereLamdba">linq语句</param>
+        /// <param name="cancellationToken">取消令牌</param>
         /// <returns>条数</returns>
-        public async Task<int> CountAsync(Expression<Func<TEntity, bool>> whereLamdba)
-            => await DbContext.Set<TEntity>().CountAsync(whereLamdba);
+        public async Task<int> CountAsync(Expression<Func<TEntity, bool>> whereLamdba, CancellationToken cancellationToken = default)
+            => await _dbSet.CountAsync(whereLamdba, cancellationToken);
 
         /// <summary>
         /// 获取条数
         /// </summary>
         /// <returns>条数</returns>
         public int Count()
-            => DbContext.Set<TEntity>().Count();
+            => _dbSet.Count();
 
         /// <summary>
         /// 获取条数
         /// </summary>
+        /// <param name="cancellationToken">取消令牌</param>
         /// <returns>条数</returns>
-        public async Task<int> CountAsync()
-            => await DbContext.Set<TEntity>().CountAsync();
+        public async Task<int> CountAsync(CancellationToken cancellationToken = default)
+            => await _dbSet.CountAsync(cancellationToken);
         #endregion
 
         #region 获取集合数据
@@ -394,10 +391,11 @@ namespace Acme.EFCore.Small.Repositorys
         /// <summary>
         /// 获取集合数据
         /// </summary>
+        /// <param name="cancellationToken">取消令牌</param>
         /// <returns>实体集合</returns>
-        public async Task<List<TEntity>> GetListAsync()
+        public async Task<List<TEntity>> GetListAsync(CancellationToken cancellationToken = default)
         {
-            return await Queryable().ToListAsync();
+            return await Queryable().ToListAsync(cancellationToken);
         }
 
         /// <summary>
@@ -414,10 +412,11 @@ namespace Acme.EFCore.Small.Repositorys
         /// 获取集合数据
         /// </summary>
         /// <param name="whereLamdba">Linq语句</param>
+        /// <param name="cancellationToken">取消令牌</param>
         /// <returns>实体集合</returns>
-        public async Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> whereLamdba)
+        public async Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> whereLamdba, CancellationToken cancellationToken = default)
         {
-            return await Queryable(whereLamdba).ToListAsync();
+            return await Queryable(whereLamdba).ToListAsync(cancellationToken);
         }
 
         /// <summary>
@@ -434,9 +433,10 @@ namespace Acme.EFCore.Small.Repositorys
         /// </summary>
         /// <param name="whereLamdba"></param>
         /// <param name="strip">条数</param>
+        /// <param name="cancellationToken">取消令牌</param>
         /// <returns>实体集合</returns>
-        public async Task<List<TEntity>> GetListTakeAsync(Expression<Func<TEntity, bool>> whereLamdba, int strip)
-             => await Queryable(whereLamdba).Take(strip).ToListAsync();
+        public async Task<List<TEntity>> GetListTakeAsync(Expression<Func<TEntity, bool>> whereLamdba, int strip, CancellationToken cancellationToken = default)
+             => await Queryable(whereLamdba).Take(strip).ToListAsync(cancellationToken);
 
         /// <summary>
         /// 获取集合数据
@@ -450,9 +450,10 @@ namespace Acme.EFCore.Small.Repositorys
         /// 获取集合数据
         /// </summary>
         /// <param name="strip">条数</param>
+        /// <param name="cancellationToken">取消令牌</param>
         /// <returns>实体集合</returns>
-        public async Task<List<TEntity>> GetListTakeAsync(int strip)
-            => await Queryable().Take(strip).ToListAsync();
+        public async Task<List<TEntity>> GetListTakeAsync(int strip, CancellationToken cancellationToken = default)
+            => await Queryable().Take(strip).ToListAsync(cancellationToken);
 
         /// <summary>
         /// 根据指定条件获取不跟踪的实体列表
@@ -469,12 +470,13 @@ namespace Acme.EFCore.Small.Repositorys
         /// 根据指定条件异步获取不跟踪的实体列表
         /// </summary>
         /// <param name="whereLamdba">筛选条件的 Lambda 表达式</param>
+        /// <param name="cancellationToken">取消令牌</param>
         /// <returns>符合条件的实体列表</returns>
         /// <remarks>
         /// 此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景
         /// </remarks>
-        public async Task<List<TEntity>> GetListNoTrackingAsync(Expression<Func<TEntity, bool>> whereLamdba)
-            => await Queryable(whereLamdba).AsNoTracking().ToListAsync();
+        public async Task<List<TEntity>> GetListNoTrackingAsync(Expression<Func<TEntity, bool>> whereLamdba, CancellationToken cancellationToken = default)
+            => await Queryable(whereLamdba).AsNoTracking().ToListAsync(cancellationToken);
 
         /// <summary>
         /// 根据指定条件获取不跟踪的实体列表
@@ -489,134 +491,13 @@ namespace Acme.EFCore.Small.Repositorys
         /// <summary>
         /// 异步获取不跟踪的实体列表
         /// </summary>
+        /// <param name="cancellationToken">取消令牌</param>
         /// <returns>符合条件的实体列表</returns>
         /// <remarks>
         /// 此方法返回的实体列表不会被上下文跟踪，适用于只需要读取数据而不需要对实体进行更改的场景
         /// </remarks>
-        public async Task<List<TEntity>> GetListNoTrackingAsync()
-            => await Queryable().AsNoTracking().ToListAsync();
-        #endregion
-
-        #region 事务
-        /// <summary>
-        /// 事务
-        /// </summary>
-        private IDbContextTransaction _contextTransaction = null;
-
-        /// <summary>
-        /// 开启事务
-        /// </summary>
-        /// <returns></returns>
-        public void BeginTransaction()
-        {
-            if (_contextTransaction != null)
-                throw new InvalidOperationException("已有未完成的事务存在，请先提交或回滚当前事务");
-            _contextTransaction = DbContext.Database.BeginTransaction();
-        }
-
-        /// <summary>
-        /// 开启事务
-        /// </summary>
-        /// <returns></returns>
-        public async Task BeginTransactionAsync()
-        {
-            if (_contextTransaction != null)
-                throw new InvalidOperationException("已有未完成的事务存在，请先提交或回滚当前事务");
-            _contextTransaction = await DbContext.Database.BeginTransactionAsync();
-        }
-
-        /// <summary>
-        /// 提交事务
-        /// </summary>
-        public void CommitTransaction()
-        {
-            EnsureTransactionExists();
-            try
-            {
-                _contextTransaction.Commit();
-            }
-            finally
-            {
-                DisposeTransaction();
-            }
-        }
-
-        /// <summary>
-        /// 提交事务
-        /// </summary>
-        public async Task CommitTransactionAsync()
-        {
-            EnsureTransactionExists();
-            try
-            {
-                await _contextTransaction.CommitAsync();
-            }
-            finally
-            {
-                await DisposeTransactionAsync();
-            }
-        }
-
-        /// <summary>
-        /// 回滚事务
-        /// </summary>
-        public void RollbackTransaction()
-        {
-            EnsureTransactionExists();
-            try
-            {
-                _contextTransaction.Rollback();
-            }
-            finally
-            {
-                DisposeTransaction();
-            }
-        }
-
-        /// <summary>
-        /// 回滚事务
-        /// </summary>
-        public async Task RollbackTransactionAsync()
-        {
-            EnsureTransactionExists();
-            try
-            {
-                await _contextTransaction.RollbackAsync();
-            }
-            finally
-            {
-                await DisposeTransactionAsync();
-            }
-        }
-
-        /// <summary>
-        /// 关闭事务释放资源
-        /// </summary>
-        public void DisposeTransaction()
-        {
-            if (_contextTransaction == null) return;
-            _contextTransaction.Dispose();
-            _contextTransaction = null;
-        }
-
-        /// <summary>
-        /// 关闭事务释放资源
-        /// </summary>
-        public async Task DisposeTransactionAsync()
-        {
-            if (_contextTransaction is null) return;
-            await _contextTransaction.DisposeAsync();
-            _contextTransaction = null;
-        }
-
-        /// <summary>
-        /// 检查事务是否存在
-        /// </summary>
-        private void EnsureTransactionExists()
-        {
-            if (_contextTransaction == null)
-                throw new InvalidOperationException("您未开启事务！");
-        }
+        public async Task<List<TEntity>> GetListNoTrackingAsync(CancellationToken cancellationToken = default)
+            => await Queryable().AsNoTracking().ToListAsync(cancellationToken);
         #endregion
     }
 
@@ -628,10 +509,10 @@ namespace Acme.EFCore.Small.Repositorys
         where TEntity : class
     {
         /// <summary>
-        /// 构造函数
+        /// 构造函数，初始化 Repository 实例
         /// </summary>
-        /// <param name="dbContext"></param>
-        public Repository(DbContext dbContext) : base(dbContext)
+        /// <param name="unitOfWork"></param>
+        public Repository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
     }

@@ -20,18 +20,26 @@ public class RepositoryTests
         Assert.Contains(methods, m => m.Name == "Update");
         Assert.Contains(methods, m => m.Name == "GetInfo");
         Assert.Contains(methods, m => m.Name == "GetList");
-        Assert.Contains(methods, m => m.Name == "Submit");
+        Assert.Contains(methods, m => m.Name == "Any");
+        Assert.Contains(methods, m => m.Name == "Count");
+        Assert.Contains(methods, m => m.Name == "Queryable");
     }
 
     [Fact]
-    public void IRepository_ShouldHaveExpectedProperties()
+    public void IRepository_ShouldHaveExpectedAsyncMethods()
     {
-        // 验证 IRepository 接口包含预期的属性
+        // 验证 IRepository 接口包含预期的异步方法
         var repositoryType = typeof(IRepository<,>);
-        var properties = repositoryType.GetProperties();
+        var methods = repositoryType.GetMethods();
 
-        // 验证 DbContext 属性是否存在
-        Assert.Contains(properties, p => p.Name == "DbContext");
+        // 验证一些关键异步方法是否存在
+        Assert.Contains(methods, m => m.Name == "AddAsync");
+        Assert.Contains(methods, m => m.Name == "DeleteNowSaveAsync");
+        Assert.Contains(methods, m => m.Name == "UpdateSaveAsync");
+        Assert.Contains(methods, m => m.Name == "GetInfoAsync");
+        Assert.Contains(methods, m => m.Name == "GetListAsync");
+        Assert.Contains(methods, m => m.Name == "AnyAsync");
+        Assert.Contains(methods, m => m.Name == "CountAsync");
     }
 
     [Fact]

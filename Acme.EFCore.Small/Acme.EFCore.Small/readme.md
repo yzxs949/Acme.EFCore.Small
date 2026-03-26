@@ -1,31 +1,42 @@
-﻿# Acme.EFCore.Small
+# Acme.EFCore.Small
 
 ## 1、项目概述
+
 Acme.EFCore.Small 是一个轻量级的 Entity Framework Core 通用库，用于使用 Entity Framework Core (EFCore) 与数据库进行交互。它是处理各种数据库操作的基础组件。
-- 版本：v1.3.6.7  
-- 发布说明：
-  - 更新 .NET 10 依赖包版本，Microsoft.EntityFrameworkCore 版本从 10.0.4 更新到 10.0.5。
-  - 修复已知 bug...
+
+- **版本**：v2.0.0.1-alpha
+- **作者**：yzxs
+- **描述**：轻量级 EFCore 操作类库
+- **发布说明**：
+  - <br />
+    1. 分离提交和事务到工作单元中（和老版本有较大差异，该版本还未全面测试，请谨慎使用到生产环境）
+  - <br />
+    1. 修复已知 bug……
 
 ## 2、入门指南
-### 1. 安装 Acme.EFCore.Small
-创建项目 -> 点击引用 -> 右键 -> 管理 NuGet 包 -> 搜索 Acme.EFCore.Small 并选择 1.3.6.6 或更高版本。根据您的 .NET 框架安装适当的版本。
 
-### 2. 安装对应的数据库包
-- SqlServer: `Microsoft.EntityFrameworkCore.SqlServer`
-- Sqlite: `Microsoft.EntityFrameworkCore.Sqlite`
-- Cosmos: `Microsoft.EntityFrameworkCore.Cosmos`
-- InMemoryDatabase: `Microsoft.EntityFrameworkCore.InMemory`
-- MySql:
+### 2.1. 安装 Acme.EFCore.Small
+
+创建项目 -> 点击引用 -> 右键 -> 管理 NuGet 包 -> 搜索 `Acme.EFCore.Small` 并选择 2.0.0.1-alpha 或更高版本。根据您的 .NET 框架安装适当的版本。
+
+### 2.2. 安装对应的数据库包
+
+- **SqlServer**: `Microsoft.EntityFrameworkCore.SqlServer`
+- **Sqlite**: `Microsoft.EntityFrameworkCore.Sqlite`
+- **Cosmos**: `Microsoft.EntityFrameworkCore.Cosmos`
+- **InMemoryDatabase**: `Microsoft.EntityFrameworkCore.InMemory`
+- **MySql**:
   - `Pomelo.EntityFrameworkCore.MySql`
   - `MySql.EntityFrameworkCore`
-- PostgreSQL: `Npgsql.EntityFrameworkCore.PostgreSQL`
-- Oracle: `Oracle.EntityFrameworkCore`
-- Firebird: `FirebirdSql.EntityFrameworkCore.Firebird`
-- Dm: `Microsoft.EntityFrameworkCore.Dm`
+- **PostgreSQL**: `Npgsql.EntityFrameworkCore.PostgreSQL`
+- **Oracle**: `Oracle.EntityFrameworkCore`
+- **Firebird**: `FirebirdSql.EntityFrameworkCore.Firebird`
+- **Dm**: `Microsoft.EntityFrameworkCore.Dm`
 
-### 3. 创建数据库上下文类
+### 2.3. 创建数据库上下文类
+
 ```csharp
+// 主数据库上下文
 public class AppDbContext : DbContext
 {
     /// <summary>
@@ -43,13 +54,13 @@ public class AppDbContext : DbContext
 }
 
 // 多库场景下的第二个数据库上下文
-public class OtherDbContext : DbContext
+public class OrderDbContext : DbContext
 {
     /// <summary>
     /// 初始化数据库上下文
     /// </summary>
     /// <param name="options"></param>
-    public OtherDbContext(DbContextOptions<OtherDbContext> options) :
+    public OrderDbContext(DbContextOptions<OrderDbContext> options) :
        base(options)
     {
     }
@@ -60,29 +71,33 @@ public class OtherDbContext : DbContext
 }
 ```
 
-### 4. 配置连接字符串
+### 2.4. 配置连接字符串
+
 ```json
 {
     "ConnectionStrings":{
         "DefaultConnection": "Persist Security Info=False;Data Source=.;Initial Catalog=数据库名称;User ID=用户名;Password=密码;Connect Timeout=120;Encrypt=False;",
-        "OtherConnection": "Persist Security Info=False;Data Source=.;Initial Catalog=其他数据库名称;User ID=用户名;Password=密码;Connect Timeout=120;Encrypt=False;"
+        "OrderConnection": "Persist Security Info=False;Data Source=.;Initial Catalog=订单数据库名称;User ID=用户名;Password=密码;Connect Timeout=120;Encrypt=False;"
     }
 }
 ```
 
-### 5. 依赖注入
-#### 5.1. 单库模式配置
+### 2.5. 依赖注入
+
+#### 2.5.1. 单库模式配置
+
 ```csharp
 // 在 Startup.cs 或 Program.cs 中配置
 // 注册数据库上下文
 services.AddDbContext<AppDbContext>(options => 
     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-// 注册单库模式仓储
+// 注册单库模式仓储（包含工作单元）
 services.AddRepositorys<AppDbContext>();
 ```
 
-#### 5.2. 多库模式配置
+#### 2.5.2. 多库模式配置
+
 ```csharp
 // 在 Startup.cs 或 Program.cs 中配置
 // 注册第一个数据库上下文
@@ -90,10 +105,10 @@ services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
 // 注册第二个数据库上下文
-services.AddDbContext<OtherDbContext>(options => 
-    options.UseSqlServer(Configuration.GetConnectionString("OtherConnection")));
+services.AddDbContext<OrderDbContext>(options => 
+    options.UseSqlServer(Configuration.GetConnectionString("OrderConnection")));
 
-// 注册多库模式仓储
+// 注册多库模式仓储（包含工作单元）
 services.AddRepositorys();
 ```
 
@@ -101,7 +116,8 @@ services.AddRepositorys();
 
 ### 3.1. 基础类
 
-#### 实体基础类
+#### 3.1.1. 实体基础类
+
 `BaseEntity` 提供了基本的实体属性，适用于大多数实体类型。
 
 ```csharp
@@ -116,7 +132,8 @@ public class User : BaseEntity
 }
 ```
 
-#### 聚合根基础类
+#### 3.1.2. 聚合根基础类
+
 `BaseAggregateRoot` 适用于作为聚合根的实体，通常包含子实体集合。
 
 ```csharp
@@ -142,7 +159,8 @@ public class OrderItem : BaseEntity
 }
 ```
 
-#### 值对象基础类
+#### 3.1.3. 值对象基础类
+
 `BaseValueObject` 适用于值对象，通常用于表示没有唯一标识的概念。
 
 ```csharp
@@ -167,7 +185,8 @@ public class User : BaseEntity
 
 ### 3.2. 仓储模式
 
-#### 单库模式
+#### 3.2.1. 单库模式
+
 单库模式适用于项目中只使用一个数据库的场景，使用 `IRepository<TEntity>` 接口。
 
 ```csharp
@@ -230,18 +249,19 @@ public int GetUserCount(bool isActive)
 }
 ```
 
-#### 多库模式
+#### 3.2.2. 多库模式
+
 多库模式适用于项目中使用多个数据库的场景，使用 `IRepository<TDbContext, TEntity>` 接口，需要指定具体的数据库上下文类型。
 
 ```csharp
 // 注入多库仓储
 private readonly IRepository<AppDbContext, User> _userRepository;
-private readonly IRepository<OtherDbContext, Order> _orderRepository;
-private readonly IRepository<OtherDbContext, OrderItem> _orderItemRepository;
+private readonly IRepository<OrderDbContext, Order> _orderRepository;
+private readonly IRepository<OrderDbContext, OrderItem> _orderItemRepository;
 
 public OrderService(IRepository<AppDbContext, User> userRepository, 
-                   IRepository<OtherDbContext, Order> orderRepository,
-                   IRepository<OtherDbContext, OrderItem> orderItemRepository)
+                   IRepository<OrderDbContext, Order> orderRepository,
+                   IRepository<OrderDbContext, OrderItem> orderItemRepository)
 {
     _userRepository = userRepository;
     _orderRepository = orderRepository;
@@ -287,7 +307,8 @@ public async Task<bool> CreateOrderWithUser(int userId, Order order)
 }
 ```
 
-#### 异步操作
+#### 3.2.3. 异步操作
+
 ```csharp
 // 异步添加
 public async Task<User> AddUserAsync(User user)
@@ -320,10 +341,29 @@ public async Task<bool> UserExistsAsync(string email)
 }
 ```
 
-### 3.3. 事务管理
-事务管理用于确保多个数据库操作的原子性，要么全部成功，要么全部失败。
+### 3.3. 工作单元模式
 
-#### 基本事务示例
+工作单元模式用于管理事务和提交操作，将数据变更作为一个原子单元进行处理。
+
+#### 3.3.1. 注入工作单元
+
+```csharp
+// 注入工作单元
+private readonly IUnitOfWork<OrderDbContext> _unitOfWork;
+
+public OrderService(
+    IRepository<OrderDbContext, Order> orderRepository, 
+    IRepository<OrderDbContext, OrderItem> orderItemRepository,
+    IUnitOfWork<OrderDbContext> unitOfWork)
+{
+    _orderRepository = orderRepository;
+    _orderItemRepository = orderItemRepository;
+    _unitOfWork = unitOfWork;
+}
+```
+
+#### 3.3.2. 基本事务示例
+
 ```csharp
 // 使用事务
 public void ProcessOrder(Order order)
@@ -331,7 +371,7 @@ public void ProcessOrder(Order order)
     try
     {
         // 开始事务
-        _orderRepository.BeginTransaction();
+        _unitOfWork.BeginTransaction();
         
         // 执行操作
         _orderRepository.Add(order);
@@ -341,24 +381,23 @@ public void ProcessOrder(Order order)
             _orderItemRepository.Add(item);
         }
         
+        // 提交更改
+        _unitOfWork.Submit();
+        
         // 提交事务
-        _orderRepository.CommitTransaction();
+        _unitOfWork.CommitTransaction();
     }
     catch (Exception ex)
     {
         // 出错时回滚事务
-        _orderRepository.RollbackTransaction();
+        _unitOfWork.RollbackTransaction();
         throw;
-    }
-    finally
-    {
-        // 释放事务
-        _orderRepository.DisposeTransaction();
     }
 }
 ```
 
-#### 异步事务示例
+#### 3.3.3. 异步事务示例
+
 ```csharp
 // 异步事务
 public async Task<bool> ProcessOrderAsync(Order order)
@@ -366,7 +405,7 @@ public async Task<bool> ProcessOrderAsync(Order order)
     try
     {
         // 开始事务
-        await _orderRepository.BeginTransactionAsync();
+        await _unitOfWork.BeginTransactionAsync();
         
         // 执行操作
         await _orderRepository.AddAsync(order);
@@ -376,28 +415,28 @@ public async Task<bool> ProcessOrderAsync(Order order)
             await _orderItemRepository.AddAsync(item);
         }
         
+        // 提交更改
+        await _unitOfWork.SubmitAsync();
+        
         // 提交事务
-        await _orderRepository.CommitTransactionAsync();
+        await _unitOfWork.CommitTransactionAsync();
         return true;
     }
     catch (Exception ex)
     {
         // 出错时回滚事务
-        await _orderRepository.RollbackTransactionAsync();
+        await _unitOfWork.RollbackTransactionAsync();
         return false;
-    }
-    finally
-    {
-        // 释放事务
-        await _orderRepository.DisposeTransactionAsync();
     }
 }
 ```
 
 ### 3.4. 分页功能
+
 分页功能用于处理大量数据，提高查询性能和用户体验。
 
-#### 基本分页
+#### 3.4.1. 基本分页
+
 ```csharp
 // 使用分页
 public PageList<User> GetUsersPaged(int pageIndex, int pageSize, string name)
@@ -407,7 +446,8 @@ public PageList<User> GetUsersPaged(int pageIndex, int pageSize, string name)
 }
 ```
 
-#### 带排序的分页
+#### 3.4.2. 带排序的分页
+
 ```csharp
 // 带排序的分页
 public PageList<User> GetUsersPagedWithSorting(int pageIndex, int pageSize, string name, string sortField, bool isAscending)
@@ -428,26 +468,28 @@ public PageList<User> GetUsersPagedWithSorting(int pageIndex, int pageSize, stri
 }
 ```
 
-#### 分页结果使用
+#### 3.4.3. 分页结果使用
+
 ```csharp
 // 调用分页方法
 var pageResult = userService.GetUsersPaged(1, 10, "张");
 
 // 分页结果包含以下信息
-int totalCount = pageResult.TotalCount;      // 总记录数
-int pageSize = pageResult.PageSize;          // 每页大小
-int pageIndex = pageResult.PageIndex;        // 当前页码
-int totalPages = pageResult.TotalPages;      // 总页数
-List<User> users = pageResult.Items;         // 当前页数据
-bool hasNextPage = pageResult.HasNextPage;   // 是否有下一页
-bool hasPrevPage = pageResult.HasPrevPage;   // 是否有上一页
+int totalCount = pageResult.Total;      // 总记录数
+int pageSize = pageResult.PageSize;     // 每页大小
+int pageIndex = pageResult.PageIndex;   // 当前页码
+int totalPages = pageResult.TotalPages; // 总页数
+List<User> items = pageResult.Items;    // 当前页数据
+bool hasNextPage = pageResult.HasNextPage; // 是否有下一页
+bool hasPrevPage = pageResult.HasPrevPage; // 是否有上一页
 ```
 
 ## 4、高级功能
 
 ### 4.1. 查询扩展
 
-#### 动态排序
+#### 4.1.1. 动态排序
+
 ```csharp
 // 使用查询扩展方法进行动态排序
 public List<User> GetUsersWithDynamicSorting(string name, string sortField, bool isAscending)
@@ -467,7 +509,8 @@ public List<User> GetUsersWithDynamicSorting(string name, string sortField, bool
 }
 ```
 
-#### 复杂条件查询
+#### 4.1.2. 复杂条件查询
+
 ```csharp
 // 复杂条件查询
 public List<User> GetUsersWithComplexConditions(string name, int? age, bool? isActive)
@@ -495,6 +538,7 @@ public List<User> GetUsersWithComplexConditions(string name, int? age, bool? isA
 ```
 
 ### 4.2. 无跟踪查询
+
 无跟踪查询适用于只读操作，可以提高查询性能。
 
 ```csharp
@@ -520,7 +564,8 @@ public async Task<List<User>> GetUsersReadOnlyAsync(string name)
 
 ### 4.3. 批量操作
 
-#### 批量删除
+#### 4.3.1. 批量删除
+
 ```csharp
 // 批量删除
 public bool DeleteInactiveUsers()
@@ -545,7 +590,8 @@ public async Task<bool> DeleteInactiveUsersAsync()
 }
 ```
 
-#### 批量更新
+#### 4.3.2. 批量更新
+
 ```csharp
 // 批量更新
 public bool UpdateUserStatus(bool isActive, List<int> userIds)
@@ -574,7 +620,8 @@ public async Task<bool> UpdateUserStatusAsync(bool isActive, List<int> userIds)
 
 ### 5.1. 单库模式完整示例
 
-#### 1. 实体定义
+#### 5.1.1. 实体定义
+
 ```csharp
 // 用户实体
 public class User : BaseEntity
@@ -595,7 +642,8 @@ public class Product : BaseEntity
 }
 ```
 
-#### 2. 数据库上下文
+#### 5.1.2. 数据库上下文
+
 ```csharp
 public class AppDbContext : DbContext
 {
@@ -607,15 +655,18 @@ public class AppDbContext : DbContext
 }
 ```
 
-#### 3. 服务层
+#### 5.1.3. 服务层
+
 ```csharp
 public class UserService
 {
     private readonly IRepository<User> _userRepository;
+    private readonly IUnitOfWork _unitOfWork;
     
-    public UserService(IRepository<User> userRepository)
+    public UserService(IRepository<User> userRepository, IUnitOfWork unitOfWork)
     {
         _userRepository = userRepository;
+        _unitOfWork = unitOfWork;
     }
     
     // 创建用户
@@ -676,7 +727,8 @@ public class UserService
 }
 ```
 
-#### 4. 控制器
+#### 5.1.4. 控制器
+
 ```csharp
 [ApiController]
 [Route("api/[controller]")]
@@ -754,7 +806,8 @@ public class UserController : ControllerBase
 
 ### 5.2. 多库模式完整示例
 
-#### 1. 数据库上下文
+#### 5.2.1. 数据库上下文
+
 ```csharp
 // 主数据库上下文
 public class AppDbContext : DbContext
@@ -777,21 +830,26 @@ public class OrderDbContext : DbContext
 }
 ```
 
-#### 2. 服务层
+#### 5.2.2. 服务层
+
 ```csharp
 public class OrderService
 {
     private readonly IRepository<AppDbContext, User> _userRepository;
     private readonly IRepository<OrderDbContext, Order> _orderRepository;
     private readonly IRepository<OrderDbContext, OrderItem> _orderItemRepository;
+    private readonly IUnitOfWork<OrderDbContext> _unitOfWork;
     
-    public OrderService(IRepository<AppDbContext, User> userRepository,
-                       IRepository<OrderDbContext, Order> orderRepository,
-                       IRepository<OrderDbContext, OrderItem> orderItemRepository)
+    public OrderService(
+        IRepository<AppDbContext, User> userRepository,
+        IRepository<OrderDbContext, Order> orderRepository,
+        IRepository<OrderDbContext, OrderItem> orderItemRepository,
+        IUnitOfWork<OrderDbContext> unitOfWork)
     {
         _userRepository = userRepository;
         _orderRepository = orderRepository;
         _orderItemRepository = orderItemRepository;
+        _unitOfWork = unitOfWork;
     }
     
     // 创建订单
@@ -814,13 +872,13 @@ public class OrderService
         };
         
         // 开始事务
-        await _orderRepository.BeginTransactionAsync();
+        await _unitOfWork.BeginTransactionAsync();
         
         try
         {
             // 保存订单
             await _orderRepository.AddAsync(order);
-            await _orderRepository.SubmitAsync();
+            await _unitOfWork.SubmitAsync();
             
             // 保存订单项
             foreach (var itemDto in items)
@@ -837,19 +895,15 @@ public class OrderService
                 await _orderItemRepository.AddAsync(item);
             }
             
-            await _orderItemRepository.SubmitAsync();
-            await _orderRepository.CommitTransactionAsync();
+            await _unitOfWork.SubmitAsync();
+            await _unitOfWork.CommitTransactionAsync();
             
             return order;
         }
         catch (Exception ex)
         {
-            await _orderRepository.RollbackTransactionAsync();
-            throw new Exception("创建订单失败: " + ex.Message);
-        }
-        finally
-        {
-            await _orderRepository.DisposeTransactionAsync();
+            await _unitOfWork.RollbackTransactionAsync();
+            throw new Exception("创建订单失败：" + ex.Message);
         }
     }
     
@@ -885,20 +939,46 @@ public class OrderService
 ```
 
 ## 6、支持的 .NET 版本
+
 - netcoreapp3.1
-- net5.0
-- net6.0
-- net7.0
-- net8.0
-- net9.0
+- net5
+- net6
+- net7
+- net8
+- net9
 - net10.0
 
 ## 7、NuGet 包信息
-- 包 ID: Acme.EFCore.Small
-- 作者: yzxs
-- 描述: 轻量级 EFCore 操作类库
-- 项目 URL: https://www.nuget.org/packages/Acme.EFCore.Small/
 
-## 10、联系
+- **包 ID**: Acme.EFCore.Small
+- **作者**: yzxs
+- **描述**: 轻量级 EFCore 操作类库
+- **项目 URL**: <https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.1-alpha#readme-body-tab>
+- **版权**: yzxs
+
+## 8、测试
+
+项目包含完整的测试套件，覆盖所有核心功能：
+
+- **EntityTests**: 测试 BaseEntity 和 BaseAggregateRoot 类
+- **ValueObjectTests**: 测试 BaseValueObject 类
+- **PageListTests**: 测试 PageList 类
+- **PageListExtensionTests**: 测试 PageListExtension 类
+- **QueryTests**: 测试 Condition、Keywords 和 Sorting 类
+- **LinqExtensionTests**: 测试 LinqExtension 类的关键方法
+- **RepositoryTests**: 测试 IRepository 接口的结构
+- **UnitOfWorkTests**: 测试 UnitOfWork 类和 IUnitOfWork 接口
+
+运行测试：
+
+```bash
+dotnet test Acme.EFCore.Small.Tests\Acme.EFCore.Small.Tests.csproj
+```
+
+## 9、联系
+
 如有任何问题或问题，请联系作者
-邮箱：yzxs949@163.com
+
+- **邮箱**: <yzxs949@163.com>
+- **NuGet**: <https://www.nuget.org/packages/Acme.EFCore.Small/>
+
