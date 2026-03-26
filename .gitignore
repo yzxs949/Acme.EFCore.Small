@@ -52,3 +52,5 @@ Thumbs.db
 /Acme.EFCore.Small/.vs
 /Acme.EFCore.Small/Acme.EFCore.Small.Tests/bin
 /Acme.EFCore.Small/Acme.EFCore.Small.Tests/obj 
+/Acme.EFCore.Small/.vs
+/Acme.EFCore.Small/Acme.EFCore.Small.Tests/obj
