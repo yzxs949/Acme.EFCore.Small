@@ -314,7 +314,7 @@ namespace Acme.EFCore.Small.Repositorys
         /// </summary>
         /// <param name="whereLamdba">linq语句</param>
         /// <returns>实体对象</returns>
-        public TEntity? GetInfoNoTracking(Expression<Func<TEntity, bool>> whereLamdba)
+        public TEntity GetInfoNoTracking(Expression<Func<TEntity, bool>> whereLamdba)
             => Queryable(whereLamdba).AsNoTracking().FirstOrDefault(whereLamdba);
 
         /// <summary>

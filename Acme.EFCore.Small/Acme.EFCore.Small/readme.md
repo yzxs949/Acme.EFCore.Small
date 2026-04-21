@@ -9,9 +9,6 @@ Acme.EFCore.Small 是一个轻量级的 Entity Framework Core 通用库，用于
 - **描述**：轻量级 EFCore 操作类库
 - **发布说明**：
   - <br />
-    1. 分离提交和事务到工作单元中（和老版本有较大差异，该版本还未全面测试，请谨慎使用到生产环境）
-  - <br />
-    1. 修复已知 bug……
 
 ## 2、入门指南
 
@@ -206,13 +203,19 @@ public User AddUser(User user)
     return _userRepository.AddNowSave(user);
 }
 
-// 2. 根据条件获取用户
+// 2. 根据ID获取用户
+public User GetUserById(int id)
+{
+    return _userRepository.GetInfoById(id);
+}
+
+// 3. 根据条件获取用户
 public User GetUserById(int id)
 {
     return _userRepository.GetInfo(u => u.Id == id);
 }
 
-// 3. 更新用户
+// 4. 更新用户
 public bool UpdateUser(User user)
 {
     return _userRepository.UpdateNowSave(user);

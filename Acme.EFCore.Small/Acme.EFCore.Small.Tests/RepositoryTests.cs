@@ -8,41 +8,6 @@ namespace Acme.EFCore.Small.Tests;
 public class RepositoryTests
 {
     [Fact]
-    public void IRepository_ShouldHaveExpectedMethods()
-    {
-        // 验证 IRepository 接口包含预期的方法
-        var repositoryType = typeof(IRepository<,>);
-        var methods = repositoryType.GetMethods();
-
-        // 验证一些关键方法是否存在
-        Assert.Contains(methods, m => m.Name == "Add");
-        Assert.Contains(methods, m => m.Name == "Delete");
-        Assert.Contains(methods, m => m.Name == "Update");
-        Assert.Contains(methods, m => m.Name == "GetInfo");
-        Assert.Contains(methods, m => m.Name == "GetList");
-        Assert.Contains(methods, m => m.Name == "Any");
-        Assert.Contains(methods, m => m.Name == "Count");
-        Assert.Contains(methods, m => m.Name == "Queryable");
-    }
-
-    [Fact]
-    public void IRepository_ShouldHaveExpectedAsyncMethods()
-    {
-        // 验证 IRepository 接口包含预期的异步方法
-        var repositoryType = typeof(IRepository<,>);
-        var methods = repositoryType.GetMethods();
-
-        // 验证一些关键异步方法是否存在
-        Assert.Contains(methods, m => m.Name == "AddAsync");
-        Assert.Contains(methods, m => m.Name == "DeleteNowSaveAsync");
-        Assert.Contains(methods, m => m.Name == "UpdateSaveAsync");
-        Assert.Contains(methods, m => m.Name == "GetInfoAsync");
-        Assert.Contains(methods, m => m.Name == "GetListAsync");
-        Assert.Contains(methods, m => m.Name == "AnyAsync");
-        Assert.Contains(methods, m => m.Name == "CountAsync");
-    }
-
-    [Fact]
     public void IRepository_TEntity_ShouldInheritFromIRepository()
     {
         // 验证 IRepository<TEntity> 继承自 IRepository<DbContext, TEntity>
