@@ -10,7 +10,7 @@ namespace Acme.EFCore.Small.Querys
         /// <summary>
         /// 构造函数
         /// </summary>
-        public Sorting() 
+        public Sorting()
         {
         }
 
@@ -28,11 +28,11 @@ namespace Acme.EFCore.Small.Querys
         /// <summary>
         /// 排序字段
         /// </summary>
-        public string SortField { get; }
+        public string SortField { get; set; }
 
         /// <summary>
         /// 排序类型
         /// </summary>
-        public SortingType SortingType { get; }
+        public SortingType SortingType { get; set; }
     }
 }

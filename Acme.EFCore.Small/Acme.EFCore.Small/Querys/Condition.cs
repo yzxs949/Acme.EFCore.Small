@@ -23,23 +23,23 @@ namespace Acme.EFCore.Small.Querys
         /// <summary>
         /// 构造函数，初始化 Condition 实例
         /// </summary>
-        public Condition() 
+        public Condition()
         {
         }
 
         /// <summary>
         /// 字段名
         /// </summary>
-        public string Field { get; }
+        public string Field { get; set; }
 
         /// <summary>
         /// 字段值
         /// </summary>
-        public string Value { get; }
+        public string Value { get; set; }
 
         /// <summary>
         /// 运算符
         /// </summary>
-        public Symbol Symbol { get; }
+        public Symbol Symbol { get; set; }
     }
 }
