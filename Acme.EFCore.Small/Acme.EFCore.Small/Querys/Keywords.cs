@@ -26,11 +26,11 @@
         /// <summary>
         /// 字段名称数组
         /// </summary>
-        public string[] Fields { get; }
+        public string[] Fields { get; set; }
 
         /// <summary>
         /// 值
         /// </summary>
-        public string Value { get; }
+        public string Value { get; set; }
     }
 }
