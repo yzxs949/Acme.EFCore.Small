@@ -2,14 +2,14 @@
 
 ## 1、项目概述
 Acme.EFCore.Small 是一个轻量级的 Entity Framework Core 通用库，用于使用 Entity Framework Core (EFCore) 与数据库进行交互。它是处理各种数据库操作的基础组件。
-- 版本：v1.3.6.8  
+- 版本：v1.3.7.0 
 - 发布说明：
-  - 更新 .NET 10 依赖包版本，Microsoft.EntityFrameworkCore 版本从 10.0.5 更新到 10.0.6。
-  - 修复已知 bug...
+  - 1.更新.NET10依赖包版本，Microsoft.EntityFrameworkCore 版本从 Version 10.0.7 升级到 Version 10.0.8
+  - 2.修复已知bug……
 
 ## 2、入门指南
 ### 1. 安装 Acme.EFCore.Small
-创建项目 -> 点击引用 -> 右键 -> 管理 NuGet 包 -> 搜索 Acme.EFCore.Small 并选择 1.3.6.8 或更高版本。根据您的 .NET 框架安装适当的版本。
+创建项目 -> 点击引用 -> 右键 -> 管理 NuGet 包 -> 搜索 Acme.EFCore.Small 并选择 1.3.7.0 或更高版本。根据您的 .NET 框架安装适当的版本。
 
 ### 2. 安装对应的数据库包
 - SqlServer: `Microsoft.EntityFrameworkCore.SqlServer`
@@ -105,8 +105,8 @@ services.AddRepositorys();
 `BaseEntity` 提供了基本的实体属性，适用于大多数实体类型。
 
 ```csharp
-// 继承 BaseEntity 以获取基本实体属性
-public class User : BaseEntity
+// 继承 BaseEntity<TKey> 以获取基本实体属性，TKey 为主键类型（值类型）
+public class User : BaseEntity<int>
 {
     public string Name { get; set; }
     public string Email { get; set; }
@@ -117,11 +117,11 @@ public class User : BaseEntity
 ```
 
 #### 聚合根基础类
-`BaseAggregateRoot` 适用于作为聚合根的实体，通常包含子实体集合。
+`BaseAggregateRoot<TKey>` 适用于作为聚合根的实体，通常包含子实体集合。
 
 ```csharp
-// 继承 BaseAggregateRoot 用于聚合根实体
-public class Order : BaseAggregateRoot
+// 继承 BaseAggregateRoot<TKey> 用于聚合根实体
+public class Order : BaseAggregateRoot<int>
 {
     public string OrderNumber { get; set; }
     public DateTime OrderDate { get; set; }
@@ -131,7 +131,7 @@ public class Order : BaseAggregateRoot
 }
 
 // 子实体
-public class OrderItem : BaseEntity
+public class OrderItem : BaseEntity<int>
 {
     public int OrderId { get; set; }
     public int ProductId { get; set; }
@@ -157,7 +157,7 @@ public class Address : BaseValueObject
 }
 
 // 在实体中使用值对象
-public class User : BaseEntity
+public class User : BaseEntity<int>
 {
     public string Name { get; set; }
     public Address HomeAddress { get; set; }
@@ -408,39 +408,36 @@ public PageList<User> GetUsersPaged(int pageIndex, int pageSize, string name)
 ```
 
 #### 带排序的分页
+排序使用 `Sorting` 对象结合 `AddSorting` 扩展方法。
+
 ```csharp
 // 带排序的分页
 public PageList<User> GetUsersPagedWithSorting(int pageIndex, int pageSize, string name, string sortField, bool isAscending)
 {
     var query = _userRepository.Queryable(u => u.Name.Contains(name));
     
-    // 排序
-    if (isAscending)
+    // 构建排序对象
+    var sorting = new Sorting
     {
-        query = query.OrderBy(sortField);
-    }
-    else
-    {
-        query = query.OrderByDescending(sortField);
-    }
+        SortField = sortField,
+        SortingType = isAscending ? SortingType.ASC : SortingType.DESC
+    };
+    query = query.AddSorting(sorting);
     
     return query.ToPageList(pageIndex, pageSize);
 }
 ```
 
 #### 分页结果使用
+`PageList<T>` 是分页返回结果，包含总条数和当前页数据。
+
 ```csharp
 // 调用分页方法
 var pageResult = userService.GetUsersPaged(1, 10, "张");
 
 // 分页结果包含以下信息
-int totalCount = pageResult.TotalCount;      // 总记录数
-int pageSize = pageResult.PageSize;          // 每页大小
-int pageIndex = pageResult.PageIndex;        // 当前页码
-int totalPages = pageResult.TotalPages;      // 总页数
-List<User> users = pageResult.Items;         // 当前页数据
-bool hasNextPage = pageResult.HasNextPage;   // 是否有下一页
-bool hasPrevPage = pageResult.HasPrevPage;   // 是否有上一页
+int total = pageResult.Total;          // 总记录数
+List<User> users = pageResult.Items;   // 当前页数据
 ```
 
 ## 4、高级功能
@@ -448,47 +445,39 @@ bool hasPrevPage = pageResult.HasPrevPage;   // 是否有上一页
 ### 4.1. 查询扩展
 
 #### 动态排序
+`Sorting` 对象包含排序字段和排序类型，类型使用 `SortingType` 枚举（ASC/DESC）。
+
 ```csharp
-// 使用查询扩展方法进行动态排序
+// 使用 AddSorting 扩展方法进行动态排序
 public List<User> GetUsersWithDynamicSorting(string name, string sortField, bool isAscending)
 {
     var query = _userRepository.Queryable(u => u.Name.Contains(name));
     
-    if (isAscending)
+    // 构建排序对象
+    var sorting = new Sorting
     {
-        query = query.OrderBy(sortField);
-    }
-    else
-    {
-        query = query.OrderByDescending(sortField);
-    }
+        SortField = sortField,
+        SortingType = isAscending ? SortingType.ASC : SortingType.DESC
+    };
+    query = query.AddSorting(sorting);
     
     return query.ToList();
 }
 ```
 
 #### 复杂条件查询
+`WhereIf` 扩展方法允许根据条件动态添加查询过滤。
+
 ```csharp
-// 复杂条件查询
+// 复杂条件查询（使用 WhereIf 动态构建条件）
 public List<User> GetUsersWithComplexConditions(string name, int? age, bool? isActive)
 {
     var query = _userRepository.Queryable();
     
-    // 动态构建查询条件
-    if (!string.IsNullOrEmpty(name))
-    {
-        query = query.Where(u => u.Name.Contains(name));
-    }
-    
-    if (age.HasValue)
-    {
-        query = query.Where(u => u.Age == age.Value);
-    }
-    
-    if (isActive.HasValue)
-    {
-        query = query.Where(u => u.IsActive == isActive.Value);
-    }
+    // 使用 WhereIf 动态构建查询条件
+    query = query.WhereIf(!string.IsNullOrEmpty(name), u => u.Name.Contains(name));
+    query = query.WhereIf(age.HasValue, u => u.Age == age.Value);
+    query = query.WhereIf(isActive.HasValue, u => u.IsActive == isActive.Value);
     
     return query.ToList();
 }
@@ -498,7 +487,7 @@ public List<User> GetUsersWithComplexConditions(string name, int? age, bool? isA
 无跟踪查询适用于只读操作，可以提高查询性能。
 
 ```csharp
-// 使用无跟踪查询进行只读操作
+// 获取所有用户（无跟踪）
 public List<User> GetUsersReadOnly()
 {
     return _userRepository.GetListNoTracking();
@@ -513,12 +502,118 @@ public User GetUserByIdReadOnly(int id)
 // 异步无跟踪查询
 public async Task<List<User>> GetUsersReadOnlyAsync(string name)
 {
-    var query = _userRepository.Queryable(u => u.Name.Contains(name));
-    return await query.AsNoTracking().ToListAsync();
+    return await _userRepository.GetListNoTrackingAsync(u => u.Name.Contains(name));
+}
+
+// 异步获取单条无跟踪数据
+public async Task<User> GetUserByIdNoTrackingAsync(int id)
+{
+    return await _userRepository.GetInfoNoTrackingAsync(u => u.Id == id);
 }
 ```
 
-### 4.3. 批量操作
+### 4.3. 查询条件与排序扩展
+
+除了基础的 `WhereIf` 动态条件查询外，库还提供了 `AddConditions`、`AddSorting` 和 `AddConditionsContains` 等高级扩展方法。
+
+#### 结构条件查询（AddConditions）
+使用 `Condition` 对象构建查询条件，支持等于、不等于、大于、小于等多种运算符。
+
+```csharp
+using Acme.EFCore.Small.Enums;
+using Acme.EFCore.Small.Querys;
+
+// 使用 AddConditions 构建结构化的查询条件
+public List<User> GetUsersByConditions(string name, int minAge)
+{
+    var query = _userRepository.Queryable();
+    
+    var conditions = new List<Condition>
+    {
+        new Condition("Name", name, Symbol.Equal),
+        new Condition("Age", minAge.ToString(), Symbol.GreaterThanOrEqual)
+    };
+    
+    return query.AddConditions(conditions).ToList();
+}
+```
+
+#### 关键字模糊查询（AddConditionsContains）
+支持指定多个字段进行关键字模糊匹配。
+
+```csharp
+using Acme.EFCore.Small.Querys;
+
+// 使用 AddConditionsContains 进行多字段关键字模糊查询
+public List<User> SearchUsers(string keyword)
+{
+    var query = _userRepository.Queryable();
+    
+    var keywords = new Keywords(
+        fields: new[] { "Name", "Email", "Phone" },
+        value: keyword
+    );
+    
+    return query.AddConditionsContains(keywords).ToList();
+}
+```
+
+### 4.4. 提交操作
+`Submit()` 和 `SubmitAsync()` 用于手动提交更改到数据库。`AddNowSave` 等方法内部自动调用 Submit，而 `Add` 等方法需要手动调用 Submit。
+
+```csharp
+// 手动提交模式
+public void AddUserManually(User user)
+{
+    _userRepository.Add(user);     // 仅添加到上下文
+    _userRepository.Submit();      // 手动提交到数据库
+}
+
+// 自动提交模式
+public User AddUserAuto(User user)
+{
+    return _userRepository.AddNowSave(user);  // 添加并立即提交
+}
+```
+
+### 4.5. 获取指定条数数据
+
+```csharp
+// 获取前 N 条数据
+public List<User> GetTopUsers(int count)
+{
+    return _userRepository.GetListTake(count);
+}
+
+// 带条件获取前 N 条数据
+public List<User> GetTopActiveUsers(int count)
+{
+    return _userRepository.GetListTake(u => u.IsActive, count);
+}
+```
+
+### 4.6. 获取默认值（无数据时不抛异常）
+
+```csharp
+// 获取单条数据，不存在时返回 null
+public User GetUserOrDefault(int id)
+{
+    return _userRepository.GetInfoDefault(u => u.Id == id);
+}
+```
+
+### 4.7. 异步分页
+
+```csharp
+// 异步分页查询
+public async Task<PageList<User>> GetUsersPagedAsync(int pageIndex, int pageSize, string name)
+{
+    var query = _userRepository.Queryable(u => u.Name.Contains(name));
+    return await query.ToPageListAsync(pageIndex, pageSize);
+}
+```
+
+### 4.8. 批量操作
 
 #### 批量删除
 ```csharp
@@ -577,7 +672,7 @@ public async Task<bool> UpdateUserStatusAsync(bool isActive, List<int> userIds)
 #### 1. 实体定义
 ```csharp
 // 用户实体
-public class User : BaseEntity
+public class User : BaseEntity<int>
 {
     public string Name { get; set; }
     public string Email { get; set; }
@@ -586,7 +681,7 @@ public class User : BaseEntity
 }
 
 // 产品实体
-public class Product : BaseEntity
+public class Product : BaseEntity<int>
 {
     public string Name { get; set; }
     public decimal Price { get; set; }
@@ -630,15 +725,13 @@ public class UserService
         return await _userRepository.AddNowSaveAsync(user);
     }
     
-    // 获取用户列表
+    // 获取用户列表（支持按名称筛选）
     public async Task<PageList<User>> GetUsersAsync(int pageIndex, int pageSize, string name = null)
     {
         var query = _userRepository.Queryable();
         
-        if (!string.IsNullOrEmpty(name))
-        {
-            query = query.Where(u => u.Name.Contains(name));
-        }
+        // 使用 WhereIf 进行条件筛选
+        query = query.WhereIf(!string.IsNullOrEmpty(name), u => u.Name.Contains(name));
         
         return query.ToPageList(pageIndex, pageSize);
     }
@@ -897,8 +990,15 @@ public class OrderService
 - 包 ID: Acme.EFCore.Small
 - 作者: yzxs
 - 描述: 轻量级 EFCore 操作类库
-- 项目 URL: https://www.nuget.org/packages/Acme.EFCore.Small/
+- 项目源码: https://gitee.com/yzxs949/acme.-efcore.-small
+- NuGet 页面: https://www.nuget.org/packages/Acme.EFCore.Small/
+
+## 8、许可证
+MIT 许可证
+
+## 9、贡献
+欢迎贡献！请随时提交 Pull Request。
 
 ## 10、联系
-如有任何问题或问题，请联系作者
+如有任何问题或建议，请联系作者
 邮箱：yzxs949@163.com

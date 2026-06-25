@@ -2,14 +2,14 @@
 
 ## 1. Project Overview
 Acme.EFCore.Small is a lightweight Entity Framework Core general-purpose library designed to interact with databases using Entity Framework Core (EFCore). It serves as the fundamental component for handling various database operations.
-- Version: v1.3.6.4  
+- Version: v1.3.7.0  
 - Release Notes:
-  - Update .NET 10 dependency package version, Microsoft.EntityFrameworkCore version from 10.0.2 to 10.0.3.
+  - Update .NET 10 dependency package version, Microsoft.EntityFrameworkCore version from 10.0.7 to 10.0.8.
   - Fix known bugs...
 
 ## 2. Getting Started
 ### 1. Install Acme.EFCore.Small
-Create Project -> Click on References -> Right click -> Manage NuGet Packages -> Search Acme.EFCore.Small and select version 1.3.6.4 or above. Install the appropriate version for your .NET framework.
+Create Project -> Click on References -> Right click -> Manage NuGet Packages -> Search Acme.EFCore.Small and select version 1.3.7.0 or above. Install the appropriate version for your .NET framework.
 
 ### 2. Install the corresponding database package
 - SqlServer: `Microsoft.EntityFrameworkCore.SqlServer`
@@ -102,11 +102,11 @@ services.AddRepositorys();
 ### 3.1. Base Classes
 
 #### Entity Base Class
-`BaseEntity` provides basic entity properties, suitable for most entity types.
+`BaseEntity<TKey>` provides basic entity properties, suitable for most entity types. The `TKey` represents the primary key type (must be a value type).
 
 ```csharp
-// Inherit from BaseEntity to get basic entity properties
-public class User : BaseEntity
+// Inherit from BaseEntity<TKey> to get basic entity properties
+public class User : BaseEntity<int>
 {
     public string Name { get; set; }
     public string Email { get; set; }
@@ -117,11 +117,11 @@ public class User : BaseEntity
 ```
 
 #### Aggregate Root Base Class
-`BaseAggregateRoot` is suitable for entities that serve as aggregate roots, usually containing child entity collections.
+`BaseAggregateRoot<TKey>` is suitable for entities that serve as aggregate roots, usually containing child entity collections.
 
 ```csharp
-// Inherit from BaseAggregateRoot for aggregate root entities
-public class Order : BaseAggregateRoot
+// Inherit from BaseAggregateRoot<TKey> for aggregate root entities
+public class Order : BaseAggregateRoot<int>
 {
     public string OrderNumber { get; set; }
     public DateTime OrderDate { get; set; }
@@ -131,7 +131,7 @@ public class Order : BaseAggregateRoot
 }
 
 // Child entity
-public class OrderItem : BaseEntity
+public class OrderItem : BaseEntity<int>
 {
     public int OrderId { get; set; }
     public int ProductId { get; set; }
@@ -157,7 +157,7 @@ public class Address : BaseValueObject
 }
 
 // Using value object in entity
-public class User : BaseEntity
+public class User : BaseEntity<int>
 {
     public string Name { get; set; }
     public Address HomeAddress { get; set; }
@@ -408,39 +408,36 @@ public PageList<User> GetUsersPaged(int pageIndex, int pageSize, string name)
 ```
 
 #### Pagination with Sorting
+Sorting uses the `Sorting` object with `AddSorting` extension method.
+
 ```csharp
 // Pagination with sorting
 public PageList<User> GetUsersPagedWithSorting(int pageIndex, int pageSize, string name, string sortField, bool isAscending)
 {
     var query = _userRepository.Queryable(u => u.Name.Contains(name));
     
-    // Sorting
-    if (isAscending)
+    // Build sorting object
+    var sorting = new Sorting
     {
-        query = query.OrderBy(sortField);
-    }
-    else
-    {
-        query = query.OrderByDescending(sortField);
-    }
+        SortField = sortField,
+        SortingType = isAscending ? SortingType.ASC : SortingType.DESC
+    };
+    query = query.AddSorting(sorting);
     
     return query.ToPageList(pageIndex, pageSize);
 }
 ```
 
 #### Using Pagination Results
+`PageList<T>` is the pagination result containing total count and current page data.
+
 ```csharp
 // Call pagination method
 var pageResult = userService.GetUsersPaged(1, 10, "Zhang");
 
 // Pagination result contains the following information
-int totalCount = pageResult.TotalCount;      // Total record count
-int pageSize = pageResult.PageSize;          // Page size
-int pageIndex = pageResult.PageIndex;        // Current page number
-int totalPages = pageResult.TotalPages;      // Total pages
-List<User> users = pageResult.Items;         // Current page data
-bool hasNextPage = pageResult.HasNextPage;   // Whether there is a next page
-bool hasPrevPage = pageResult.HasPrevPage;   // Whether there is a previous page
+int total = pageResult.Total;          // Total record count
+List<User> users = pageResult.Items;   // Current page data
 ```
 
 ## 4. Advanced Features
@@ -448,47 +445,39 @@ bool hasPrevPage = pageResult.HasPrevPage;   // Whether there is a previous page
 ### 4.1. Query Extensions
 
 #### Dynamic Sorting
+The `Sorting` object contains the sort field and sort type, using the `SortingType` enum (ASC/DESC).
+
 ```csharp
-// Using query extension methods for dynamic sorting
+// Using AddSorting extension method for dynamic sorting
 public List<User> GetUsersWithDynamicSorting(string name, string sortField, bool isAscending)
 {
     var query = _userRepository.Queryable(u => u.Name.Contains(name));
     
-    if (isAscending)
+    // Build sorting object
+    var sorting = new Sorting
     {
-        query = query.OrderBy(sortField);
-    }
-    else
-    {
-        query = query.OrderByDescending(sortField);
-    }
+        SortField = sortField,
+        SortingType = isAscending ? SortingType.ASC : SortingType.DESC
+    };
+    query = query.AddSorting(sorting);
     
     return query.ToList();
 }
 ```
 
 #### Complex Condition Query
+The `WhereIf` extension method allows dynamically adding query filters based on conditions.
+
 ```csharp
-// Complex condition query
+// Complex condition query using WhereIf
 public List<User> GetUsersWithComplexConditions(string name, int? age, bool? isActive)
 {
     var query = _userRepository.Queryable();
     
-    // Dynamically build query conditions
-    if (!string.IsNullOrEmpty(name))
-    {
-        query = query.Where(u => u.Name.Contains(name));
-    }
-    
-    if (age.HasValue)
-    {
-        query = query.Where(u => u.Age == age.Value);
-    }
-    
-    if (isActive.HasValue)
-    {
-        query = query.Where(u => u.IsActive == isActive.Value);
-    }
+    // Dynamically build query conditions using WhereIf
+    query = query.WhereIf(!string.IsNullOrEmpty(name), u => u.Name.Contains(name));
+    query = query.WhereIf(age.HasValue, u => u.Age == age.Value);
+    query = query.WhereIf(isActive.HasValue, u => u.IsActive == isActive.Value);
     
     return query.ToList();
 }
@@ -498,7 +487,7 @@ public List<User> GetUsersWithComplexConditions(string name, int? age, bool? isA
 No-tracking queries are suitable for read-only operations and can improve query performance.
 
 ```csharp
-// Using no-tracking queries for read-only operations
+// Get all users (no tracking)
 public List<User> GetUsersReadOnly()
 {
     return _userRepository.GetListNoTracking();
@@ -510,15 +499,121 @@ public User GetUserByIdReadOnly(int id)
     return _userRepository.GetInfoNoTracking(u => u.Id == id);
 }
 
-// Async no-tracking query
+// Async no-tracking list query
 public async Task<List<User>> GetUsersReadOnlyAsync(string name)
 {
-    var query = _userRepository.Queryable(u => u.Name.Contains(name));
-    return await query.AsNoTracking().ToListAsync();
+    return await _userRepository.GetListNoTrackingAsync(u => u.Name.Contains(name));
+}
+
+// Async no-tracking single item query
+public async Task<User> GetUserByIdNoTrackingAsync(int id)
+{
+    return await _userRepository.GetInfoNoTrackingAsync(u => u.Id == id);
 }
 ```
 
-### 4.3. Batch Operations
+### 4.3. Query Conditions and Sorting Extensions
+
+In addition to the `WhereIf` conditional query, the library provides `AddConditions`, `AddSorting`, and `AddConditionsContains` advanced extension methods.
+
+#### Structured Condition Query (AddConditions)
+Use `Condition` objects to build query conditions, supporting operators such as equal, not equal, greater than, less than, etc.
+
+```csharp
+using Acme.EFCore.Small.Enums;
+using Acme.EFCore.Small.Querys;
+
+// Using AddConditions to build structured query conditions
+public List<User> GetUsersByConditions(string name, int minAge)
+{
+    var query = _userRepository.Queryable();
+    
+    var conditions = new List<Condition>
+    {
+        new Condition("Name", name, Symbol.Equal),
+        new Condition("Age", minAge.ToString(), Symbol.GreaterThanOrEqual)
+    };
+    
+    return query.AddConditions(conditions).ToList();
+}
+```
+
+#### Keyword Fuzzy Search (AddConditionsContains)
+Supports fuzzy matching across multiple specified fields.
+
+```csharp
+using Acme.EFCore.Small.Querys;
+
+// Using AddConditionsContains for multi-field keyword search
+public List<User> SearchUsers(string keyword)
+{
+    var query = _userRepository.Queryable();
+    
+    var keywords = new Keywords(
+        fields: new[] { "Name", "Email", "Phone" },
+        value: keyword
+    );
+    
+    return query.AddConditionsContains(keywords).ToList();
+}
+```
+
+### 4.4. Submit Operations
+`Submit()` and `SubmitAsync()` are used to manually save changes to the database. Methods like `AddNowSave` call Submit internally, while `Add` and similar methods require manual Submit.
+
+```csharp
+// Manual submit mode
+public void AddUserManually(User user)
+{
+    _userRepository.Add(user);     // Add to context only
+    _userRepository.Submit();      // Submit to database
+}
+
+// Auto submit mode
+public User AddUserAuto(User user)
+{
+    return _userRepository.AddNowSave(user);  // Add and submit immediately
+}
+```
+
+### 4.5. Get Limited Items
+
+```csharp
+// Get top N items
+public List<User> GetTopUsers(int count)
+{
+    return _userRepository.GetListTake(count);
+}
+
+// Get top N items with condition
+public List<User> GetTopActiveUsers(int count)
+{
+    return _userRepository.GetListTake(u => u.IsActive, count);
+}
+```
+
+### 4.6. Get Default Value (no exception when no data)
+
+```csharp
+// Get single item, returns null if not exists
+public User GetUserOrDefault(int id)
+{
+    return _userRepository.GetInfoDefault(u => u.Id == id);
+}
+```
+
+### 4.7. Async Pagination
+
+```csharp
+// Async pagination query
+public async Task<PageList<User>> GetUsersPagedAsync(int pageIndex, int pageSize, string name)
+{
+    var query = _userRepository.Queryable(u => u.Name.Contains(name));
+    return await query.ToPageListAsync(pageIndex, pageSize);
+}
+```
+
+### 4.8. Batch Operations
 
 #### Batch Delete
 ```csharp
@@ -577,7 +672,7 @@ public async Task<bool> UpdateUserStatusAsync(bool isActive, List<int> userIds)
 #### 1. Entity Definition
 ```csharp
 // User entity
-public class User : BaseEntity
+public class User : BaseEntity<int>
 {
     public string Name { get; set; }
     public string Email { get; set; }
@@ -586,7 +681,7 @@ public class User : BaseEntity
 }
 
 // Product entity
-public class Product : BaseEntity
+public class Product : BaseEntity<int>
 {
     public string Name { get; set; }
     public decimal Price { get; set; }
@@ -630,15 +725,13 @@ public class UserService
         return await _userRepository.AddNowSaveAsync(user);
     }
     
-    // Get user list
+    // Get user list (with optional name filter)
     public async Task<PageList<User>> GetUsersAsync(int pageIndex, int pageSize, string name = null)
     {
         var query = _userRepository.Queryable();
         
-        if (!string.IsNullOrEmpty(name))
-        {
-            query = query.Where(u => u.Name.Contains(name));
-        }
+        // Use WhereIf for conditional filtering
+        query = query.WhereIf(!string.IsNullOrEmpty(name), u => u.Name.Contains(name));
         
         return query.ToPageList(pageIndex, pageSize);
     }
@@ -897,7 +990,8 @@ public class OrderService
 - Package ID: Acme.EFCore.Small
 - Authors: yzxs
 - Description: Lightweight EFCore operation library
-- Project URL: https://gitee.com/yzxs949/acme.-efcore.-small
+- Source Code: https://gitee.com/yzxs949/acme.-efcore.-small
+- NuGet Page: https://www.nuget.org/packages/Acme.EFCore.Small/
 
 ## 8. License
 MIT License
