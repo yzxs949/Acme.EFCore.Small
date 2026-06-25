@@ -101,32 +101,91 @@ namespace Acme.EFCore.Small.Extensions
                 var property = Expression.Property(parameter, condition.Field);
                 var propertyType = property.Type;
 
-                object convertedValue;
-                try
-                {
-                    convertedValue = Convert.ChangeType(condition.Value, propertyType);
-                }
-                catch
-                {
-                    continue;
-                }
+                Expression conditionExpression;
 
-                var right = Expression.Constant(convertedValue, propertyType);
-
-                Expression conditionExpression = condition.Symbol switch
+                // IsNull / IsNotNull 不需要转换值
+                if (condition.Symbol is Symbol.IsNull or Symbol.IsNotNull)
                 {
-                    Symbol.Equal => Expression.Equal(property, right),
-                    Symbol.NotEqual => Expression.NotEqual(property, right),
-                    Symbol.GreaterThan => Expression.GreaterThan(property, right),
-                    Symbol.LessThan => Expression.LessThan(property, right),
-                    Symbol.GreaterThanOrEqual => Expression.GreaterThanOrEqual(property, right),
-                    Symbol.LessThanOrEqual => Expression.LessThanOrEqual(property, right),
-                    Symbol.Contains when propertyType == typeof(string) =>
-                        Expression.Call(property, typeof(string).GetMethod("Contains", new[] { typeof(string) }), right),
-                    Symbol.NotContains when propertyType == typeof(string) =>
-                        Expression.Not(Expression.Call(property, typeof(string).GetMethod("Contains", new[] { typeof(string) }), right)),
-                    _ => throw new ArgumentException($"不支持的运算符或类型: {condition.Symbol}")
-                };
+                    conditionExpression = condition.Symbol switch
+                    {
+                        Symbol.IsNull => Expression.Equal(property, Expression.Constant(null, propertyType)),
+                        Symbol.IsNotNull => Expression.NotEqual(property, Expression.Constant(null, propertyType)),
+                        _ => throw new ArgumentException($"无效运算符: {condition.Symbol}")
+                    };
+                }
+                // In / NotIn 需要解析逗号分隔的值列表
+                else if (condition.Symbol is Symbol.In or Symbol.NotIn)
+                {
+                    var values = (condition.Value ?? "")
+                        .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                        .Select(v => Convert.ChangeType(v.Trim(), propertyType))
+                        .ToList();
+
+                    var containsMethod = typeof(Enumerable)
+                        .GetMethods()
+                        .First(m => m.Name == "Contains" && m.GetParameters().Length == 2)
+                        .MakeGenericMethod(propertyType);
+
+                    var valuesExpr = Expression.Constant(values, typeof(List<>).MakeGenericType(propertyType));
+                    var containsCall = Expression.Call(containsMethod, valuesExpr, property);
+
+                    conditionExpression = condition.Symbol switch
+                    {
+                        Symbol.In => containsCall,
+                        Symbol.NotIn => Expression.Not(containsCall),
+                        _ => throw new ArgumentException($"无效运算符: {condition.Symbol}")
+                    };
+                }
+                // 字符串模糊匹配
+                else if (condition.Symbol is Symbol.Contains or Symbol.NotContains or Symbol.StartsWith or Symbol.EndsWith)
+                {
+                    if (propertyType != typeof(string))
+                        continue;
+
+                    var methodName = condition.Symbol switch
+                    {
+                        Symbol.Contains => "Contains",
+                        Symbol.StartsWith => "StartsWith",
+                        Symbol.EndsWith => "EndsWith",
+                        _ => throw new ArgumentException($"无效运算符: {condition.Symbol}")
+                    };
+
+                    var method = typeof(string).GetMethod(methodName, new[] { typeof(string) });
+                    var right = Expression.Constant(condition.Value, typeof(string));
+                    var methodCall = Expression.Call(property, method, right);
+
+                    conditionExpression = condition.Symbol switch
+                    {
+                        Symbol.NotContains => Expression.Not(methodCall),
+                        _ => methodCall
+                    };
+                }
+                // 常规比较运算符
+                else
+                {
+                    object convertedValue;
+                    try
+                    {
+                        convertedValue = Convert.ChangeType(condition.Value, propertyType);
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+
+                    var right = Expression.Constant(convertedValue, propertyType);
+
+                    conditionExpression = condition.Symbol switch
+                    {
+                        Symbol.Equal => Expression.Equal(property, right),
+                        Symbol.NotEqual => Expression.NotEqual(property, right),
+                        Symbol.GreaterThan => Expression.GreaterThan(property, right),
+                        Symbol.LessThan => Expression.LessThan(property, right),
+                        Symbol.GreaterThanOrEqual => Expression.GreaterThanOrEqual(property, right),
+                        Symbol.LessThanOrEqual => Expression.LessThanOrEqual(property, right),
+                        _ => throw new ArgumentException($"不支持的运算符: {condition.Symbol}")
+                    };
+                }
 
                 var lambda = Expression.Lambda<Func<TEntity, bool>>(conditionExpression, parameter);
                 query = query.Where(lambda);
