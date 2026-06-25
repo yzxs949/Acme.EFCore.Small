@@ -4,18 +4,18 @@
 
 Acme.EFCore.Small 是一个轻量级的 Entity Framework Core 通用库，用于使用 Entity Framework Core (EFCore) 与数据库进行交互。它是处理各种数据库操作的基础组件。
 
-- **版本**：v2.0.0.2-alpha
+- **版本**：v2.0.0.3-alpha
 - **作者**：yzxs
 - **描述**：轻量级 EFCore 操作类库
 - **发布说明**：
-  - 1.更新.NET10依赖包版本，Microsoft.EntityFrameworkCore 版本为 Version10.0.5 到 Version10.0.6
+  - 1.更新.NET10依赖包版本，Microsoft.EntityFrameworkCore 版本为 Version10.0.6 到 Version10.0.8
   - 2.修复已知bug……
 
 ## 2、入门指南
 
 ### 2.1. 安装 Acme.EFCore.Small
 
-创建项目 -> 点击引用 -> 右键 -> 管理 NuGet 包 -> 搜索 `Acme.EFCore.Small` 并选择 2.0.0.2-alpha 或更高版本。根据您的 .NET 框架安装适当的版本。
+创建项目 -> 点击引用 -> 右键 -> 管理 NuGet 包 -> 搜索 `Acme.EFCore.Small` 并选择 2.0.0.3-alpha 或更高版本。根据您的 .NET 框架安装适当的版本。
 
 ### 2.2. 安装对应的数据库包
 
@@ -116,11 +116,11 @@ services.AddRepositorys();
 
 #### 3.1.1. 实体基础类
 
-`BaseEntity` 提供了基本的实体属性，适用于大多数实体类型。
+`BaseEntity<TKey>` 提供了基本的实体属性，适用于大多数实体类型。TKey 为主键类型（值类型）。
 
 ```csharp
-// 继承 BaseEntity 以获取基本实体属性
-public class User : BaseEntity
+// 继承 BaseEntity<TKey> 以获取基本实体属性
+public class User : BaseEntity<int>
 {
     public string Name { get; set; }
     public string Email { get; set; }
@@ -132,11 +132,11 @@ public class User : BaseEntity
 
 #### 3.1.2. 聚合根基础类
 
-`BaseAggregateRoot` 适用于作为聚合根的实体，通常包含子实体集合。
+`BaseAggregateRoot<TKey>` 适用于作为聚合根的实体，通常包含子实体集合。
 
 ```csharp
-// 继承 BaseAggregateRoot 用于聚合根实体
-public class Order : BaseAggregateRoot
+// 继承 BaseAggregateRoot<TKey> 用于聚合根实体
+public class Order : BaseAggregateRoot<int>
 {
     public string OrderNumber { get; set; }
     public DateTime OrderDate { get; set; }
@@ -146,7 +146,7 @@ public class Order : BaseAggregateRoot
 }
 
 // 子实体
-public class OrderItem : BaseEntity
+public class OrderItem : BaseEntity<int>
 {
     public int OrderId { get; set; }
     public int ProductId { get; set; }
@@ -173,7 +173,7 @@ public class Address : BaseValueObject
 }
 
 // 在实体中使用值对象
-public class User : BaseEntity
+public class User : BaseEntity<int>
 {
     public string Name { get; set; }
     public Address HomeAddress { get; set; }
@@ -199,7 +199,7 @@ public UserService(IRepository<User> userRepository, IRepository<Product> produc
 }
 
 // 1. 添加新用户
-public User AddUser(User user)
+public int AddUser(User user)
 {
     return _userRepository.AddNowSave(user);
 }
@@ -211,7 +211,7 @@ public User GetUserById(int id)
 }
 
 // 3. 根据条件获取用户
-public User GetUserById(int id)
+public User GetUserByCondition(int id)
 {
     return _userRepository.GetInfo(u => u.Id == id);
 }
@@ -222,7 +222,7 @@ public bool UpdateUser(User user)
     return _userRepository.UpdateNowSave(user);
 }
 
-// 4. 删除用户
+// 5. 删除用户
 public bool DeleteUser(User user)
 {
     return _userRepository.DeleteNowSave(user);
@@ -235,7 +235,7 @@ public List<User> GetUsers(string name)
 }
 
 // 6. 批量添加用户
-public bool AddUsers(List<User> users)
+public int AddUsers(List<User> users)
 {
     return _userRepository.AddManyNowSave(users);
 }
@@ -258,18 +258,21 @@ public int GetUserCount(bool isActive)
 多库模式适用于项目中使用多个数据库的场景，使用 `IRepository<TDbContext, TEntity>` 接口，需要指定具体的数据库上下文类型。
 
 ```csharp
-// 注入多库仓储
+// 注入多库仓储和工作单元
 private readonly IRepository<AppDbContext, User> _userRepository;
 private readonly IRepository<OrderDbContext, Order> _orderRepository;
 private readonly IRepository<OrderDbContext, OrderItem> _orderItemRepository;
+private readonly IUnitOfWork<OrderDbContext> _unitOfWork;
 
 public OrderService(IRepository<AppDbContext, User> userRepository, 
                    IRepository<OrderDbContext, Order> orderRepository,
-                   IRepository<OrderDbContext, OrderItem> orderItemRepository)
+                   IRepository<OrderDbContext, OrderItem> orderItemRepository,
+                   IUnitOfWork<OrderDbContext> unitOfWork)
 {
     _userRepository = userRepository;
     _orderRepository = orderRepository;
     _orderItemRepository = orderItemRepository;
+    _unitOfWork = unitOfWork;
 }
 
 // 从不同数据库获取数据
@@ -280,7 +283,7 @@ public async Task<(User, Order)> GetUserAndOrder(int userId, int orderId)
     return (user, order);
 }
 
-// 在多个数据库之间进行操作
+// 在多个数据库之间进行操作（配合工作单元）
 public async Task<bool> CreateOrderWithUser(int userId, Order order)
 {
     try
@@ -293,14 +296,17 @@ public async Task<bool> CreateOrderWithUser(int userId, Order order)
         }
         
         // 创建订单
-        await _orderRepository.AddNowSaveAsync(order);
+        _orderRepository.Add(order);
         
         // 创建订单项
         foreach (var item in order.Items)
         {
             item.OrderId = order.Id;
-            await _orderItemRepository.AddNowSaveAsync(item);
+            _orderItemRepository.Add(item);
         }
+        
+        // 统一提交
+        await _unitOfWork.SubmitAsync();
         
         return true;
     }
@@ -315,19 +321,25 @@ public async Task<bool> CreateOrderWithUser(int userId, Order order)
 
 ```csharp
 // 异步添加
-public async Task<User> AddUserAsync(User user)
+public async Task<int> AddUserAsync(User user)
 {
     return await _userRepository.AddNowSaveAsync(user);
 }
 
-// 异步获取
-public async Task<User> GetUserByIdAsync(int id)
+// 异步获取（按条件）
+public async Task<User> GetUserByConditionAsync(int id)
 {
     return await _userRepository.GetInfoAsync(u => u.Id == id);
 }
 
+// 异步获取（按主键）
+public async Task<User> GetUserByIdAsync(int id)
+{
+    return await _userRepository.GetInfoByIdAsync(id);
+}
+
 // 异步批量添加
-public async Task<bool> AddUsersAsync(List<User> users)
+public async Task<int> AddUsersAsync(List<User> users)
 {
     return await _userRepository.AddManyNowSaveAsync(users);
 }
@@ -454,38 +466,36 @@ public PageList<User> GetUsersPaged(int pageIndex, int pageSize, string name)
 
 ```csharp
 // 带排序的分页
+排序使用 `Sorting` 对象结合 `AddSorting` 扩展方法。
+
+```csharp
+// 带排序的分页
 public PageList<User> GetUsersPagedWithSorting(int pageIndex, int pageSize, string name, string sortField, bool isAscending)
 {
     var query = _userRepository.Queryable(u => u.Name.Contains(name));
     
-    // 排序
-    if (isAscending)
+    // 构建排序对象
+    var sorting = new Sorting
     {
-        query = query.OrderBy(sortField);
-    }
-    else
-    {
-        query = query.OrderByDescending(sortField);
-    }
+        SortField = sortField,
+        SortingType = isAscending ? SortingType.ASC : SortingType.DESC
+    };
+    query = query.AddSorting(sorting);
     
     return query.ToPageList(pageIndex, pageSize);
 }
 ```
 
 #### 3.4.3. 分页结果使用
+`PageList<T>` 是分页返回结果，包含总条数和当前页数据。
 
 ```csharp
 // 调用分页方法
 var pageResult = userService.GetUsersPaged(1, 10, "张");
 
 // 分页结果包含以下信息
-int totalCount = pageResult.Total;      // 总记录数
-int pageSize = pageResult.PageSize;     // 每页大小
-int pageIndex = pageResult.PageIndex;   // 当前页码
-int totalPages = pageResult.TotalPages; // 总页数
-List<User> items = pageResult.Items;    // 当前页数据
-bool hasNextPage = pageResult.HasNextPage; // 是否有下一页
-bool hasPrevPage = pageResult.HasPrevPage; // 是否有上一页
+int total = pageResult.Total;          // 总记录数
+List<User> items = pageResult.Items;   // 当前页数据
 ```
 
 ## 4、高级功能
@@ -494,48 +504,39 @@ bool hasPrevPage = pageResult.HasPrevPage; // 是否有上一页
 
 #### 4.1.1. 动态排序
 
+使用 `Sorting` 对象（包含 `SortField` 和 `SortingType`）结合 `AddSorting` 扩展方法进行动态排序。
+
 ```csharp
-// 使用查询扩展方法进行动态排序
+// 使用 AddSorting 进行动态排序
 public List<User> GetUsersWithDynamicSorting(string name, string sortField, bool isAscending)
 {
     var query = _userRepository.Queryable(u => u.Name.Contains(name));
     
-    if (isAscending)
+    // 构建排序对象
+    var sorting = new Sorting
     {
-        query = query.OrderBy(sortField);
-    }
-    else
-    {
-        query = query.OrderByDescending(sortField);
-    }
+        SortField = sortField,
+        SortingType = isAscending ? SortingType.ASC : SortingType.DESC
+    };
+    query = query.AddSorting(sorting);
     
     return query.ToList();
 }
 ```
 
 #### 4.1.2. 复杂条件查询
+`WhereIf` 扩展方法支持根据条件动态添加查询过滤。
 
 ```csharp
-// 复杂条件查询
+// 复杂条件查询（使用 WhereIf）
 public List<User> GetUsersWithComplexConditions(string name, int? age, bool? isActive)
 {
     var query = _userRepository.Queryable();
     
-    // 动态构建查询条件
-    if (!string.IsNullOrEmpty(name))
-    {
-        query = query.Where(u => u.Name.Contains(name));
-    }
-    
-    if (age.HasValue)
-    {
-        query = query.Where(u => u.Age == age.Value);
-    }
-    
-    if (isActive.HasValue)
-    {
-        query = query.Where(u => u.IsActive == isActive.Value);
-    }
+    // 使用 WhereIf 动态构建条件
+    query = query.WhereIf(!string.IsNullOrEmpty(name), u => u.Name.Contains(name));
+    query = query.WhereIf(age.HasValue, u => u.Age == age.Value);
+    query = query.WhereIf(isActive.HasValue, u => u.IsActive == isActive.Value);
     
     return query.ToList();
 }
@@ -561,8 +562,13 @@ public User GetUserByIdReadOnly(int id)
 // 异步无跟踪查询
 public async Task<List<User>> GetUsersReadOnlyAsync(string name)
 {
-    var query = _userRepository.Queryable(u => u.Name.Contains(name));
-    return await query.AsNoTracking().ToListAsync();
+    return await _userRepository.GetListNoTrackingAsync(u => u.Name.Contains(name));
+}
+
+// 异步获取单条无跟踪数据
+public async Task<User> GetUserByIdNoTrackingAsync(int id)
+{
+    return await _userRepository.GetInfoNoTrackingAsync(u => u.Id == id);
 }
 ```
 
@@ -628,7 +634,7 @@ public async Task<bool> UpdateUserStatusAsync(bool isActive, List<int> userIds)
 
 ```csharp
 // 用户实体
-public class User : BaseEntity
+public class User : BaseEntity<int>
 {
     public string Name { get; set; }
     public string Email { get; set; }
@@ -637,7 +643,7 @@ public class User : BaseEntity
 }
 
 // 产品实体
-public class Product : BaseEntity
+public class Product : BaseEntity<int>
 {
     public string Name { get; set; }
     public decimal Price { get; set; }
@@ -674,7 +680,7 @@ public class UserService
     }
     
     // 创建用户
-    public async Task<User> CreateUserAsync(User user)
+    public async Task<int> CreateUserAsync(User user)
     {
         // 检查邮箱是否已存在
         if (await _userRepository.AnyAsync(u => u.Email == user.Email))
@@ -682,6 +688,7 @@ public class UserService
             throw new Exception("邮箱已被注册");
         }
         
+        // AddNowSaveAsync 返回受影响行数（正常为 1）
         return await _userRepository.AddNowSaveAsync(user);
     }
     
@@ -690,10 +697,8 @@ public class UserService
     {
         var query = _userRepository.Queryable();
         
-        if (!string.IsNullOrEmpty(name))
-        {
-            query = query.Where(u => u.Name.Contains(name));
-        }
+        // 使用 WhereIf 进行条件筛选
+        query = query.WhereIf(!string.IsNullOrEmpty(name), u => u.Name.Contains(name));
         
         return query.ToPageList(pageIndex, pageSize);
     }
@@ -750,8 +755,10 @@ public class UserController : ControllerBase
     {
         try
         {
-            var createdUser = await _userService.CreateUserAsync(user);
-            return CreatedAtAction(nameof(Get), new { id = createdUser.Id }, createdUser);
+            var result = await _userService.CreateUserAsync(user);
+            if (result > 0)
+                return CreatedAtAction(nameof(Get), new { id = user.Id }, user);
+            return BadRequest("创建用户失败");
         }
         catch (Exception ex)
         {
@@ -762,7 +769,7 @@ public class UserController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(int id)
     {
-        var user = await _userService.GetUserByIdAsync(id);
+        var user = await _userService.GetUserByConditionAsync(id);
         if (user == null)
         {
             return NotFound();
@@ -957,7 +964,7 @@ public class OrderService
 - **包 ID**: Acme.EFCore.Small
 - **作者**: yzxs
 - **描述**: 轻量级 EFCore 操作类库
-- **项目 URL**: <https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.1-alpha#readme-body-tab>
+- **项目 URL**: <https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.3-alpha#readme-body-tab>
 - **版权**: yzxs
 
 ## 8、测试

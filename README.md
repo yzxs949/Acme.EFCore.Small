@@ -1,15 +1,19 @@
 # Acme.EFCore.Small
 
 ## 1、项目概述
+
 Acme.EFCore.Small 是一个轻量级的 Entity Framework Core 通用库，用于使用 Entity Framework Core (EFCore) 与数据库进行交互。它是处理各种数据库操作的基础组件。
-- 版本：v1.3.6.4  
-- 发布说明：
-  - 更新 .NET 10 依赖包版本，Microsoft.EntityFrameworkCore 版本从 10.0.2 更新到 10.0.3。
-  - 修复已知 bug...
+
+- **版本**：v2.0.0.3-alpha
+- **作者**：yzxs
+- **描述**：轻量级 EFCore 操作类库
+- **发布说明**：
+  - 1.更新.NET10依赖包版本，Microsoft.EntityFrameworkCore 版本为 Version10.0.6 到 Version10.0.8
+  - 2.修复已知bug……
 
 ## 2、入门指南
 ### 1. 安装 Acme.EFCore.Small
-创建项目 -> 点击引用 -> 右键 -> 管理 NuGet 包 -> 搜索 Acme.EFCore.Small 并选择 1.3.6.4 或更高版本。根据您的 .NET 框架安装适当的版本。
+创建项目 -> 点击引用 -> 右键 -> 管理 NuGet 包 -> 搜索 `Acme.EFCore.Small` 并选择 2.0.0.3-alpha 或更高版本。根据您的 .NET 框架安装适当的版本。
 
 ### 2. 安装对应的数据库包
 - SqlServer: `Microsoft.EntityFrameworkCore.SqlServer`
@@ -25,21 +29,28 @@ Acme.EFCore.Small 是一个轻量级的 Entity Framework Core 通用库，用于
 - Dm: `Microsoft.EntityFrameworkCore.Dm`
 
 ### 3. 创建数据库上下文类
+
 ```csharp
+// 主数据库上下文
 public class AppDbContext : DbContext
 {
-    /// <summary>
-    /// 初始化数据库上下文
-    /// </summary>
-    /// <param name="options"></param>
-    public AppDbContext(DbContextOptions<AppDbContext> options) :
-       base(options)
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
     }
     
-    // 在此添加您的 DbSet 属性
     public DbSet<User> Users { get; set; }
     public DbSet<Product> Products { get; set; }
+}
+
+// 多库场景下的订单数据库上下文
+public class OrderDbContext : DbContext
+{
+    public OrderDbContext(DbContextOptions<OrderDbContext> options) : base(options)
+    {
+    }
+    
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderItem> OrderItems { get; set; }
 }
 ```
 
@@ -47,21 +58,36 @@ public class AppDbContext : DbContext
 ```json
 {
     "ConnectionStrings":{
-        "DefaultConnection": "Persist Security Info=False;Data Source=.;Initial Catalog=数据库名称;User ID=用户名;Password=密码;Connect Timeout=120;Encrypt=False;"
+        "DefaultConnection": "Persist Security Info=False;Data Source=.;Initial Catalog=数据库名称;User ID=用户名;Password=密码;Connect Timeout=120;Encrypt=False;",
+        "OrderConnection": "Persist Security Info=False;Data Source=.;Initial Catalog=订单数据库名称;User ID=用户名;Password=密码;Connect Timeout=120;Encrypt=False;"
     }
 }
 ```
 
 ### 5. 依赖注入
-#### 5.1. 基本配置
+#### 5.1. 单库模式配置
+
 ```csharp
-// 调用数据库配置信息
-services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+// 注册数据库上下文
+services.AddDbContext<AppDbContext>(options => 
+    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-//单库模式注入
+// 注册单库模式仓储（包含工作单元）
 services.AddRepositorys<AppDbContext>();
+```
 
-// 多库模式注入
+#### 5.2. 多库模式配置
+
+```csharp
+// 注册第一个数据库上下文
+services.AddDbContext<AppDbContext>(options => 
+    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+// 注册第二个数据库上下文
+services.AddDbContext<OrderDbContext>(options => 
+    options.UseSqlServer(Configuration.GetConnectionString("OrderConnection")));
+
+// 注册多库模式仓储（包含工作单元）
 services.AddRepositorys();
 ```
 
@@ -71,8 +97,8 @@ services.AddRepositorys();
 
 #### 实体基础类
 ```csharp
-// 继承 BaseEntity 以获取基本实体属性
-public class User : BaseEntity
+// 继承 BaseEntity<TKey> 以获取基本实体属性，TKey 为主键类型（值类型）
+public class User : BaseEntity<int>
 {
     public string Name { get; set; }
     public string Email { get; set; }
@@ -81,8 +107,8 @@ public class User : BaseEntity
 
 #### 聚合根基础类
 ```csharp
-// 继承 BaseAggregateRoot 用于聚合根实体
-public class Order : BaseAggregateRoot
+// 继承 BaseAggregateRoot<TKey> 用于聚合根实体
+public class Order : BaseAggregateRoot<int>
 {
     public string OrderNumber { get; set; }
     public DateTime OrderDate { get; set; }
@@ -116,58 +142,98 @@ public UserService(IRepository<User> userRepository)
 }
 
 // 添加新用户
-public User AddUser(User user)
+public int AddUser(User user)
 {
     return _userRepository.AddNowSave(user);
 }
 
 // 根据条件获取用户
-public User GetUserById(int id)
+public User GetUserByCondition(int id)
 {
     return _userRepository.GetInfo(u => u.Id == id);
+}
+
+// 根据主键获取用户
+public User GetUserById(int id)
+{
+    return _userRepository.GetInfoById(id);
 }
 ```
 
 #### 多库模式
-多库模式适用于项目中使用多个数据库的场景，使用 `IRepository<TDbContext, TEntity>` 接口，需要指定具体的数据库上下文类型。
+多库模式适用于项目中使用多个数据库的场景，使用 `IRepository<TDbContext, TEntity>` 接口，需要指定具体的数据库上下文类型，并配合 `IUnitOfWork` 使用。
 
 ```csharp
-// 注入多库仓储
+// 注入多库仓储和工作单元
 private readonly IRepository<AppDbContext, User> _userRepository;
-private readonly IRepository<OtherDbContext, Product> _productRepository;
+private readonly IRepository<OrderDbContext, Order> _orderRepository;
+private readonly IUnitOfWork<OrderDbContext> _unitOfWork;
 
-public UserService(IRepository<AppDbContext, User> userRepository, 
-                   IRepository<OtherDbContext, Product> productRepository)
+public OrderService(IRepository<AppDbContext, User> userRepository, 
+                   IRepository<OrderDbContext, Order> orderRepository,
+                   IUnitOfWork<OrderDbContext> unitOfWork)
 {
     _userRepository = userRepository;
-    _productRepository = productRepository;
+    _orderRepository = orderRepository;
+    _unitOfWork = unitOfWork;
 }
 
 // 从不同数据库获取数据
-public async Task<(User, Product)> GetUserAndProduct(int userId, int productId)
+public async Task<(User, Order)> GetUserAndOrder(int userId, int orderId)
 {
     var user = await _userRepository.GetInfoAsync(u => u.Id == userId);
-    var product = await _productRepository.GetInfoAsync(p => p.Id == productId);
-    return (user, product);
+    var order = await _orderRepository.GetInfoAsync(o => o.Id == orderId);
+    return (user, order);
 }
 ```
 
 #### 异步操作
 ```csharp
 // 异步添加
-public async Task<User> AddUserAsync(User user)
+public async Task<int> AddUserAsync(User user)
 {
     return await _userRepository.AddNowSaveAsync(user);
 }
 
-// 异步获取
-public async Task<User> GetUserByIdAsync(int id)
+// 异步获取（按条件）
+public async Task<User> GetUserByConditionAsync(int id)
 {
     return await _userRepository.GetInfoAsync(u => u.Id == id);
 }
+
+// 异步获取（按主键）
+public async Task<User> GetUserByIdAsync(int id)
+{
+    return await _userRepository.GetInfoByIdAsync(id);
+}
+
+// 异步检查是否存在
+public async Task<bool> UserExistsAsync(string email)
+{
+    return await _userRepository.AnyAsync(u => u.Email == email);
+}
 ```
 
-### 3.3. 事务管理
+### 3.3. 工作单元模式
+
+工作单元模式用于管理事务和提交操作，将数据变更作为一个原子单元进行处理。标准版使用 `IUnitOfWork` 管理事务和提交。
+
+#### 注入工作单元
+
+```csharp
+private readonly IUnitOfWork<OrderDbContext> _unitOfWork;
+
+public OrderService(
+    IRepository<OrderDbContext, Order> orderRepository, 
+    IUnitOfWork<OrderDbContext> unitOfWork)
+{
+    _orderRepository = orderRepository;
+    _unitOfWork = unitOfWork;
+}
+```
+
+#### 基本事务示例
+
 ```csharp
 // 使用事务
 public void ProcessOrder(Order order)
@@ -175,34 +241,59 @@ public void ProcessOrder(Order order)
     try
     {
         // 开始事务
-        _orderRepository.BeginTransaction();
+        _unitOfWork.BeginTransaction();
         
         // 执行操作
         _orderRepository.Add(order);
         
-        foreach (var item in order.Items)
-        {
-            _orderItemRepository.Add(item);
-        }
+        // 提交更改
+        _unitOfWork.Submit();
         
         // 提交事务
-        _orderRepository.CommitTransaction();
+        _unitOfWork.CommitTransaction();
     }
-    catch (Exception ex)
+    catch (Exception)
     {
         // 出错时回滚事务
-        _orderRepository.RollbackTransaction();
+        _unitOfWork.RollbackTransaction();
         throw;
     }
-    finally
+}
+```
+
+#### 异步事务示例
+
+```csharp
+// 异步事务
+public async Task<bool> ProcessOrderAsync(Order order)
+{
+    try
     {
-        // 释放事务
-        _orderRepository.DisposeTransaction();
+        // 开始事务
+        await _unitOfWork.BeginTransactionAsync();
+        
+        // 执行操作
+        await _orderRepository.AddAsync(order);
+        
+        // 提交更改
+        await _unitOfWork.SubmitAsync();
+        
+        // 提交事务
+        await _unitOfWork.CommitTransactionAsync();
+        return true;
+    }
+    catch (Exception)
+    {
+        // 出错时回滚事务
+        await _unitOfWork.RollbackTransactionAsync();
+        return false;
     }
 }
 ```
 
 ### 3.4. 分页功能
+`PageList<T>` 返回结果只包含 `Total`（总记录数）和 `Items`（当前页数据）。
+
 ```csharp
 // 使用分页
 public PageList<User> GetUsersPaged(int pageIndex, int pageSize, string name)
@@ -212,23 +303,34 @@ public PageList<User> GetUsersPaged(int pageIndex, int pageSize, string name)
 }
 ```
 
+也可以使用异步分页：
+
+```csharp
+// 异步分页
+public async Task<PageList<User>> GetUsersPagedAsync(int pageIndex, int pageSize, string name)
+{
+    var query = _userRepository.Queryable(u => u.Name.Contains(name));
+    return await query.ToPageListAsync(pageIndex, pageSize);
+}
+```
+
 ## 4、高级功能
 
 ### 4.1. 查询扩展
+排序使用 `Sorting` 对象 + `SortingType` 枚举，通过 `AddSorting` 扩展方法实现。
+
 ```csharp
-// 使用查询扩展方法
+// 使用 AddSorting 进行动态排序
 public List<User> GetUsersWithSorting(string name, string sortField, bool isAscending)
 {
     var query = _userRepository.Queryable(u => u.Name.Contains(name));
     
-    if (isAscending)
+    var sorting = new Sorting
     {
-        query = query.OrderBy(sortField);
-    }
-    else
-    {
-        query = query.OrderByDescending(sortField);
-    }
+        SortField = sortField,
+        SortingType = isAscending ? SortingType.ASC : SortingType.DESC
+    };
+    query = query.AddSorting(sorting);
     
     return query.ToList();
 }
@@ -241,9 +343,22 @@ public List<User> GetUsersReadOnly()
 {
     return _userRepository.GetListNoTracking();
 }
+
+// 带条件的无跟踪查询
+public User GetUserByIdReadOnly(int id)
+{
+    return _userRepository.GetInfoNoTracking(u => u.Id == id);
+}
+
+// 异步无跟踪查询
+public async Task<List<User>> GetUsersReadOnlyAsync(string name)
+{
+    return await _userRepository.GetListNoTrackingAsync(u => u.Name.Contains(name));
+}
 ```
 
 ## 5、支持的 .NET 版本
+
 - netcoreapp3.1
 - net5
 - net6
@@ -253,16 +368,16 @@ public List<User> GetUsersReadOnly()
 - net10.0
 
 ## 6、NuGet 包信息
-- 包 ID: Acme.EFCore.Small
-- 作者: yzxs
-- 描述: 轻量级 EFCore 操作类库
-- 项目 URL: https://www.nuget.org/packages/Acme.EFCore.Small/
 
-## 7、许可证
-MIT 许可证
+- **包 ID**: Acme.EFCore.Small
+- **作者**: yzxs
+- **描述**: 轻量级 EFCore 操作类库
+- **项目 URL**: <https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.3-alpha#readme-body-tab>
+- **版权**: yzxs
 
-## 8、贡献
-欢迎贡献！请随时提交 Pull Request。
+## 7、联系
 
-## 9、联系
-如有任何问题或问题，请联系作者。
+如有任何问题或建议，请联系作者
+
+- **邮箱**: <yzxs949@163.com>
+- **NuGet**: <https://www.nuget.org/packages/Acme.EFCore.Small/>

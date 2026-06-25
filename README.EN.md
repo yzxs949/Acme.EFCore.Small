@@ -2,14 +2,14 @@
 
 ## 1. Project Overview
 Acme.EFCore.Small is a lightweight Entity Framework Core general-purpose library designed to interact with databases using Entity Framework Core (EFCore). It serves as the fundamental component for handling various database operations.
-- Version: v1.3.6.4  
+- Version: v2.0.0.3-alpha  
 - Release Notes:
-  - Update .NET 10 dependency package version, Microsoft.EntityFrameworkCore version from 10.0.2 to 10.0.3.
+  - Update .NET 10 dependency package version, Microsoft.EntityFrameworkCore version from 10.0.6 to 10.0.8.
   - Fix known bugs...
 
 ## 2. Getting Started
 ### 1. Install Acme.EFCore.Small
-Create Project -> Click on References -> Right click -> Manage NuGet Packages -> Search Acme.EFCore.Small and select version 1.3.6.4 or above. Install the appropriate version for your .NET framework.
+Create Project -> Click on References -> Right click -> Manage NuGet Packages -> Search Acme.EFCore.Small and select version 2.0.0.3-alpha or above. Install the appropriate version for your .NET framework.
 
 ### 2. Install the corresponding database package
 - SqlServer: `Microsoft.EntityFrameworkCore.SqlServer`
@@ -78,7 +78,7 @@ public class OtherDbContext : DbContext
 services.AddDbContext<AppDbContext>(options => 
     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-// Register single database mode repository
+// Register single database mode repository (includes UnitOfWork)
 services.AddRepositorys<AppDbContext>();
 ```
 
@@ -93,7 +93,7 @@ services.AddDbContext<AppDbContext>(options =>
 services.AddDbContext<OtherDbContext>(options => 
     options.UseSqlServer(Configuration.GetConnectionString("OtherConnection")));
 
-// Register multi-database mode repository
+// Register multi-database mode repository (includes UnitOfWork)
 services.AddRepositorys();
 ```
 
@@ -102,11 +102,11 @@ services.AddRepositorys();
 ### 3.1. Base Classes
 
 #### Entity Base Class
-`BaseEntity` provides basic entity properties, suitable for most entity types.
+`BaseEntity<TKey>` provides basic entity properties, suitable for most entity types. The `TKey` represents the primary key type (must be a value type).
 
 ```csharp
-// Inherit from BaseEntity to get basic entity properties
-public class User : BaseEntity
+// Inherit from BaseEntity<TKey> to get basic entity properties
+public class User : BaseEntity<int>
 {
     public string Name { get; set; }
     public string Email { get; set; }
@@ -117,11 +117,11 @@ public class User : BaseEntity
 ```
 
 #### Aggregate Root Base Class
-`BaseAggregateRoot` is suitable for entities that serve as aggregate roots, usually containing child entity collections.
+`BaseAggregateRoot<TKey>` is suitable for entities that serve as aggregate roots, usually containing child entity collections.
 
 ```csharp
-// Inherit from BaseAggregateRoot for aggregate root entities
-public class Order : BaseAggregateRoot
+// Inherit from BaseAggregateRoot<TKey> for aggregate root entities
+public class Order : BaseAggregateRoot<int>
 {
     public string OrderNumber { get; set; }
     public DateTime OrderDate { get; set; }
@@ -131,7 +131,7 @@ public class Order : BaseAggregateRoot
 }
 
 // Child entity
-public class OrderItem : BaseEntity
+public class OrderItem : BaseEntity<int>
 {
     public int OrderId { get; set; }
     public int ProductId { get; set; }
@@ -157,7 +157,7 @@ public class Address : BaseValueObject
 }
 
 // Using value object in entity
-public class User : BaseEntity
+public class User : BaseEntity<int>
 {
     public string Name { get; set; }
     public Address HomeAddress { get; set; }
@@ -320,45 +320,55 @@ public async Task<bool> UserExistsAsync(string email)
 }
 ```
 
-### 3.3. Transaction Management
-Transaction management is used to ensure the atomicity of multiple database operations, either all succeed or all fail.
+### 3.3. UnitOfWork Pattern
+
+The UnitOfWork pattern is used to manage transactions and submit operations, treating data changes as a single atomic unit.
+
+#### Injecting UnitOfWork
+
+```csharp
+private readonly IUnitOfWork<OrderDbContext> _unitOfWork;
+
+public OrderService(
+    IRepository<OrderDbContext, Order> orderRepository, 
+    IUnitOfWork<OrderDbContext> unitOfWork)
+{
+    _orderRepository = orderRepository;
+    _unitOfWork = unitOfWork;
+}
+```
 
 #### Basic Transaction Example
+
 ```csharp
-// Using transaction
+// Using UnitOfWork transaction
 public void ProcessOrder(Order order)
 {
     try
     {
         // Begin transaction
-        _orderRepository.BeginTransaction();
+        _unitOfWork.BeginTransaction();
         
         // Perform operations
         _orderRepository.Add(order);
         
-        foreach (var item in order.Items)
-        {
-            _orderItemRepository.Add(item);
-        }
+        // Submit changes
+        _unitOfWork.Submit();
         
         // Commit transaction
-        _orderRepository.CommitTransaction();
+        _unitOfWork.CommitTransaction();
     }
-    catch (Exception ex)
+    catch (Exception)
     {
         // Rollback transaction on error
-        _orderRepository.RollbackTransaction();
+        _unitOfWork.RollbackTransaction();
         throw;
-    }
-    finally
-    {
-        // Release transaction
-        _orderRepository.DisposeTransaction();
     }
 }
 ```
 
 #### Async Transaction Example
+
 ```csharp
 // Async transaction
 public async Task<bool> ProcessOrderAsync(Order order)
@@ -366,30 +376,23 @@ public async Task<bool> ProcessOrderAsync(Order order)
     try
     {
         // Begin transaction
-        await _orderRepository.BeginTransactionAsync();
+        await _unitOfWork.BeginTransactionAsync();
         
         // Perform operations
         await _orderRepository.AddAsync(order);
         
-        foreach (var item in order.Items)
-        {
-            await _orderItemRepository.AddAsync(item);
-        }
+        // Submit changes
+        await _unitOfWork.SubmitAsync();
         
         // Commit transaction
-        await _orderRepository.CommitTransactionAsync();
+        await _unitOfWork.CommitTransactionAsync();
         return true;
     }
-    catch (Exception ex)
+    catch (Exception)
     {
         // Rollback transaction on error
-        await _orderRepository.RollbackTransactionAsync();
+        await _unitOfWork.RollbackTransactionAsync();
         return false;
-    }
-    finally
-    {
-        // Release transaction
-        await _orderRepository.DisposeTransactionAsync();
     }
 }
 ```
@@ -408,39 +411,36 @@ public PageList<User> GetUsersPaged(int pageIndex, int pageSize, string name)
 ```
 
 #### Pagination with Sorting
+Sorting uses the `Sorting` object with `AddSorting` extension method.
+
 ```csharp
 // Pagination with sorting
 public PageList<User> GetUsersPagedWithSorting(int pageIndex, int pageSize, string name, string sortField, bool isAscending)
 {
     var query = _userRepository.Queryable(u => u.Name.Contains(name));
     
-    // Sorting
-    if (isAscending)
+    // Build sorting object
+    var sorting = new Sorting
     {
-        query = query.OrderBy(sortField);
-    }
-    else
-    {
-        query = query.OrderByDescending(sortField);
-    }
+        SortField = sortField,
+        SortingType = isAscending ? SortingType.ASC : SortingType.DESC
+    };
+    query = query.AddSorting(sorting);
     
     return query.ToPageList(pageIndex, pageSize);
 }
 ```
 
 #### Using Pagination Results
+`PageList<T>` is the pagination result containing total count and current page data.
+
 ```csharp
 // Call pagination method
 var pageResult = userService.GetUsersPaged(1, 10, "Zhang");
 
 // Pagination result contains the following information
-int totalCount = pageResult.TotalCount;      // Total record count
-int pageSize = pageResult.PageSize;          // Page size
-int pageIndex = pageResult.PageIndex;        // Current page number
-int totalPages = pageResult.TotalPages;      // Total pages
-List<User> users = pageResult.Items;         // Current page data
-bool hasNextPage = pageResult.HasNextPage;   // Whether there is a next page
-bool hasPrevPage = pageResult.HasPrevPage;   // Whether there is a previous page
+int total = pageResult.Total;          // Total record count
+List<User> users = pageResult.Items;   // Current page data
 ```
 
 ## 4. Advanced Features
@@ -448,47 +448,39 @@ bool hasPrevPage = pageResult.HasPrevPage;   // Whether there is a previous page
 ### 4.1. Query Extensions
 
 #### Dynamic Sorting
+The `Sorting` object contains the sort field and sort type, using the `SortingType` enum (ASC/DESC).
+
 ```csharp
-// Using query extension methods for dynamic sorting
+// Using AddSorting extension method for dynamic sorting
 public List<User> GetUsersWithDynamicSorting(string name, string sortField, bool isAscending)
 {
     var query = _userRepository.Queryable(u => u.Name.Contains(name));
     
-    if (isAscending)
+    // Build sorting object
+    var sorting = new Sorting
     {
-        query = query.OrderBy(sortField);
-    }
-    else
-    {
-        query = query.OrderByDescending(sortField);
-    }
+        SortField = sortField,
+        SortingType = isAscending ? SortingType.ASC : SortingType.DESC
+    };
+    query = query.AddSorting(sorting);
     
     return query.ToList();
 }
 ```
 
 #### Complex Condition Query
+The `WhereIf` extension method allows dynamically adding query filters based on conditions.
+
 ```csharp
-// Complex condition query
+// Complex condition query using WhereIf
 public List<User> GetUsersWithComplexConditions(string name, int? age, bool? isActive)
 {
     var query = _userRepository.Queryable();
     
-    // Dynamically build query conditions
-    if (!string.IsNullOrEmpty(name))
-    {
-        query = query.Where(u => u.Name.Contains(name));
-    }
-    
-    if (age.HasValue)
-    {
-        query = query.Where(u => u.Age == age.Value);
-    }
-    
-    if (isActive.HasValue)
-    {
-        query = query.Where(u => u.IsActive == isActive.Value);
-    }
+    // Dynamically build query conditions using WhereIf
+    query = query.WhereIf(!string.IsNullOrEmpty(name), u => u.Name.Contains(name));
+    query = query.WhereIf(age.HasValue, u => u.Age == age.Value);
+    query = query.WhereIf(isActive.HasValue, u => u.IsActive == isActive.Value);
     
     return query.ToList();
 }
@@ -510,11 +502,16 @@ public User GetUserByIdReadOnly(int id)
     return _userRepository.GetInfoNoTracking(u => u.Id == id);
 }
 
-// Async no-tracking query
+// Async no-tracking list query
 public async Task<List<User>> GetUsersReadOnlyAsync(string name)
 {
-    var query = _userRepository.Queryable(u => u.Name.Contains(name));
-    return await query.AsNoTracking().ToListAsync();
+    return await _userRepository.GetListNoTrackingAsync(u => u.Name.Contains(name));
+}
+
+// Async no-tracking single item query
+public async Task<User> GetUserByIdNoTrackingAsync(int id)
+{
+    return await _userRepository.GetInfoNoTrackingAsync(u => u.Id == id);
 }
 ```
 
@@ -577,7 +574,7 @@ public async Task<bool> UpdateUserStatusAsync(bool isActive, List<int> userIds)
 #### 1. Entity Definition
 ```csharp
 // User entity
-public class User : BaseEntity
+public class User : BaseEntity<int>
 {
     public string Name { get; set; }
     public string Email { get; set; }
@@ -586,7 +583,7 @@ public class User : BaseEntity
 }
 
 // Product entity
-public class Product : BaseEntity
+public class Product : BaseEntity<int>
 {
     public string Name { get; set; }
     public decimal Price { get; set; }
@@ -897,7 +894,8 @@ public class OrderService
 - Package ID: Acme.EFCore.Small
 - Authors: yzxs
 - Description: Lightweight EFCore operation library
-- Project URL: https://gitee.com/yzxs949/acme.-efcore.-small
+- Project URL: https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.3-alpha#readme-body-tab
+- Copyright: yzxs
 
 ## 8. License
 MIT License
@@ -906,4 +904,5 @@ MIT License
 Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 10. Contact
-For any questions or issues, please contact the author.
+For any questions or suggestions, please contact the author.
+- Email: yzxs949@163.com
