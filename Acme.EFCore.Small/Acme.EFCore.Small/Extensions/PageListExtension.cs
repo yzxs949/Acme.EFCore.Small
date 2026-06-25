@@ -9,28 +9,15 @@ namespace Acme.EFCore.Small.Extensions
     public static class PageListExtension
     {
         /// <summary>
-        /// 集合转化为分页实体
+        /// 将集合转换为分页实体
         /// </summary>
-        /// <param name="items"></param>
-        /// <param name="total"></param>
-        /// <returns></returns>
-        public static PageList<object> ToPageList(this List<object> items, int total)
-        {
-            var pageList = new PageList<object>(total, items);
-            return pageList;
-        }
-
-        /// <summary>
-        /// 实体转化为分页实体
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="items"></param>
-        /// <param name="total"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">实体类型</typeparam>
+        /// <param name="items">当前页数据</param>
+        /// <param name="total">总记录数</param>
+        /// <returns>分页结果</returns>
         public static PageList<T> ToPageList<T>(this List<T> items, int total)
         {
-            PageList<T> pageList = new PageList<T>(total, items);
-            return pageList;
+            return new PageList<T>(total, items);
         }
     }
 }

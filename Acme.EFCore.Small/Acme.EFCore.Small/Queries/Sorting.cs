@@ -1,9 +1,9 @@
 ﻿using Acme.EFCore.Small.Enums;
 
-namespace Acme.EFCore.Small.Querys
+namespace Acme.EFCore.Small.Queries
 {
     /// <summary>
-    /// 排序
+    /// 排序参数
     /// </summary> 
     public class Sorting
     {

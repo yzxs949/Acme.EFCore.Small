@@ -1,19 +1,18 @@
-﻿using Acme.EFCore.Small.Entitys;
+﻿using Acme.EFCore.Small.Entities;
 
 namespace Acme.EFCore.Small.AggregateRoots
 {
     /// <summary>
     /// 基类聚合根
     /// </summary>
-    /// <typeparam name="TKey"></typeparam>
-    public abstract class BaseAggregateRoot<TKey> : BaseEntity<TKey> where TKey : struct
+    /// <typeparam name="TKey">主键类型</typeparam>
+    public abstract class BaseAggregateRoot<TKey> : BaseEntity<TKey>
     {
         /// <summary>
         /// 构造函数,初始化 BaseAggregateRoot 实例
         /// </summary>
         protected BaseAggregateRoot() : base()
         {
-
         }
 
         /// <summary>
@@ -22,7 +21,6 @@ namespace Acme.EFCore.Small.AggregateRoots
         /// <param name="id">主键Id</param>
         protected BaseAggregateRoot(TKey id) : base(id)
         {
-
         }
     }
 }

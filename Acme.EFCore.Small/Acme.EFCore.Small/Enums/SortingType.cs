@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Acme.EFCore.Small.Enums
+﻿namespace Acme.EFCore.Small.Enums
 {
     /// <summary>
     /// 排序类型

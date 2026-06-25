@@ -1,4 +1,4 @@
-﻿using Acme.EFCore.Small.Repositorys;
+﻿using Acme.EFCore.Small.Repositories;
 using Acme.EFCore.Small.UnitOfWorks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +11,7 @@ namespace Acme.EFCore.Small.Extensions
     public static class CollectionExtension
     {
         /// <summary>
-        /// 添加基础服务。
+        /// 添加基础服务（多库模式）。
         /// </summary>
         /// <param name="serviceCollection">IServiceCollection 实例。</param>
         public static void AddRepositorys(this IServiceCollection serviceCollection)
@@ -21,8 +21,9 @@ namespace Acme.EFCore.Small.Extensions
         }
 
         /// <summary>
-        /// 添加基础服务。
+        /// 添加基础服务（单库模式）。
         /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文类型</typeparam>
         /// <param name="serviceCollection">IServiceCollection 实例。</param>
         public static void AddRepositorys<TDbContext>(this IServiceCollection serviceCollection) where TDbContext : DbContext
         {

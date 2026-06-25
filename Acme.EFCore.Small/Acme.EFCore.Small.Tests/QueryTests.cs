@@ -1,5 +1,5 @@
 using Acme.EFCore.Small.Enums;
-using Acme.EFCore.Small.Querys;
+using Acme.EFCore.Small.Queries;
 using Xunit;
 
 namespace Acme.EFCore.Small.Tests;

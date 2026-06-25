@@ -1,5 +1,5 @@
 using Acme.EFCore.Small.AggregateRoots;
-using Acme.EFCore.Small.Entitys;
+using Acme.EFCore.Small.Entities;
 using Xunit;
 
 namespace Acme.EFCore.Small.Tests;

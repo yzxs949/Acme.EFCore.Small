@@ -1,84 +1,46 @@
 ﻿using Acme.EFCore.Small.Enums;
 using Acme.EFCore.Small.Page;
-using Acme.EFCore.Small.Querys;
+using Acme.EFCore.Small.Queries;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Acme.EFCore.Small.Extensions
 {
-
     /// <summary>
     /// Linq拓展类
     /// </summary>
     public static class LinqExtension
     {
         /// <summary>
-        /// Linq验证查询方法拓展
+        /// 根据条件决定是否应用查询过滤（IQueryable）
         /// </summary>
-        /// <typeparam name="TEntity">泛型</typeparam>
-        /// <param name="source">IQueryable</param>
-        /// <param name="verification">验证语句</param>
-        /// <param name="anyLambda">Linq语句</param>
-        /// <returns></returns>
         public static IQueryable<TEntity> WhereIf<TEntity>(
             this IQueryable<TEntity> source,
-            bool verification,
-            Expression<Func<TEntity, bool>> anyLambda)
-            => verification ? source.Where(anyLambda) : source;
+            bool condition,
+            Expression<Func<TEntity, bool>> whereLambda)
+            => condition ? source.Where(whereLambda) : source;
 
         /// <summary>
-        /// Linq验证查询方法拓展
+        /// 根据条件决定是否应用查询过滤（IEnumerable）
         /// </summary>
-        /// <typeparam name="TEntity">泛型</typeparam>
-        /// <param name="dbContext">数据库上下文</param>
-        /// <param name="anyLambda">Linq语句</param>
-        /// <returns></returns>
-        public static IQueryable<TEntity> Where<TEntity>(this DbContext dbContext, Expression<Func<TEntity, bool>> anyLambda)
-            where TEntity : class
-            => dbContext.Set<TEntity>().Where(anyLambda);
-
-        /// <summary>
-        /// Linq验证查询方法拓展
-        /// </summary>
-        /// <typeparam name="TEntity">泛型</typeparam>
-        /// <param name="source">IEnumerable</param>
-        /// <param name="verification">验证语句</param>
-        /// <param name="anyLambda">Linq语句</param>
-        /// <returns></returns>
         public static IEnumerable<TEntity> WhereIf<TEntity>(
             this IEnumerable<TEntity> source,
-            bool verification,
-            Func<TEntity, int, bool> anyLambda)
-        => verification ? source.Where(anyLambda) : source;
+            bool condition,
+            Func<TEntity, bool> whereLambda)
+            => condition ? source.Where(whereLambda) : source;
 
         /// <summary>
-        /// Linq验证查询方法拓展
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="verification"></param>
-        /// <param name="anyLambda"></param>
-        /// <returns></returns>
-        public static IEnumerable<TEntity> WhereIf<TEntity>(
-            this IEnumerable<TEntity> source,
-            bool verification,
-            Func<TEntity, bool> anyLambda)
-        => verification ? source.Where(anyLambda) : source;
-
-        /// <summary>
-        /// 分页（排序后使用）
+        /// 分页（排序后使用）- 同步
         /// </summary>
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="source">分页数据</param>
-        /// <param name="pageIndex">页码</param>
+        /// <param name="pageIndex">页码（从1开始）</param>
         /// <param name="pageSize">每页显示的条数</param>
-        /// <returns></returns>
+        /// <returns>分页结果</returns>
         public static PageList<TEntity> ToPageList<TEntity>(
            this IQueryable<TEntity> source,
            int pageIndex,
@@ -88,52 +50,39 @@ namespace Acme.EFCore.Small.Extensions
             var rows = new List<TEntity>();
             if (total > 0)
                 rows = source.Skip((pageIndex > 0 ? pageIndex - 1 : 0) * pageSize).Take(pageSize).ToList();
-            return new PageList<TEntity>(total, rows);
+            return new PageList<TEntity>(total, rows, pageIndex, pageSize);
         }
 
         /// <summary>
-        /// 分页（排序后使用）
+        /// 分页（排序后使用）- 异步
         /// </summary>
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="source">分页数据</param>
-        /// <param name="pageIndex">页码</param>
+        /// <param name="pageIndex">页码（从1开始）</param>
         /// <param name="pageSize">每页显示的条数</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public async static Task<PageList<TEntity>> ToPageListAsync<TEntity>(
+        /// <returns>分页结果</returns>
+        public static async Task<PageList<TEntity>> ToPageListAsync<TEntity>(
            this IQueryable<TEntity> source,
            int pageIndex,
-           int pageSize,
-           CancellationToken cancellationToken = default)
+           int pageSize)
         {
-            int total = await source.CountAsync(cancellationToken);
+            int total = await source.CountAsync();
             var rows = new List<TEntity>();
             if (total > 0)
-                rows = await source.Skip((pageIndex > 0 ? pageIndex - 1 : 0) * pageSize).Take(pageSize).ToListAsync(cancellationToken);
-            var data = new PageList<TEntity>(total, rows);
-            return data;
+                rows = await source.Skip((pageIndex > 0 ? pageIndex - 1 : 0) * pageSize).Take(pageSize).ToListAsync();
+            return new PageList<TEntity>(total, rows, pageIndex, pageSize);
         }
 
         /// <summary>
-        /// 集合中获取指定字段的唯一值列表
+        /// 获取集合中指定字段的唯一值列表（IQueryable）
         /// </summary>
-        /// <typeparam name="TEntity">集合中的元素类型</typeparam>
-        /// <typeparam name="TKey">字段的类型</typeparam>
-        /// <param name="items">要获取字段值的 IQueryable&lt;T&gt; 集合</param>
-        /// <param name="keySelector">用于从元素中提取字段值的函数</param>
-        /// <returns>字段值的列表</returns>
-        public static IEnumerable<TKey> GetKey<TEntity, TKey>(this IQueryable<TEntity> items, Func<TEntity, TKey> keySelector)
+        public static IEnumerable<TKey> SelectDistinct<TEntity, TKey>(this IQueryable<TEntity> items, Func<TEntity, TKey> keySelector)
             => items.GroupBy(keySelector).Select(g => g.Key);
 
         /// <summary>
-        /// 集合中获取指定字段的唯一值列表
+        /// 获取集合中指定字段的唯一值列表（IEnumerable）
         /// </summary>
-        /// <typeparam name="TEntity">集合中的元素类型</typeparam>
-        /// <typeparam name="TKey">字段的类型</typeparam>
-        /// <param name="items">要获取字段值的 IEnumerable&lt;T&gt; 集合</param>
-        /// <param name="keySelector">用于从元素中提取字段值的函数</param>
-        /// <returns>字段值的列表</returns>
-        public static IEnumerable<TKey> GetKeyList<TEntity, TKey>(this IEnumerable<TEntity> items, Func<TEntity, TKey> keySelector)
+        public static IEnumerable<TKey> SelectDistinct<TEntity, TKey>(this IEnumerable<TEntity> items, Func<TEntity, TKey> keySelector)
             => items.GroupBy(keySelector).Select(g => g.Key);
 
         /// <summary>
@@ -147,151 +96,81 @@ namespace Acme.EFCore.Small.Extensions
                 return query;
 
             var parameter = Expression.Parameter(typeof(TEntity), "x");
-            Expression finalExpr = null;
-
             foreach (var condition in conditions)
             {
-                if (string.IsNullOrWhiteSpace(condition.Field))
+                var property = Expression.Property(parameter, condition.Field);
+                var propertyType = property.Type;
+
+                object convertedValue;
+                try
+                {
+                    convertedValue = Convert.ChangeType(condition.Value, propertyType);
+                }
+                catch
+                {
                     continue;
-
-                // 左值：x.Field
-                MemberExpression left = Expression.Property(parameter, condition.Field);
-                Expression right;
-
-                // 处理不需要值的运算符
-                if (condition.Symbol == Symbol.IsNull || condition.Symbol == Symbol.IsNotNull)
-                {
-                    right = Expression.Constant(null, left.Type);
-                }
-                else
-                {
-                    if (condition.Value == null)
-                        continue;
-
-                    // 安全类型转换
-                    Type targetType = left.Type;
-                    object value = Convert.ChangeType(condition.Value, targetType);
-                    right = Expression.Constant(value, targetType);
                 }
 
-                // 生成条件表达式
-                Expression conditionExpr = condition.Symbol switch
+                var right = Expression.Constant(convertedValue, propertyType);
+
+                Expression conditionExpression = condition.Symbol switch
                 {
-                    Symbol.Equal => Expression.Equal(left, right),
-                    Symbol.NotEqual => Expression.NotEqual(left, right),
-                    Symbol.GreaterThan => Expression.GreaterThan(left, right),
-                    Symbol.LessThan => Expression.LessThan(left, right),
-                    Symbol.GreaterThanOrEqual => Expression.GreaterThanOrEqual(left, right),
-                    Symbol.LessThanOrEqual => Expression.LessThanOrEqual(left, right),
-
-                    // 字符串模糊
-                    Symbol.Contains => GenerateLikeMethod(left, "Contains", right),
-                    Symbol.StartsWith => GenerateLikeMethod(left, "StartsWith", right),
-                    Symbol.EndsWith => GenerateLikeMethod(left, "EndsWith", right),
-
-                    // 集合包含
-                    Symbol.In => GenerateInMethod(left, right),
-                    Symbol.NotIn => Expression.Not(GenerateInMethod(left, right)),
-
-                    // 空判断
-                    Symbol.IsNull => Expression.Equal(left, right),
-                    Symbol.IsNotNull => Expression.NotEqual(left, right),
-
-                    _ => throw new ArgumentException($"不支持的运算符: {condition.Symbol}")
+                    Symbol.Equal => Expression.Equal(property, right),
+                    Symbol.NotEqual => Expression.NotEqual(property, right),
+                    Symbol.GreaterThan => Expression.GreaterThan(property, right),
+                    Symbol.LessThan => Expression.LessThan(property, right),
+                    Symbol.GreaterThanOrEqual => Expression.GreaterThanOrEqual(property, right),
+                    Symbol.LessThanOrEqual => Expression.LessThanOrEqual(property, right),
+                    Symbol.Contains when propertyType == typeof(string) =>
+                        Expression.Call(property, typeof(string).GetMethod("Contains", new[] { typeof(string) }), right),
+                    Symbol.NotContains when propertyType == typeof(string) =>
+                        Expression.Not(Expression.Call(property, typeof(string).GetMethod("Contains", new[] { typeof(string) }), right)),
+                    _ => throw new ArgumentException($"不支持的运算符或类型: {condition.Symbol}")
                 };
 
-                // 拼接多个条件（AND）
-                finalExpr = finalExpr == null
-                    ? conditionExpr
-                    : Expression.AndAlso(finalExpr, conditionExpr);
-            }
-
-            if (finalExpr != null)
-            {
-                var lambda = Expression.Lambda<Func<TEntity, bool>>(finalExpr, parameter);
+                var lambda = Expression.Lambda<Func<TEntity, bool>>(conditionExpression, parameter);
                 query = query.Where(lambda);
             }
-
             return query;
-        }
-
-        /// <summary>
-        /// 生成模糊查询方法
-        /// </summary>
-        private static MethodCallExpression GenerateLikeMethod(Expression left, string methodName, Expression value)
-        {
-            MethodInfo method = typeof(string).GetMethod(methodName, new[] { typeof(string) })!;
-            return Expression.Call(left, method, value);
-        }
-
-        /// <summary>
-        /// 生成 In 查询
-        /// </summary>
-        private static MethodCallExpression GenerateInMethod(Expression left, Expression value)
-        {
-            // 支持 value 是 List/数组
-            var method = typeof(Enumerable)
-                .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                .First(m => m.Name == "Contains" && m.GetParameters().Length == 2)
-                .MakeGenericMethod(left.Type);
-
-            return Expression.Call(null, method, value, left);
         }
 
         /// <summary>
         /// 根据条件判断是否对查询进行过滤
         /// </summary>
-        /// <typeparam name="TEntity">查询的实体类型</typeparam>
-        /// <param name="query">要过滤的查询</param>
-        /// <param name="isAdd">是否应用条件过滤</param>
-        /// <param name="conditions">条件集合，每个条件包含字段名、运算符和值</param>
-        /// <returns>如果 isAdd 为 true，则返回应用了条件过滤后的查询；否则返回原始查询</returns>
         public static IQueryable<TEntity> AddConditionsIf<TEntity>(this IQueryable<TEntity> query, bool isAdd, List<Condition> conditions)
-        {
-            return isAdd ? query.AddConditions(conditions) : query;
-        }
+            => isAdd ? query.AddConditions(conditions) : query;
 
         /// <summary>
         /// 根据排序参数对查询进行排序
         /// </summary>
-        /// <typeparam name="TEntity">查询的实体类型</typeparam>
-        /// <param name="query">要排序的查询</param>
-        /// <param name="sorting">排序参数，包含排序字段和排序类型</param>
-        /// <returns>应用了排序后的查询</returns>
-        /// <exception cref="InvalidOperationException">当实体类型 T 中不存在默认排序字段 'Id' 时抛出</exception>
-        /// <exception cref="ArgumentException">当实体类型 T 中不存在指定的排序字段时抛出</exception>
         public static IQueryable<TEntity> AddSorting<TEntity>(this IQueryable<TEntity> query, Sorting sorting)
         {
             if (sorting == null)
             {
                 var idProperty = typeof(TEntity).GetProperty("Id")
-                    ?? throw new InvalidOperationException($"实体{typeof(TEntity).Name}中不存在Id字段");
-                ParameterExpression parameter = Expression.Parameter(typeof(TEntity), "x");
-                MemberExpression property = Expression.Property(parameter, idProperty);
-                LambdaExpression lambda = Expression.Lambda(property, parameter);
-                string methodName = "OrderBy";
+                    ?? throw new InvalidOperationException($"实体 {typeof(TEntity).Name} 中不存在 Id 字段");
+                var parameter = Expression.Parameter(typeof(TEntity), "x");
+                var property = Expression.Property(parameter, idProperty);
+                var lambda = Expression.Lambda(property, parameter);
+                var methodName = "OrderBy";
                 var resultExpression = Expression.Call(
-                typeof(Queryable),
-                methodName,
-                new[] { typeof(TEntity), idProperty.PropertyType },
-                query.Expression,
-                lambda);
+                    typeof(Queryable), methodName,
+                    new[] { typeof(TEntity), idProperty.PropertyType },
+                    query.Expression, lambda);
                 return query.Provider.CreateQuery<TEntity>(resultExpression);
             }
             else
             {
                 var propertyInfo = typeof(TEntity).GetProperty(sorting.SortField)
-                    ?? throw new ArgumentException($"实体{typeof(TEntity).Name}不存在{sorting.SortField}字段");
-                ParameterExpression parameter = Expression.Parameter(typeof(TEntity), "x");
-                MemberExpression property = Expression.Property(parameter, propertyInfo);
-                LambdaExpression lambda = Expression.Lambda(property, parameter);
-                string methodName = sorting.SortingType == SortingType.ASC ? "OrderBy" : "OrderByDescending";
-                MethodCallExpression resultExpression = Expression.Call(
-                typeof(Queryable),
-                methodName,
-                new[] { typeof(TEntity), propertyInfo.PropertyType },
-                query.Expression,
-                lambda);
+                    ?? throw new ArgumentException($"实体 {typeof(TEntity).Name} 不存在 {sorting.SortField} 字段");
+                var parameter = Expression.Parameter(typeof(TEntity), "x");
+                var property = Expression.Property(parameter, propertyInfo);
+                var lambda = Expression.Lambda(property, parameter);
+                var methodName = sorting.SortingType == SortingType.ASC ? "OrderBy" : "OrderByDescending";
+                var resultExpression = Expression.Call(
+                    typeof(Queryable), methodName,
+                    new[] { typeof(TEntity), propertyInfo.PropertyType },
+                    query.Expression, lambda);
                 return query.Provider.CreateQuery<TEntity>(resultExpression);
             }
         }
@@ -299,66 +178,49 @@ namespace Acme.EFCore.Small.Extensions
         /// <summary>
         /// 根据条件判断是否对查询进行排序
         /// </summary>
-        /// <typeparam name="TEntity">查询的实体类型</typeparam>
-        /// <param name="query">要排序的查询</param>
-        /// <param name="isAdd">是否应用排序</param>
-        /// <param name="sorting">排序参数，包含排序字段和排序类型</param>
-        /// <returns>如果 isAdd 为 true，则返回应用了排序后的查询；否则返回原始查询</returns>
         public static IQueryable<TEntity> AddSortingIf<TEntity>(this IQueryable<TEntity> query, bool isAdd, Sorting sorting)
-        {
-            return isAdd ? query.AddSorting(sorting) : query;
-        }
+            => isAdd ? query.AddSorting(sorting) : query;
 
         /// <summary>
         /// 添加关键字模糊查询条件
         /// </summary>
-        /// <typeparam name="TEntity">查询的实体类型</typeparam>
-        /// <param name="query">要过滤的查询</param>
-        /// <param name="keywords">关键字参数，包含字段集合和关键字值</param>
-        /// <returns>应用了模糊查询条件后的查询</returns>
         public static IQueryable<TEntity> AddConditionsContains<TEntity>(
             this IQueryable<TEntity> query,
             Keywords keywords)
         {
             if (keywords == null || keywords.Fields == null || keywords.Fields.Length == 0 || string.IsNullOrEmpty(keywords.Value))
                 return query;
-            var types = new Type[] { typeof(string) };
+
             var param = Expression.Parameter(typeof(TEntity), "s");
             Expression body = null;
-            var containsMethod = typeof(string).GetMethod("Contains", types);
+            var containsMethod = typeof(string).GetMethod("Contains", new[] { typeof(string) });
+
             foreach (var key in keywords.Fields)
             {
                 var property = typeof(TEntity).GetProperty(key);
-                if (property != null)
+                if (property != null && property.PropertyType == typeof(string))
                 {
                     var propertyAccess = Expression.MakeMemberAccess(param, property);
                     var constant = Expression.Constant(keywords.Value, typeof(string));
                     var containsCall = Expression.Call(propertyAccess, containsMethod, constant);
-                    if (body is null)
-                        body = containsCall;
-                    else
-                        body = Expression.OrElse(body, containsCall);
+                    if (body == null) body = containsCall;
+                    else body = Expression.OrElse(body, containsCall);
                 }
             }
-            if (body is null)
+
+            if (body == null)
                 return query;
+
             return query.Where(Expression.Lambda<Func<TEntity, bool>>(body, param));
         }
 
         /// <summary>
         /// 根据条件判断是否对查询添加关键字模糊查询条件
         /// </summary>
-        /// <typeparam name="TEntity">查询的实体类型</typeparam>
-        /// <param name="query">要过滤的查询</param>
-        /// <param name="isAdd">是否应用模糊查询条件</param>
-        /// <param name="keywords">关键字参数，包含字段集合和关键字值</param>
-        /// <returns>如果 isAdd 为 true，则返回应用了模糊查询条件后的查询；否则返回原始查询</returns>
         public static IQueryable<TEntity> AddConditionsContains<TEntity>(
             this IQueryable<TEntity> query,
             bool isAdd,
             Keywords keywords)
-        {
-            return isAdd ? query.AddConditionsContains<TEntity>(keywords) : query;
-        }
+            => isAdd ? query.AddConditionsContains(keywords) : query;
     }
 }

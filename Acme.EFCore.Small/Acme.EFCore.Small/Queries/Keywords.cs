@@ -1,4 +1,4 @@
-﻿namespace Acme.EFCore.Small.Querys
+﻿namespace Acme.EFCore.Small.Queries
 {
     /// <summary>
     /// 关键字搜索
@@ -6,7 +6,7 @@
     public class Keywords
     {
         /// <summary>
-        /// 构造函数，初始化 Keywords 默认实例
+        /// 构造函数
         /// </summary>
         /// <param name="fields">字段名称数组</param>
         /// <param name="value">值</param>
@@ -17,7 +17,7 @@
         }
 
         /// <summary>
-        /// 构造函数，初始化 Keywords 默认实例
+        /// 构造函数
         /// </summary>
         public Keywords()
         {

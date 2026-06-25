@@ -1,4 +1,4 @@
-using Acme.EFCore.Small.Repositorys;
+using Acme.EFCore.Small.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;

@@ -1,6 +1,6 @@
 ﻿using Acme.EFCore.Small.Enums;
 
-namespace Acme.EFCore.Small.Querys
+namespace Acme.EFCore.Small.Queries
 {
     /// <summary>
     /// 查询条件
@@ -8,7 +8,7 @@ namespace Acme.EFCore.Small.Querys
     public class Condition
     {
         /// <summary>
-        /// 构造函数，初始化 Condition 实例
+        /// 构造函数
         /// </summary>
         /// <param name="field">字段名</param>
         /// <param name="value">字段值</param>
@@ -21,7 +21,7 @@ namespace Acme.EFCore.Small.Querys
         }
 
         /// <summary>
-        /// 构造函数，初始化 Condition 实例
+        /// 构造函数
         /// </summary>
         public Condition()
         {

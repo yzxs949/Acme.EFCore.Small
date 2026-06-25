@@ -71,8 +71,8 @@ public class LinqExtensionTests
         };
         var queryable = items.AsQueryable();
 
-        // 测试获取唯一键
-        var keys = queryable.GetKey(x => x.Category).ToList();
+        // 测试获取唯一值列表
+        var keys = queryable.SelectDistinct(x => x.Category).ToList();
 
         // 验证结果
         Assert.Equal(3, keys.Count);
@@ -82,7 +82,7 @@ public class LinqExtensionTests
     }
 
     [Fact]
-    public void GetKeyList_ShouldReturnUniqueKeys()
+    public void SelectDistinct_Enumerable_ShouldReturnUniqueKeys()
     {
         // 准备测试数据
         var items = new List<TestItem>
@@ -93,8 +93,8 @@ public class LinqExtensionTests
             new TestItem { Id = 4, Category = "C" }
         };
 
-        // 测试获取唯一键
-        var keys = items.GetKeyList(x => x.Category).ToList();
+        // 测试获取唯一值列表
+        var keys = items.SelectDistinct(x => x.Category).ToList();
 
         // 验证结果
         Assert.Equal(3, keys.Count);

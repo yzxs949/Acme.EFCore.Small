@@ -3,9 +3,6 @@
     /// <summary>
     /// 动态查询运算符号
     /// </summary>
-    /// <summary>
-    /// 运算符号
-    /// </summary>
     public enum Symbol
     {
         /// <summary>
