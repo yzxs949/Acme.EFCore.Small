@@ -997,6 +997,6 @@ dotnet test Acme.EFCore.Small.Tests\Acme.EFCore.Small.Tests.csproj
 - **github URL**:<https://github.com/yzxs949/Acme.EFCore.Small/tree/%E6%A0%87%E5%87%86%E7%89%88>
 - **公众号：.NET修仙日记**
 ---
-![](https://github.com/yzxs949/FilePath/blob/main/Image/%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg?raw=true)
+![作者公众号](https://github.com/yzxs949/FilePath/blob/main/Image/%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg?raw=true)
 
 
