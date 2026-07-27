@@ -4,18 +4,17 @@
 
 Acme.EFCore.Small 是一个轻量级的 Entity Framework Core 通用库，用于使用 Entity Framework Core (EFCore) 与数据库进行交互。它是处理各种数据库操作的基础组件。
 
-- **版本**：v2.0.0.3-alpha
+- **版本**：v2.0.0.2
 - **作者**：yzxs
 - **描述**：轻量级 EFCore 操作类库
 - **发布说明**：
-  - 1.更新.NET10依赖包版本，Microsoft.EntityFrameworkCore 版本为 Version10.0.6 到 Version10.0.8
-  - 2.修复已知bug……
+    - 1.修复已知bug……
 
 ## 2、入门指南
 
 ### 2.1. 安装 Acme.EFCore.Small
 
-创建项目 -> 点击引用 -> 右键 -> 管理 NuGet 包 -> 搜索 `Acme.EFCore.Small` 并选择 2.0.0.3-alpha 或更高版本。根据您的 .NET 框架安装适当的版本。
+创建项目 -> 点击引用 -> 右键 -> 管理 NuGet 包 -> 搜索 `Acme.EFCore.Small` 并选择 2.0.0.2 或更高版本。根据您的 .NET 框架安装适当的版本。
 
 ### 2.2. 安装对应的数据库包
 
@@ -964,7 +963,9 @@ public class OrderService
 - **包 ID**: Acme.EFCore.Small
 - **作者**: yzxs
 - **描述**: 轻量级 EFCore 操作类库
-- **项目 URL**: <https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.3-alpha#readme-body-tab>
+- **文档 URL**: <https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.2#readme-body-tab>
+- **gitee URL**:<https://gitee.com/yzxs949/acme.-efcore.-small/tree/%E6%A0%87%E5%87%86%E7%89%88/>
+- **github URL**:<https://github.com/yzxs949/Acme.EFCore.Small/tree/%E6%A0%87%E5%87%86%E7%89%88>
 - **版权**: yzxs
 
 ## 8、测试
@@ -992,4 +993,8 @@ dotnet test Acme.EFCore.Small.Tests\Acme.EFCore.Small.Tests.csproj
 
 - **邮箱**: <yzxs949@163.com>
 - **NuGet**: <https://www.nuget.org/packages/Acme.EFCore.Small/>
+- **gitee URL**:<https://gitee.com/yzxs949/acme.-efcore.-small/tree/%E6%A0%87%E5%87%86%E7%89%88/>
+- **github URL**:<https://github.com/yzxs949/Acme.EFCore.Small/tree/%E6%A0%87%E5%87%86%E7%89%88>
+![微信公众号](https://github.com/yzxs949/FilePath/blob/main/Image/%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg?raw=true)
+
 
