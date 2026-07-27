@@ -2,14 +2,14 @@
 
 ## 1. Project Overview
 Acme.EFCore.Small is a lightweight Entity Framework Core general-purpose library designed to interact with databases using Entity Framework Core (EFCore). It serves as the fundamental component for handling various database operations.
-- Version: v1.3.7.0  
+- Version: v1.3.7.1  
 - Release Notes:
   - Update .NET 10 dependency package version, Microsoft.EntityFrameworkCore version from 10.0.7 to 10.0.8.
   - Fix known bugs...
 
 ## 2. Getting Started
 ### 1. Install Acme.EFCore.Small
-Create Project -> Click on References -> Right click -> Manage NuGet Packages -> Search Acme.EFCore.Small and select version 1.3.7.0 or above. Install the appropriate version for your .NET framework.
+Create Project -> Click on References -> Right click -> Manage NuGet Packages -> Search Acme.EFCore.Small and select version 1.3.7.1 or above. Install the appropriate version for your .NET framework.
 
 ### 2. Install the corresponding database package
 - SqlServer: `Microsoft.EntityFrameworkCore.SqlServer`

@@ -2,14 +2,14 @@
 
 ## 1、项目概述
 Acme.EFCore.Small 是一个轻量级的 Entity Framework Core 通用库，用于使用 Entity Framework Core (EFCore) 与数据库进行交互。它是处理各种数据库操作的基础组件。
-- 版本：v1.3.7.0 
+- 版本：v1.3.7.1 
 - 发布说明：
   - 1.更新.NET10依赖包版本，Microsoft.EntityFrameworkCore 版本从 Version 10.0.7 升级到 Version 10.0.8
   - 2.修复已知bug……
 
 ## 2、入门指南
 ### 1. 安装 Acme.EFCore.Small
-创建项目 -> 点击引用 -> 右键 -> 管理 NuGet 包 -> 搜索 Acme.EFCore.Small 并选择 1.3.7.0 或更高版本。根据您的 .NET 框架安装适当的版本。
+创建项目 -> 点击引用 -> 右键 -> 管理 NuGet 包 -> 搜索 Acme.EFCore.Small 并选择 1.3.7.1 或更高版本。根据您的 .NET 框架安装适当的版本。
 
 ### 2. 安装对应的数据库包
 - SqlServer: `Microsoft.EntityFrameworkCore.SqlServer`
