@@ -2,13 +2,13 @@
 
 ## 1. Project Overview
 Acme.EFCore.Small is a lightweight Entity Framework Core general-purpose library designed to interact with databases using Entity Framework Core (EFCore). It serves as the fundamental component for handling various database operations.
-- Version: v2.0.0.2
+- Version: v2.0.0.3
 - Release Notes:
   - Fix known bugs...
 
 ## 2. Getting Started
 ### 1. Install Acme.EFCore.Small
-Create Project -> Click on References -> Right click -> Manage NuGet Packages -> Search Acme.EFCore.Small and select version 2.0.0.2 or above. Install the appropriate version for your .NET framework.
+Create Project -> Click on References -> Right click -> Manage NuGet Packages -> Search Acme.EFCore.Small and select version 2.0.0.3 or above. Install the appropriate version for your .NET framework.
 
 ### 2. Install the corresponding database package
 - SqlServer: `Microsoft.EntityFrameworkCore.SqlServer`
@@ -893,7 +893,7 @@ public class OrderService
 - Package ID: Acme.EFCore.Small
 - Authors: yzxs
 - Description: Lightweight EFCore operation library
-- Project URL: https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.2#readme-body-tab
+- Project URL: https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.3#readme-body-tab
 - gitee URL:<https://gitee.com/yzxs949/acme.-efcore.-small/tree/%E6%A0%87%E5%87%86%E7%89%88/>
 - github URL:<https://github.com/yzxs949/Acme.EFCore.Small/tree/%E6%A0%87%E5%87%86%E7%89%88>
 - Copyright: yzxs
@@ -910,4 +910,5 @@ For any questions or suggestions, please contact the author.
 - NuGet: https://www.nuget.org/packages/Acme.EFCore.Small/
 - gitee URL:<https://gitee.com/yzxs949/acme.-efcore.-small/tree/%E6%A0%87%E5%87%86%E7%89%88/>
 - github URL:<https://github.com/yzxs949/Acme.EFCore.Small/tree/%E6%A0%87%E5%87%86%E7%89%88>
-![微信公众号](https://github.com/yzxs949/FilePath/blob/main/Image/%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg?raw=true)
+---
+![作者公众号](https://raw.githubusercontent.com/yzxs949/FilePath/refs/heads/main/Image/%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg)
