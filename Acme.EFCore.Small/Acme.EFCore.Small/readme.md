@@ -1,21 +1,15 @@
-﻿<div align="center">
+﻿# Acme.EFCore.Small
 
-# Acme.EFCore.Small
+[🇨🇳 中文](./readme.md) | [🇬🇧 English](./readme.en.md)
 
-<p align="center">
-  <a href="./readme.md">🇨🇳 中文</a> &nbsp;|&nbsp; <a href="./readme.en.md">🇬🇧 English</a>
-</p>
+![Version](https://img.shields.io/badge/version-v2.0.0.4-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+![EFCore](https://img.shields.io/badge/EFCore-2.0+-orange.svg)
+![.NET](https://img.shields.io/badge/.NET-3.1%20%7C%205%20%7C%206%20%7C%207%20%7C%208%20%7C%209%20%7C%2010-9cf.svg)
 
-<p align="center">
-  <img src="https://img.shields.io/badge/version-v2.0.0.3-blue.svg" alt="Version" />
-  <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License" />
-  <img src="https://img.shields.io/badge/EFCore-2.0+-orange.svg" alt="EFCore" />
-  <img src="https://img.shields.io/badge/.NET-3.1%20%7C%205%20%7C%206%20%7C%207%20%7C%208%20%7C%209%20%7C%2010-9cf.svg" alt=".NET" />
-</p>
+`版本 v2.0.0.4`  `许可证 MIT`  `EFCore 2.0+`  `.NET 3.1/5/6/7/8/9/10`
 
 轻量级的 Entity Framework Core 通用库，提供仓储模式、工作单元、分页、动态排序等开箱即用的数据访问能力。
-
-</div>
 
 ---
 
@@ -55,12 +49,12 @@ Acme.EFCore.Small 是一个轻量级的 Entity Framework Core 通用库，用于
 
 | 项目信息 | 内容 |
 | :--- | :--- |
-| **版本** | v2.0.0.3 |
+| **版本** | v2.0.0.4 |
 | **作者** | yzxs |
 | **描述** | 轻量级 EFCore 操作类库 |
 | **许可证** | MIT |
 
-**发布说明（v2.0.0.3）**：
+**发布说明（v2.0.0.4）**：
 
 - 修复已知 bug……
 
@@ -81,7 +75,7 @@ Acme.EFCore.Small 是一个轻量级的 Entity Framework Core 通用库，用于
 
 ### 2.1 安装 Acme.EFCore.Small
 
-创建项目 → 右键引用 → 管理 NuGet 包 → 搜索 `Acme.EFCore.Small` 并选择 2.0.0.3 或更高版本。根据您的 .NET 框架安装适当的版本。
+创建项目 → 右键引用 → 管理 NuGet 包 → 搜索 `Acme.EFCore.Small` 并选择 2.0.0.4 或更高版本。根据您的 .NET 框架安装适当的版本。
 
 > 注意：NuGet 包名为 **`Acme.EFCore.Small`**（注意拼写，不是 AddRepositories）。
 
@@ -1080,7 +1074,7 @@ public class OrderService
 | **包 ID** | Acme.EFCore.Small |
 | **作者** | yzxs |
 | **描述** | 轻量级 EFCore 操作类库 |
-| **文档 URL** | <https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.3#readme-body-tab> |
+| **文档 URL** | <https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.4#readme-body-tab> |
 | **Gitee** | <https://gitee.com/yzxs949/acme.-efcore.-small/tree/%E6%A0%87%E5%87%86%E7%89%88/> |
 | **GitHub** | <https://github.com/yzxs949/Acme.EFCore.Small/tree/%E6%A0%87%E5%87%86%E7%89%88> |
 | **版权** | yzxs |
