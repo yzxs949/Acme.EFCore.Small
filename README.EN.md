@@ -3,7 +3,7 @@
 # Acme.EFCore.Small
 
 <p align="center">
-  <a href="./readme.md">🇨🇳 中文</a> &nbsp;|&nbsp; <a href="./readme.en.md">🇬🇧 English</a>
+  <a href="./README.md">🇨🇳 中文</a> &nbsp;|&nbsp; <a href="./README.EN.md">🇬🇧 English</a>
 </p>
 
 <p align="center">
