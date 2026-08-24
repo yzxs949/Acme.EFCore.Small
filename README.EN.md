@@ -1,21 +1,15 @@
-<div align="center">
-
 # Acme.EFCore.Small
 
-<p align="center">
-  <a href="./README.md">🇨🇳 中文</a> &nbsp;|&nbsp; <a href="./README.EN.md">🇬🇧 English</a>
-</p>
+[🇨🇳 中文](./README.md) | [🇬🇧 English](./README.EN.md)
 
-<p align="center">
-  <img src="https://img.shields.io/badge/version-v2.0.0.3-blue.svg" alt="Version" />
-  <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License" />
-  <img src="https://img.shields.io/badge/EFCore-2.0+-orange.svg" alt="EFCore" />
-  <img src="https://img.shields.io/badge/.NET-3.1%20%7C%205%20%7C%206%20%7C%207%20%7C%208%20%7C%209%20%7C%2010-9cf.svg" alt=".NET" />
-</p>
+![Version](https://img.shields.io/badge/version-v2.0.0.4-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+![EFCore](https://img.shields.io/badge/EFCore-2.0+-orange.svg)
+![.NET](https://img.shields.io/badge/.NET-3.1%20%7C%205%20%7C%206%20%7C%207%20%7C%208%20%7C%209%20%7C%2010-9cf.svg)
+
+`Version v2.0.0.4`  `License MIT`  `EFCore 2.0+`  `.NET 3.1/5/6/7/8/9/10`
 
 A lightweight Entity Framework Core general-purpose library that provides ready-to-use data access capabilities such as the Repository pattern, Unit of Work, pagination, and dynamic sorting.
-
-</div>
 
 ---
 
@@ -55,12 +49,12 @@ Acme.EFCore.Small is a lightweight Entity Framework Core general-purpose library
 
 | Item | Detail |
 | :--- | :--- |
-| **Version** | v2.0.0.3 |
+| **Version** | v2.0.0.4 |
 | **Author** | yzxs |
 | **Description** | Lightweight EFCore operation library |
 | **License** | MIT |
 
-**Release Notes (v2.0.0.3)**:
+**Release Notes (v2.0.0.4)**:
 
 - Fix known bugs...
 
@@ -81,7 +75,7 @@ Acme.EFCore.Small is a lightweight Entity Framework Core general-purpose library
 
 ### 2.1 Install Acme.EFCore.Small
 
-Create Project → Click on References → Right click → Manage NuGet Packages → Search `Acme.EFCore.Small` and select version 2.0.0.3 or above. Install the appropriate version for your .NET framework.
+Create Project → Click on References → Right click → Manage NuGet Packages → Search `Acme.EFCore.Small` and select version 2.0.0.4 or above. Install the appropriate version for your .NET framework.
 
 > Note: the NuGet package name is **`Acme.EFCore.Small`** (mind the spelling, it is not "AddRepositories").
 
@@ -1076,7 +1070,7 @@ public class OrderService
 | **Package ID** | Acme.EFCore.Small |
 | **Authors** | yzxs |
 | **Description** | Lightweight EFCore operation library |
-| **Project URL** | https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.3#readme-body-tab |
+| **Project URL** | https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.4#readme-body-tab |
 | **Gitee** | <https://gitee.com/yzxs949/acme.-efcore.-small/tree/%E6%A0%87%E5%87%86%E7%89%88/> |
 | **GitHub** | <https://github.com/yzxs949/Acme.EFCore.Small/tree/%E6%A0%87%E5%87%86%E7%89%88> |
 | **Copyright** | yzxs |
