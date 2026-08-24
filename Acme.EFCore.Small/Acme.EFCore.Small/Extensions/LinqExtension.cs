@@ -227,7 +227,7 @@ namespace Acme.EFCore.Small.Extensions
         /// <summary>
         /// 生成 In 查询
         /// </summary>
-        private static MethodCallExpression GenerateInMethod(Expression left, Expression value)
+        private static MethodCallExpression GenerateInMethod(MemberExpression left, Expression value)
         {
             // 支持 value 是 List/数组
             var method = typeof(Enumerable)
