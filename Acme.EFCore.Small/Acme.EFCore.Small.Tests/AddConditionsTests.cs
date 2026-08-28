@@ -180,4 +180,39 @@ public class AddConditionsTests
 
         Assert.Equal(3, result.Count);
     }
+
+    [Fact]
+    public void AddConditions_In_WithOnlyCommas_ShouldSkipEmptyList()
+    {
+        var queryable = GetTestData().AsQueryable();
+
+        // 值仅由逗号/空格组成，拆分后为空列表，应跳过该条件，不抛异常也不影响其它条件
+        var result = queryable
+            .AddConditions(new List<Condition>
+            {
+                new("Id", " , , ", Symbol.In),
+                new("Age", "40", Symbol.Equal)
+            })
+            .ToList();
+
+        Assert.Single(result);
+        Assert.Equal(4, result[0].Id);
+    }
+
+    [Fact]
+    public void AddConditions_NotIn_WithOnlyCommas_ShouldSkipEmptyList()
+    {
+        var queryable = GetTestData().AsQueryable();
+
+        var result = queryable
+            .AddConditions(new List<Condition>
+            {
+                new("Id", ",,", Symbol.NotIn),
+                new("Age", "25", Symbol.Equal)
+            })
+            .ToList();
+
+        Assert.Single(result);
+        Assert.Equal(2, result[0].Id);
+    }
 }

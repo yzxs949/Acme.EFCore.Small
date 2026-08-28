@@ -179,7 +179,11 @@ namespace Acme.EFCore.Small.Extensions
                         if (string.IsNullOrWhiteSpace(condition.Value))
                             continue;
 
+                        // In/NotIn：将逗号分隔的值拆分为列表；若解析后为空列表（如纯逗号/空格），则跳过该条件，
+                        // 避免生成空集合的 Contains 导致部分数据库提供程序无法翻译
                         right = GenerateListConstant(condition.Value, left.Type);
+                        if (right == null)
+                            continue;
                     }
                     else
                     {
@@ -280,7 +284,7 @@ namespace Acme.EFCore.Small.Extensions
         /// </summary>
         /// <param name="rawValue">逗号分隔的值列表字符串，如 "1,2,3"</param>
         /// <param name="elementType">元素类型</param>
-        /// <returns>List&lt;T&gt; 常量表达式</returns>
+        /// <returns>List&lt;T&gt; 常量表达式；若拆分后无有效值（空列表），返回 null</returns>
         private static Expression GenerateListConstant(string rawValue, Type elementType)
         {
             Type underlyingType = Nullable.GetUnderlyingType(elementType) ?? elementType;
@@ -294,6 +298,10 @@ namespace Acme.EFCore.Small.Extensions
                     continue;
                 list.Add(ConvertConditionValue(trimmed, underlyingType));
             }
+
+            // 空列表（如 " , , "）无法生成可翻译的 Contains，返回 null 交由调用方跳过该条件
+            if (list.Count == 0)
+                return null;
 
             return Expression.Constant(list, listType);
         }

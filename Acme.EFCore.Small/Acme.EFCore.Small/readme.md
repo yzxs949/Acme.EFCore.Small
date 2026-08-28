@@ -2,12 +2,12 @@
 
 [🇨🇳 中文](./readme.md) | [🇬🇧 English](./readme.en.md)
 
-![Version](https://img.shields.io/badge/version-v2.0.0.4-blue.svg)
+![Version](https://img.shields.io/badge/version-v2.0.0.5-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![EFCore](https://img.shields.io/badge/EFCore-2.0+-orange.svg)
 ![.NET](https://img.shields.io/badge/.NET-3.1%20%7C%205%20%7C%206%20%7C%207%20%7C%208%20%7C%209%20%7C%2010-9cf.svg)
 
-`版本 v2.0.0.4`  `许可证 MIT`  `EFCore 2.0+`  `.NET 3.1/5/6/7/8/9/10`
+`版本 v2.0.0.5`  `许可证 MIT`  `EFCore 2.0+`  `.NET 3.1/5/6/7/8/9/10`
 
 轻量级的 Entity Framework Core 通用库，提供仓储模式、工作单元、分页、动态排序等开箱即用的数据访问能力。
 
@@ -49,14 +49,16 @@ Acme.EFCore.Small 是一个轻量级的 Entity Framework Core 通用库，用于
 
 | 项目信息 | 内容 |
 | :--- | :--- |
-| **版本** | v2.0.0.4 |
+| **版本** | v2.0.0.5 |
 | **作者** | yzxs |
 | **描述** | 轻量级 EFCore 操作类库 |
 | **许可证** | MIT |
 
-**发布说明（v2.0.0.4）**：
+**发布说明（v2.0.0.5）**：
 
-- 修复已知 bug……
+- 修复 `In` / `NotIn` 查询扩展的语法 bug：当值仅由逗号或空格组成、拆分后为空列表时，不再生成无法翻译的空集合 `Contains`，而是跳过该条件，避免查询报错。
+- 新增 `In` / `NotIn` 空列表与 EF InMemory 查询翻译回归测试，保证逗号分隔、去空格、可空字段、枚举等场景行为正确。
+- 同步更新中文与英文 README 文档与测试报告至 2.0.0.5。
 
 **核心特性**：
 
@@ -75,7 +77,7 @@ Acme.EFCore.Small 是一个轻量级的 Entity Framework Core 通用库，用于
 
 ### 2.1 安装 Acme.EFCore.Small
 
-创建项目 → 右键引用 → 管理 NuGet 包 → 搜索 `Acme.EFCore.Small` 并选择 2.0.0.4 或更高版本。根据您的 .NET 框架安装适当的版本。
+创建项目 → 右键引用 → 管理 NuGet 包 → 搜索 `Acme.EFCore.Small` 并选择 2.0.0.5 或更高版本。根据您的 .NET 框架安装适当的版本。
 
 > 注意：NuGet 包名为 **`Acme.EFCore.Small`**（注意拼写，不是 AddRepositories）。
 
@@ -1074,7 +1076,7 @@ public class OrderService
 | **包 ID** | Acme.EFCore.Small |
 | **作者** | yzxs |
 | **描述** | 轻量级 EFCore 操作类库 |
-| **文档 URL** | <https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.4#readme-body-tab> |
+| **文档 URL** | <https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.5#readme-body-tab> |
 | **Gitee** | <https://gitee.com/yzxs949/acme.-efcore.-small/tree/%E6%A0%87%E5%87%86%E7%89%88/> |
 | **GitHub** | <https://github.com/yzxs949/Acme.EFCore.Small/tree/%E6%A0%87%E5%87%86%E7%89%88> |
 | **版权** | yzxs |
