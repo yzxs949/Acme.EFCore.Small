@@ -315,7 +315,7 @@ namespace Acme.EFCore.Small.Repositorys
         /// <param name="whereLamdba">linq语句</param>
         /// <returns>实体对象</returns>
         public TEntity GetInfoNoTracking(Expression<Func<TEntity, bool>> whereLamdba)
-            => Queryable(whereLamdba).AsNoTracking().FirstOrDefault(whereLamdba);
+            => _dbSet.AsNoTracking().FirstOrDefault(whereLamdba);
 
         /// <summary>
         /// 异步获取单条数据不追踪
@@ -324,7 +324,7 @@ namespace Acme.EFCore.Small.Repositorys
         /// <param name="cancellationToken">取消令牌</param>
         /// <returns>实体对象</returns>
         public async Task<TEntity> GetInfoNoTrackingAsync(Expression<Func<TEntity, bool>> whereLamdba, CancellationToken cancellationToken = default)
-            => await Queryable(whereLamdba).AsNoTracking().FirstOrDefaultAsync(whereLamdba, cancellationToken);
+            => await _dbSet.AsNoTracking().FirstOrDefaultAsync(whereLamdba, cancellationToken);
 
         /// <summary>
         /// 获取单条数据返回默认值
