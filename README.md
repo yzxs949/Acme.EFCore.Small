@@ -1,4 +1,4 @@
-﻿# Acme.EFCore.Small
+# Acme.EFCore.Small
 
 [🇨🇳 中文](./README.md) | [🇬🇧 English](./README.EN.md)
 
