@@ -1,6 +1,6 @@
 ﻿# Acme.EFCore.Small
 
-[🇨🇳 中文](./readme.md) | [🇬🇧 English](./readme.en.md)
+[🇨🇳 中文](./README.md) | [🇬🇧 English](./README.EN.md)
 
 ![Version](https://img.shields.io/badge/version-v2.0.0.5-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
