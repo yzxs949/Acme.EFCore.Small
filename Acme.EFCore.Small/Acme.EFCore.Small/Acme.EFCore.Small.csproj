@@ -11,7 +11,7 @@
 				-beta：Beta 版本，通常指可用于下一计划版本的功能完整的版本，但可能包含已知 bug。
 				-rc：候选发布，通常可能为最终（稳定）版本，除非出现重大 bug。
 		-->
-		<Version>2.0.0.5</Version>
+		<Version>2.0.0.6</Version>
 		<Authors>yzxs</Authors>
 		<Company>yzxs</Company>
 		<Product>Acme.EFCore.Small</Product>
@@ -21,11 +21,10 @@
 		<Description>轻量级EFCore操作类库</Description>
 		<Title>Acme.EFCore.Small</Title>
 		<PackageTags>Acme;EntityFrameworkCore;EF;EFCore;EFCore.Small;yzxs;core3.1;net5;net6;net7;net8;net9;net10;云中小生;Framework;Entity;EF类库;</PackageTags>
-		<PackageProjectUrl>https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.5#readme-body-tab</PackageProjectUrl>
+		<PackageProjectUrl>https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.6#readme-body-tab</PackageProjectUrl>
 		<PackageReleaseNotes>
-			1. 修复 In / NotIn 查询扩展的语法 bug：当值仅由逗号或空格组成、拆分后为空列表时，不再生成无法翻译的空集合 Contains，而是跳过该条件，避免查询报错。
-			2. 新增 In / NotIn 空列表与 EF InMemory 查询翻译回归测试，保证逗号分隔、去空格、可空字段、枚举等场景行为正确。
-			3. 同步更新中文与英文 README 文档与测试报告至 2.0.0.5。
+			1. 升级 Microsoft.EntityFrameworkCore 依赖包版本：net8 由 8.0.30 升级到 8.0.31，net9 由 9.0.19 升级到 9.0.20，net10.0 由 10.0.11 升级到 10.0.12。
+			2. 同步更新中文与英文 README 文档与测试报告至 2.0.0.6。
 		</PackageReleaseNotes>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<NoWarn>IDE0305;IDE0300;IDE0290;</NoWarn>
@@ -43,13 +42,13 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.20" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8' ">
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.30" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.31" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net9' ">
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.19" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.20" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0' ">
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.11" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.12" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="NuGet.Build.Tasks.Pack" Version="6.14.0">
