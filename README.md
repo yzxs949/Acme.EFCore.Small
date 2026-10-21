@@ -2,12 +2,15 @@
 
 [🇨🇳 中文](./README.md) | [🇬🇧 English](./README.EN.md)
 
-![Version](https://img.shields.io/badge/version-v2.0.0.6-blue.svg)
+![Version](https://img.shields.io/badge/version-v2.0.0.7-blue.svg)
+
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
+
 ![EFCore](https://img.shields.io/badge/EFCore-2.0+-orange.svg)
+
 ![.NET](https://img.shields.io/badge/.NET-3.1%20%7C%205%20%7C%206%20%7C%207%20%7C%208%20%7C%209%20%7C%2010-9cf.svg)
 
-`版本 v2.0.0.6`  `许可证 MIT`  `EFCore 2.0+`  `.NET 3.1/5/6/7/8/9/10`
+`版本 v2.0.0.7`  `许可证 MIT`  `EFCore 2.0+`  `.NET 3.1/5/6/7/8/9/10`
 
 轻量级的 Entity Framework Core 通用库，提供仓储模式、工作单元、分页、动态排序等开箱即用的数据访问能力。
 
@@ -47,17 +50,17 @@
 
 Acme.EFCore.Small 是一个轻量级的 Entity Framework Core 通用库，用于使用 Entity Framework Core (EFCore) 与数据库进行交互。它是处理各种数据库操作的基础组件。
 
-| 项目信息 | 内容 |
-| :--- | :--- |
-| **版本** | v2.0.0.6 |
-| **作者** | yzxs |
-| **描述** | 轻量级 EFCore 操作类库 |
-| **许可证** | MIT |
+| 项目信息    | 内容              |
+| :------ | :-------------- |
+| **版本**  | v2.0.0.7        |
+| **作者**  | yzxs            |
+| **描述**  | 轻量级 EFCore 操作类库 |
+| **许可证** | MIT             |
 
-**发布说明（v2.0.0.6）**：
+**发布说明（v2.0.0.7）**：
 
-- 升级 `Microsoft.EntityFrameworkCore` 依赖包版本：net8 由 8.0.30 升级到 8.0.31，net9 由 9.0.19 升级到 9.0.20，net10.0 由 10.0.11 升级到 10.0.12。
-- 同步更新中文与英文 README 文档与测试报告至 2.0.0.6。
+- 升级 `Microsoft.EntityFrameworkCore` 依赖包版本：net8 由 8.0.31 升级到 8.0.32，net9 由 9.0.20 升级到 9.0.21，net10.0 由 10.0.12 升级到 10.0.13。
+- 同步更新中文与英文 README 文档与测试报告至 2.0.0.7。
 
 **核心特性**：
 
@@ -76,7 +79,7 @@ Acme.EFCore.Small 是一个轻量级的 Entity Framework Core 通用库，用于
 
 ### 2.1 安装 Acme.EFCore.Small
 
-创建项目 → 右键引用 → 管理 NuGet 包 → 搜索 `Acme.EFCore.Small` 并选择 2.0.0.6 或更高版本。根据您的 .NET 框架安装适当的版本。
+创建项目 → 右键引用 → 管理 NuGet 包 → 搜索 `Acme.EFCore.Small` 并选择 2.0.0.7 或更高版本。根据您的 .NET 框架安装适当的版本。
 
 > 注意：NuGet 包名为 **`Acme.EFCore.Small`**（注意拼写，不是 AddRepositories）。
 
@@ -84,17 +87,17 @@ Acme.EFCore.Small 是一个轻量级的 Entity Framework Core 通用库，用于
 
 根据所使用的数据库，安装对应的 EF Core 提供程序：
 
-| 数据库 | NuGet 包 |
-| :--- | :--- |
-| **SqlServer** | `Microsoft.EntityFrameworkCore.SqlServer` |
-| **Sqlite** | `Microsoft.EntityFrameworkCore.Sqlite` |
-| **Cosmos** | `Microsoft.EntityFrameworkCore.Cosmos` |
-| **InMemory** | `Microsoft.EntityFrameworkCore.InMemory` |
-| **MySql** | `Pomelo.EntityFrameworkCore.MySql` / `MySql.EntityFrameworkCore` |
-| **PostgreSQL** | `Npgsql.EntityFrameworkCore.PostgreSQL` |
-| **Oracle** | `Oracle.EntityFrameworkCore` |
-| **Firebird** | `FirebirdSql.EntityFrameworkCore.Firebird` |
-| **Dm（达梦）** | `Microsoft.EntityFrameworkCore.Dm` |
+| 数据库            | NuGet 包                                                          |
+| :------------- | :--------------------------------------------------------------- |
+| **SqlServer**  | `Microsoft.EntityFrameworkCore.SqlServer`                        |
+| **Sqlite**     | `Microsoft.EntityFrameworkCore.Sqlite`                           |
+| **Cosmos**     | `Microsoft.EntityFrameworkCore.Cosmos`                           |
+| **InMemory**   | `Microsoft.EntityFrameworkCore.InMemory`                         |
+| **MySql**      | `Pomelo.EntityFrameworkCore.MySql` / `MySql.EntityFrameworkCore` |
+| **PostgreSQL** | `Npgsql.EntityFrameworkCore.PostgreSQL`                          |
+| **Oracle**     | `Oracle.EntityFrameworkCore`                                     |
+| **Firebird**   | `FirebirdSql.EntityFrameworkCore.Firebird`                       |
+| **Dm（达梦）**     | `Microsoft.EntityFrameworkCore.Dm`                               |
 
 ### 2.3 创建数据库上下文类
 
@@ -370,6 +373,7 @@ public async Task<bool> CreateOrder(Order order)
 }
 ```
 
+
 #### 3.2.3 异步操作
 
 > 注意：按条件获取单条数据应使用 `GetInfoDefaultAsync`（非 `GetInfoAsync`）；按主键获取使用 `GetInfoByIdAsync`。
@@ -418,13 +422,13 @@ public async Task<bool> UserExistsAsync(string email)
 
 **`IUnitOfWork` / `IUnitOfWork<TDbContext>` 提供的方法**：
 
-| 方法 | 说明 |
-| :--- | :--- |
-| `int Submit()` / `Task<int> SubmitAsync()` | 将挂起的变更保存到数据库，返回受影响行数 |
-| `void BeginTransaction()` / `Task BeginTransactionAsync()` | 开始事务 |
-| `void CommitTransaction()` / `Task CommitTransactionAsync()` | 提交事务 |
-| `void RollbackTransaction()` / `Task RollbackTransactionAsync()` | 回滚事务 |
-| `DbContext DbContext { get; }` | 当前关联的数据库上下文 |
+| 方法                                                               | 说明                   |
+| :--------------------------------------------------------------- | :------------------- |
+| `int Submit()` / `Task<int> SubmitAsync()`                       | 将挂起的变更保存到数据库，返回受影响行数 |
+| `void BeginTransaction()` / `Task BeginTransactionAsync()`       | 开始事务                 |
+| `void CommitTransaction()` / `Task CommitTransactionAsync()`     | 提交事务                 |
+| `void RollbackTransaction()` / `Task RollbackTransactionAsync()` | 回滚事务                 |
+| `DbContext DbContext { get; }`                                   | 当前关联的数据库上下文          |
 
 #### 3.3.1 注入工作单元
 
@@ -600,22 +604,22 @@ public Condition()                                            // 无参，属性
 
 `Symbol` 枚举（`Acme.EFCore.Small.Enums`）支持的运算符如下：
 
-| 枚举值 | 含义 | 生成的比较 |
-| :--- | :--- | :--- |
-| `Equal` = 0 | 等于 | `x.Field == value` |
-| `NotEqual` = 1 | 不等于 | `x.Field != value` |
-| `GreaterThan` = 2 | 大于 | `x.Field > value` |
-| `LessThan` = 3 | 小于 | `x.Field < value` |
-| `GreaterThanOrEqual` = 4 | 大于等于 | `x.Field >= value` |
-| `LessThanOrEqual` = 5 | 小于等于 | `x.Field <= value` |
-| `Contains` = 6 | 包含（模糊） | `x.Field.Contains(value)` |
-| `NotContains` = 7 | 不包含 | `!x.Field.Contains(value)` |
-| `StartsWith` = 8 | 以…开头 | `x.Field.StartsWith(value)` |
-| `EndsWith` = 9 | 以…结尾 | `x.Field.EndsWith(value)` |
-| `In` = 10 | 包含于列表 | `list.Contains(x.Field)` |
-| `NotIn` = 11 | 不包含于列表 | `!list.Contains(x.Field)` |
-| `IsNull` | 为空 | `x.Field == null` |
-| `IsNotNull` | 不为空 | `x.Field != null` |
+| 枚举值                      | 含义     | 生成的比较                       |
+| :----------------------- | :----- | :-------------------------- |
+| `Equal` = 0              | 等于     | `x.Field == value`          |
+| `NotEqual` = 1           | 不等于    | `x.Field != value`          |
+| `GreaterThan` = 2        | 大于     | `x.Field > value`           |
+| `LessThan` = 3           | 小于     | `x.Field < value`           |
+| `GreaterThanOrEqual` = 4 | 大于等于   | `x.Field >= value`          |
+| `LessThanOrEqual` = 5    | 小于等于   | `x.Field <= value`          |
+| `Contains` = 6           | 包含（模糊） | `x.Field.Contains(value)`   |
+| `NotContains` = 7        | 不包含    | `!x.Field.Contains(value)`  |
+| `StartsWith` = 8         | 以…开头   | `x.Field.StartsWith(value)` |
+| `EndsWith` = 9           | 以…结尾   | `x.Field.EndsWith(value)`   |
+| `In` = 10                | 包含于列表  | `list.Contains(x.Field)`    |
+| `NotIn` = 11             | 不包含于列表 | `!list.Contains(x.Field)`   |
+| `IsNull`                 | 为空     | `x.Field == null`           |
+| `IsNotNull`              | 不为空    | `x.Field != null`           |
 
 > 注：`In` / `NotIn` 的 `Value` 应为逗号分隔的值列表字符串（如 `"1,2,3"`）；`IsNull` / `IsNotNull` 不需要 `Value`。所有 `Condition` 间以 **AND** 连接。
 
@@ -743,6 +747,7 @@ public async Task<bool> DeleteInactiveUsersAsync()
     return await _userRepository.DelManyNowSaveAsync(inactiveUsers);
 }
 ```
+
 
 #### 4.3.2 批量更新
 
@@ -1070,15 +1075,15 @@ public class OrderService
 
 ## 7、NuGet 包信息
 
-| 项目 | 内容 |
-| :--- | :--- |
-| **包 ID** | Acme.EFCore.Small |
-| **作者** | yzxs |
-| **描述** | 轻量级 EFCore 操作类库 |
-| **文档 URL** | <https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.6#readme-body-tab> |
-| **Gitee** | <https://gitee.com/yzxs949/acme.-efcore.-small/tree/%E6%A0%87%E5%87%86%E7%89%88/> |
-| **GitHub** | <https://github.com/yzxs949/Acme.EFCore.Small/tree/%E6%A0%87%E5%87%86%E7%89%88> |
-| **版权** | yzxs |
+| 项目         | 内容                                                                                |
+| :--------- | :-------------------------------------------------------------------------------- |
+| **包 ID**   | Acme.EFCore.Small                                                                 |
+| **作者**     | yzxs                                                                              |
+| **描述**     | 轻量级 EFCore 操作类库                                                                   |
+| **文档 URL** | <https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.7#readme-body-tab>        |
+| **Gitee**  | <https://gitee.com/yzxs949/acme.-efcore.-small/tree/%E6%A0%87%E5%87%86%E7%89%88/> |
+| **GitHub** | <https://github.com/yzxs949/Acme.EFCore.Small/tree/%E6%A0%87%E5%87%86%E7%89%88>   |
+| **版权**     | yzxs                                                                              |
 
 ---
 
@@ -1086,16 +1091,16 @@ public class OrderService
 
 项目包含完整的测试套件，覆盖所有核心功能：
 
-| 测试类 | 覆盖范围 |
-| :--- | :--- |
-| **EntityTests** | BaseEntity 和 BaseAggregateRoot 类 |
-| **ValueObjectTests** | BaseValueObject 类 |
-| **PageListTests** | PageList 类 |
+| 测试类                        | 覆盖范围                                    |
+| :------------------------- | :-------------------------------------- |
+| **EntityTests**            | BaseEntity 和 BaseAggregateRoot 类        |
+| **ValueObjectTests**       | BaseValueObject 类                       |
+| **PageListTests**          | PageList 类                              |
 | **PageListExtensionTests** | PageListExtension / LinqExtension 的分页方法 |
-| **QueryTests** | Condition、Keywords 和 Sorting 类 |
-| **LinqExtensionTests** | LinqExtension 类的关键方法 |
-| **RepositoryTests** | IRepository 接口的结构 |
-| **UnitOfWorkTests** | UnitOfWork 类和 IUnitOfWork 接口 |
+| **QueryTests**             | Condition、Keywords 和 Sorting 类          |
+| **LinqExtensionTests**     | LinqExtension 类的关键方法                    |
+| **RepositoryTests**        | IRepository 接口的结构                       |
+| **UnitOfWorkTests**        | UnitOfWork 类和 IUnitOfWork 接口            |
 
 运行测试：
 
