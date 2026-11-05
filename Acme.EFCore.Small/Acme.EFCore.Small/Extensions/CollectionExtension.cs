@@ -1,7 +1,7 @@
 ﻿using Acme.EFCore.Small.Repositorys;
+using Acme.EFCore.Small.UnitOfWorks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace Acme.EFCore.Small.Extensions
 {
@@ -16,6 +16,7 @@ namespace Acme.EFCore.Small.Extensions
         /// <param name="serviceCollection">IServiceCollection 实例。</param>
         public static void AddRepositorys(this IServiceCollection serviceCollection)
         {
+            serviceCollection.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             serviceCollection.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
         }
 
@@ -26,6 +27,7 @@ namespace Acme.EFCore.Small.Extensions
         public static void AddRepositorys<TDbContext>(this IServiceCollection serviceCollection) where TDbContext : DbContext
         {
             serviceCollection.AddScoped<DbContext>(provider => provider.GetRequiredService<TDbContext>());
+            serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
             serviceCollection.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         }
     }

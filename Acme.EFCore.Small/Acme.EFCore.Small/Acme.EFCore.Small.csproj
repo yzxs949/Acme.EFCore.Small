@@ -11,7 +11,7 @@
 				-beta：Beta 版本，通常指可用于下一计划版本的功能完整的版本，但可能包含已知 bug。
 				-rc：候选发布，通常可能为最终（稳定）版本，除非出现重大 bug。
 		-->
-		<Version>1.3.7.1</Version>
+		<Version>2.0.0.8</Version>
 		<Authors>yzxs</Authors>
 		<Company>yzxs</Company>
 		<Product>Acme.EFCore.Small</Product>
@@ -21,11 +21,12 @@
 		<Description>轻量级EFCore操作类库</Description>
 		<Title>Acme.EFCore.Small</Title>
 		<PackageTags>Acme;EntityFrameworkCore;EF;EFCore;EFCore.Small;yzxs;core3.1;net5;net6;net7;net8;net9;net10;云中小生;Framework;Entity;EF类库;</PackageTags>
-		<PackageProjectUrl>https://www.nuget.org/packages/Acme.EFCore.Small/1.3.7.1#readme-body-tab</PackageProjectUrl>
+		<PackageProjectUrl>https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.8#readme-body-tab</PackageProjectUrl>
 		<PackageReleaseNotes>
-			修复已知bug……
+			1. 升级 Microsoft.EntityFrameworkCore 依赖包版本：net8 由 8.0.32 升级到 8.0.33，net9 由 9.0.21 升级到 9.0.22，net10.0 由 10.0.13 升级到 10.0.14。
+			2. 同步更新中文与英文 README 文档与测试报告至 2.0.0.8。
 		</PackageReleaseNotes>
-		<PackageReadmeFile>readme.md</PackageReadmeFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<NoWarn>IDE0305;IDE0300;IDE0290;</NoWarn>
 	</PropertyGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
@@ -41,13 +42,13 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.20" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8' ">
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.29" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.33" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net9' ">
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.18" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.22" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0' ">
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.10" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.14" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="NuGet.Build.Tasks.Pack" Version="6.14.0">
@@ -56,7 +57,7 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-		<None Include="readme.md" Pack="true" PackagePath="\" />
-		<None Include="readme.en.md" Pack="true" PackagePath="\" />
+		<None Include="README.md" Pack="true" PackagePath="\" />
+		<None Include="README.en.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 </Project>
