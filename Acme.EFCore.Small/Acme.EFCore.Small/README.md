@@ -2,12 +2,12 @@
 
 [🇨🇳 中文](./README.md) | [🇬🇧 English](./README.EN.md)
 
-![Version](https://img.shields.io/badge/version-v2.0.0.7-blue.svg)
+![Version](https://img.shields.io/badge/version-v2.0.0.8-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![EFCore](https://img.shields.io/badge/EFCore-2.0+-orange.svg)
 ![.NET](https://img.shields.io/badge/.NET-3.1%20%7C%205%20%7C%206%20%7C%207%20%7C%208%20%7C%209%20%7C%2010-9cf.svg)
 
-`版本 v2.0.0.7`  `许可证 MIT`  `EFCore 2.0+`  `.NET 3.1/5/6/7/8/9/10`
+`版本 v2.0.0.8`  `许可证 MIT`  `EFCore 2.0+`  `.NET 3.1/5/6/7/8/9/10`
 
 轻量级的 Entity Framework Core 通用库，提供仓储模式、工作单元、分页、动态排序等开箱即用的数据访问能力。
 
@@ -40,6 +40,7 @@
 - [9、许可证](#9许可证)
 - [10、贡献](#10贡献)
 - [11、联系](#11联系)
+- [12、赞赏支持](#12赞赏支持)
 
 ---
 
@@ -49,15 +50,15 @@ Acme.EFCore.Small 是一个轻量级的 Entity Framework Core 通用库，用于
 
 | 项目信息 | 内容 |
 | :--- | :--- |
-| **版本** | v2.0.0.7 |
+| **版本** | v2.0.0.8 |
 | **作者** | yzxs |
 | **描述** | 轻量级 EFCore 操作类库 |
 | **许可证** | MIT |
 
-**发布说明（v2.0.0.7）**：
+**发布说明（v2.0.0.8）**：
 
-- 升级 `Microsoft.EntityFrameworkCore` 依赖包版本：net8 由 8.0.31 升级到 8.0.32，net9 由 9.0.20 升级到 9.0.21，net10.0 由 10.0.12 升级到 10.0.13。
-- 同步更新中文与英文 README 文档与测试报告至 2.0.0.7。
+- 升级 `Microsoft.EntityFrameworkCore` 依赖包版本：net8 由 8.0.32 升级到 8.0.33，net9 由 9.0.21 升级到 9.0.22，net10.0 由 10.0.13 升级到 10.0.14。
+- 同步更新中文与英文 README 文档与测试报告至 2.0.0.8。
 
 **核心特性**：
 
@@ -76,7 +77,7 @@ Acme.EFCore.Small 是一个轻量级的 Entity Framework Core 通用库，用于
 
 ### 2.1 安装 Acme.EFCore.Small
 
-创建项目 → 右键引用 → 管理 NuGet 包 → 搜索 `Acme.EFCore.Small` 并选择 2.0.0.7 或更高版本。根据您的 .NET 框架安装适当的版本。
+创建项目 → 右键引用 → 管理 NuGet 包 → 搜索 `Acme.EFCore.Small` 并选择 2.0.0.8 或更高版本。根据您的 .NET 框架安装适当的版本。
 
 > 注意：NuGet 包名为 **`Acme.EFCore.Small`**（注意拼写，不是 AddRepositories）。
 
@@ -1075,7 +1076,7 @@ public class OrderService
 | **包 ID** | Acme.EFCore.Small |
 | **作者** | yzxs |
 | **描述** | 轻量级 EFCore 操作类库 |
-| **文档 URL** | <https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.7#readme-body-tab> |
+| **文档 URL** | <https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.8#readme-body-tab> |
 | **Gitee** | <https://gitee.com/yzxs949/acme.-efcore.-small/tree/%E6%A0%87%E5%87%86%E7%89%88/> |
 | **GitHub** | <https://github.com/yzxs949/Acme.EFCore.Small/tree/%E6%A0%87%E5%87%86%E7%89%88> |
 | **版权** | yzxs |
@@ -1130,3 +1131,13 @@ dotnet test Acme.EFCore.Small.Tests\Acme.EFCore.Small.Tests.csproj
 ---
 
 ![作者公众号](https://raw.githubusercontent.com/yzxs949/FilePath/refs/heads/main/Image/%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg)
+
+---
+
+## 12、赞赏支持
+
+如果这个项目对您有帮助，欢迎请作者喝杯咖啡，您的支持是持续维护的动力。
+
+| 支付宝 | 微信 |
+| :---: | :---: |
+| ![支付宝](https://raw.githubusercontent.com/yzxs949/FilePath/refs/heads/main/Image/zfb.jpg) | ![微信](https://raw.githubusercontent.com/yzxs949/FilePath/refs/heads/main/Image/wx.jpg) |

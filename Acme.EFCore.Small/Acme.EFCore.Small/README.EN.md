@@ -2,12 +2,12 @@
 
 [🇨🇳 中文](./README.md) | [🇬🇧 English](./README.EN.md)
 
-![Version](https://img.shields.io/badge/version-v2.0.0.7-blue.svg)
+![Version](https://img.shields.io/badge/version-v2.0.0.8-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![EFCore](https://img.shields.io/badge/EFCore-2.0+-orange.svg)
 ![.NET](https://img.shields.io/badge/.NET-3.1%20%7C%205%20%7C%206%20%7C%207%20%7C%208%20%7C%209%20%7C%2010-9cf.svg)
 
-`Version v2.0.0.7`  `License MIT`  `EFCore 2.0+`  `.NET 3.1/5/6/7/8/9/10`
+`Version v2.0.0.8`  `License MIT`  `EFCore 2.0+`  `.NET 3.1/5/6/7/8/9/10`
 
 A lightweight Entity Framework Core general-purpose library that provides ready-to-use data access capabilities such as the Repository pattern, Unit of Work, pagination, and dynamic sorting.
 
@@ -40,6 +40,7 @@ A lightweight Entity Framework Core general-purpose library that provides ready-
 - [9. License](#9-license)
 - [10. Contributing](#10-contributing)
 - [11. Contact](#11-contact)
+- [12. Sponsorship](#12-sponsorship)
 
 ---
 
@@ -49,15 +50,15 @@ Acme.EFCore.Small is a lightweight Entity Framework Core general-purpose library
 
 | Item | Detail |
 | :--- | :--- |
-| **Version** | v2.0.0.7 |
+| **Version** | v2.0.0.8 |
 | **Author** | yzxs |
 | **Description** | Lightweight EFCore operation library |
 | **License** | MIT |
 
-**Release Notes (v2.0.0.7)**:
+**Release Notes (v2.0.0.8)**:
 
-- Upgraded `Microsoft.EntityFrameworkCore` package versions: net8 from 8.0.31 to 8.0.32, net9 from 9.0.20 to 9.0.21, net10.0 from 10.0.12 to 10.0.13.
-- Updated the Chinese & English README documents and the test report to 2.0.0.7.
+- Upgraded `Microsoft.EntityFrameworkCore` package versions: net8 from 8.0.32 to 8.0.33, net9 from 9.0.21 to 9.0.22, net10.0 from 10.0.13 to 10.0.14.
+- Updated the Chinese & English README documents and the test report to 2.0.0.8.
 
 **Core Features**:
 
@@ -76,7 +77,7 @@ Acme.EFCore.Small is a lightweight Entity Framework Core general-purpose library
 
 ### 2.1 Install Acme.EFCore.Small
 
-Create Project → Click on References → Right click → Manage NuGet Packages → Search `Acme.EFCore.Small` and select version 2.0.0.7 or above. Install the appropriate version for your .NET framework.
+Create Project → Click on References → Right click → Manage NuGet Packages → Search `Acme.EFCore.Small` and select version 2.0.0.8 or above. Install the appropriate version for your .NET framework.
 
 > Note: the NuGet package name is **`Acme.EFCore.Small`** (mind the spelling, it is not "AddRepositories").
 
@@ -1071,7 +1072,7 @@ public class OrderService
 | **Package ID** | Acme.EFCore.Small |
 | **Authors** | yzxs |
 | **Description** | Lightweight EFCore operation library |
-| **Project URL** | https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.7#readme-body-tab |
+| **Project URL** | https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.8#readme-body-tab |
 | **Gitee** | <https://gitee.com/yzxs949/acme.-efcore.-small/tree/%E6%A0%87%E5%87%86%E7%89%88/> |
 | **GitHub** | <https://github.com/yzxs949/Acme.EFCore.Small/tree/%E6%A0%87%E5%87%86%E7%89%88> |
 | **Copyright** | yzxs |
@@ -1125,3 +1126,13 @@ For any questions or suggestions, please contact the author.
 ---
 
 ![作者公众号](https://raw.githubusercontent.com/yzxs949/FilePath/refs/heads/main/Image/%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg)
+
+---
+
+## 12. Sponsorship
+
+If this project has been helpful to you, you are welcome to buy the author a coffee. Your support keeps the project actively maintained.
+
+| Alipay | WeChat |
+| :---: | :---: |
+| ![Alipay](https://raw.githubusercontent.com/yzxs949/FilePath/refs/heads/main/Image/zfb.jpg) | ![WeChat](https://raw.githubusercontent.com/yzxs949/FilePath/refs/heads/main/Image/wx.jpg) |

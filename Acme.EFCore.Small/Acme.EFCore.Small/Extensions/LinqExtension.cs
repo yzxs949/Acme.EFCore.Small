@@ -427,10 +427,19 @@ namespace Acme.EFCore.Small.Extensions
                     var propertyAccess = Expression.MakeMemberAccess(param, property);
                     var constant = Expression.Constant(keywords.Value, typeof(string));
                     var containsCall = Expression.Call(propertyAccess, containsMethod, constant);
+
+                    // 可空字段需先判空，避免 LINQ to Objects 场景下 null 值触发 NullReferenceException；
+                    // 该写法可被 EF Core 正常翻译为 SQL（IS NOT NULL AND LIKE）
+                    Expression fieldCondition = property.PropertyType.IsValueType
+                        ? (Expression)containsCall
+                        : Expression.AndAlso(
+                            Expression.NotEqual(propertyAccess, Expression.Constant(null, property.PropertyType)),
+                            containsCall);
+
                     if (body is null)
-                        body = containsCall;
+                        body = fieldCondition;
                     else
-                        body = Expression.OrElse(body, containsCall);
+                        body = Expression.OrElse(body, fieldCondition);
                 }
             }
             if (body is null)
