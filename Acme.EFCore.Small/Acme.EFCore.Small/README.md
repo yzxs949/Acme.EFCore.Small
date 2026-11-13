@@ -2,12 +2,12 @@
 
 [🇨🇳 中文](./README.md) | [🇬🇧 English](./README.EN.md)
 
-![Version](https://img.shields.io/badge/version-v2.0.0.8-blue.svg)
+![Version](https://img.shields.io/badge/version-v2.0.0.9-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![EFCore](https://img.shields.io/badge/EFCore-2.0+-orange.svg)
-![.NET](https://img.shields.io/badge/.NET-3.1%20%7C%205%20%7C%206%20%7C%207%20%7C%208%20%7C%209%20%7C%2010-9cf.svg)
+![.NET](https://img.shields.io/badge/.NET-3.1%20%7C%205%20%7C%206%20%7C%207%20%7C%208%20%7C%209%20%7C%2010%20%7C%2011-9cf.svg)
 
-`版本 v2.0.0.8`  `许可证 MIT`  `EFCore 2.0+`  `.NET 3.1/5/6/7/8/9/10`
+`版本 v2.0.0.9`  `许可证 MIT`  `EFCore 2.0+`  `.NET 3.1/5/6/7/8/9/10/11`
 
 轻量级的 Entity Framework Core 通用库，提供仓储模式、工作单元、分页、动态排序等开箱即用的数据访问能力。
 
@@ -50,15 +50,16 @@ Acme.EFCore.Small 是一个轻量级的 Entity Framework Core 通用库，用于
 
 | 项目信息 | 内容 |
 | :--- | :--- |
-| **版本** | v2.0.0.8 |
+| **版本** | v2.0.0.9 |
 | **作者** | yzxs |
 | **描述** | 轻量级 EFCore 操作类库 |
 | **许可证** | MIT |
 
-**发布说明（v2.0.0.8）**：
+**发布说明（v2.0.0.9）**：
 
-- 升级 `Microsoft.EntityFrameworkCore` 依赖包版本：net8 由 8.0.32 升级到 8.0.33，net9 由 9.0.21 升级到 9.0.22，net10.0 由 10.0.13 升级到 10.0.14。
-- 同步更新中文与英文 README 文档与测试报告至 2.0.0.8。
+- 升级 `Microsoft.EntityFrameworkCore` 依赖包版本：net8 由 8.0.33 升级到 8.0.34，net9 由 9.0.22 升级到 9.0.23，net10.0 由 10.0.14 升级到 10.0.15。
+- 新增 net11.0 目标框架，对应 `Microsoft.EntityFrameworkCore` 11.0.0。
+- 同步更新中文与英文 README 文档与测试报告至 2.0.0.9。
 
 **核心特性**：
 
@@ -77,7 +78,7 @@ Acme.EFCore.Small 是一个轻量级的 Entity Framework Core 通用库，用于
 
 ### 2.1 安装 Acme.EFCore.Small
 
-创建项目 → 右键引用 → 管理 NuGet 包 → 搜索 `Acme.EFCore.Small` 并选择 2.0.0.8 或更高版本。根据您的 .NET 框架安装适当的版本。
+创建项目 → 右键引用 → 管理 NuGet 包 → 搜索 `Acme.EFCore.Small` 并选择 2.0.0.9 或更高版本。根据您的 .NET 框架安装适当的版本。
 
 > 注意：NuGet 包名为 **`Acme.EFCore.Small`**（注意拼写，不是 AddRepositories）。
 
@@ -1066,6 +1067,7 @@ public class OrderService
 - net8
 - net9
 - net10.0
+- net11.0
 
 ---
 
@@ -1076,9 +1078,9 @@ public class OrderService
 | **包 ID** | Acme.EFCore.Small |
 | **作者** | yzxs |
 | **描述** | 轻量级 EFCore 操作类库 |
-| **文档 URL** | <https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.8#readme-body-tab> |
+| **文档 URL** | <https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.9#readme-body-tab> |
 | **Gitee** | <https://gitee.com/yzxs949/acme.-efcore.-small/tree/%E6%A0%87%E5%87%86%E7%89%88/> |
-| **GitHub** | <https://github.com/yzxs949/Acme.EFCore.Small/tree/%E6%A0%87%E5%87%86%E7%89%88> |
+| **GitHub** | <https://github.com/yzxs949/Acme.EFCore.Small> |
 | **版权** | yzxs |
 
 ---
@@ -1125,7 +1127,7 @@ dotnet test Acme.EFCore.Small.Tests\Acme.EFCore.Small.Tests.csproj
 - **邮箱**：<yzxs949@163.com>
 - **NuGet**：<https://www.nuget.org/packages/Acme.EFCore.Small/>
 - **Gitee**：<https://gitee.com/yzxs949/acme.-efcore.-small/tree/%E6%A0%87%E5%87%86%E7%89%88/>
-- **GitHub**：<https://github.com/yzxs949/Acme.EFCore.Small/tree/%E6%A0%87%E5%87%86%E7%89%88>
+- **GitHub**：<https://github.com/yzxs949/Acme.EFCore.Small>
 - **公众号**：.NET修仙日记
 
 ---
