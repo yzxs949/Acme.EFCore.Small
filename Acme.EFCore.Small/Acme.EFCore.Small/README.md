@@ -6,6 +6,7 @@
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![EFCore](https://img.shields.io/badge/EFCore-2.0+-orange.svg)
 ![.NET](https://img.shields.io/badge/.NET-3.1%20%7C%205%20%7C%206%20%7C%207%20%7C%208%20%7C%209%20%7C%2010%20%7C%2011-9cf.svg)
+[![文档](https://img.shields.io/badge/docs-axxiu.cn-3b6ef5.svg)](https://www.axxiu.cn/project/uWMywKoP)
 
 `版本 v2.0.0.9`  `许可证 MIT`  `EFCore 2.0+`  `.NET 3.1/5/6/7/8/9/10/11`
 
@@ -1078,7 +1079,8 @@ public class OrderService
 | **包 ID** | Acme.EFCore.Small |
 | **作者** | yzxs |
 | **描述** | 轻量级 EFCore 操作类库 |
-| **文档 URL** | <https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.9#readme-body-tab> |
+| **文档 URL** | <https://www.axxiu.cn/project/uWMywKoP> |
+| **NuGet 包页** | <https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.9#readme-body-tab> |
 | **Gitee** | <https://gitee.com/yzxs949/acme.-efcore.-small/tree/%E6%A0%87%E5%87%86%E7%89%88/> |
 | **GitHub** | <https://github.com/yzxs949/Acme.EFCore.Small> |
 | **版权** | yzxs |

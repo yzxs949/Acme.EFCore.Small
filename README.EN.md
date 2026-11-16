@@ -7,6 +7,8 @@
 ![EFCore](https://img.shields.io/badge/EFCore-2.0+-orange.svg)
 ![.NET](https://img.shields.io/badge/.NET-3.1%20%7C%205%20%7C%206%20%7C%207%20%7C%208%20%7C%209%20%7C%2010%20%7C%2011-9cf.svg)
 
+[![Docs](https://img.shields.io/badge/docs-axxiu.cn-3b6ef5.svg)](https://www.axxiu.cn/project/uWMywKoP)
+
 `Version v2.0.0.9`  `License MIT`  `EFCore 2.0+`  `.NET 3.1/5/6/7/8/9/10/11`
 
 A lightweight Entity Framework Core general-purpose library that provides ready-to-use data access capabilities such as the Repository pattern, Unit of Work, pagination, and dynamic sorting.
@@ -1074,7 +1076,8 @@ public class OrderService
 | **Package ID** | Acme.EFCore.Small |
 | **Authors** | yzxs |
 | **Description** | Lightweight EFCore operation library |
-| **Project URL** | https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.9#readme-body-tab |
+| **Documentation** | <https://www.axxiu.cn/project/uWMywKoP> |
+| **NuGet Package** | <https://www.nuget.org/packages/Acme.EFCore.Small/2.0.0.9#readme-body-tab> |
 | **Gitee** | <https://gitee.com/yzxs949/acme.-efcore.-small/tree/%E6%A0%87%E5%87%86%E7%89%88/> |
 | **GitHub** | <https://github.com/yzxs949/Acme.EFCore.Small> |
 | **Copyright** | yzxs |
